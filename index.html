@@ -1,0 +1,1006 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChronICLE — Портфолио</title>
+    <link href="https://fonts.googleapis.com/css2?family=VT323&family=Press+Start+2P&family=Share+Tech+Mono&display=swap" rel="stylesheet" crossorigin="anonymous">
+    <style>
+        :root {
+            --purple: #b026ff;
+            --purple-dark: #7a00cc;
+            --purple-glow: #d580ff;
+            --black: #0a0a0a;
+            --white: #f0f0f0;
+            --gray: #888;
+            --window-bg: #e0e0e0;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            background: var(--black);
+            color: var(--white);
+            font-family: 'Share Tech Mono', 'Courier New', monospace;
+            overflow-x: hidden;
+            cursor: crosshair;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: repeating-linear-gradient(
+                0deg,
+                rgba(0,0,0,0.15) 0px,
+                rgba(0,0,0,0.15) 1px,
+                transparent 1px,
+                transparent 2px
+            );
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        .halftone {
+            position: absolute;
+            width: 100%; height: 100%;
+            background-image: radial-gradient(circle, var(--purple) 1px, transparent 1px);
+            background-size: 8px 8px;
+            opacity: 0.15;
+            pointer-events: none;
+        }
+
+        .glitch {
+            position: relative;
+            display: inline-block;
+        }
+        .glitch::before,
+        .glitch::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+        }
+        .glitch::before {
+            left: 2px;
+            text-shadow: -2px 0 #b026ff;
+            clip: rect(24px, 550px, 90px, 0);
+            animation: glitch-anim-1 2.5s infinite linear alternate-reverse;
+        }
+        .glitch::after {
+            left: -2px;
+            text-shadow: -2px 0 #00ffff;
+            clip: rect(85px, 550px, 140px, 0);
+            animation: glitch-anim-2 3s infinite linear alternate-reverse;
+        }
+        @keyframes glitch-anim-1 {
+            0% { clip: rect(20px, 9999px, 15px, 0); }
+            20% { clip: rect(80px, 9999px, 70px, 0); }
+            40% { clip: rect(10px, 9999px, 55px, 0); }
+            60% { clip: rect(50px, 9999px, 18px, 0); }
+            80% { clip: rect(90px, 9999px, 85px, 0); }
+            100% { clip: rect(35px, 9999px, 15px, 0); }
+        }
+        @keyframes glitch-anim-2 {
+            0% { clip: rect(65px, 9999px, 100px, 0); }
+            20% { clip: rect(15px, 9999px, 60px, 0); }
+            40% { clip: rect(80px, 9999px, 5px, 0); }
+            60% { clip: rect(30px, 9999px, 50px, 0); }
+            80% { clip: rect(70px, 9999px, 95px, 0); }
+            100% { clip: rect(10px, 9999px, 40px, 0); }
+        }
+
+        .pixel-glitch-bg {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+        .pixel-block {
+            position: absolute;
+            image-rendering: pixelated;
+            opacity: 0.08;
+            animation: pixel-glitch 4s infinite;
+        }
+        @keyframes pixel-glitch {
+            0%, 100% { transform: translate(0,0) scale(1); opacity: 0.06; filter: hue-rotate(0deg); }
+            20% { transform: translate(5px,-3px) scale(1.02); opacity: 0.1; filter: hue-rotate(30deg); }
+            40% { transform: translate(-3px,5px) scale(0.98); opacity: 0.04; filter: hue-rotate(-20deg); }
+            60% { transform: translate(8px,2px) scale(1.01); opacity: 0.09; filter: hue-rotate(60deg); }
+            80% { transform: translate(-5px,-8px) scale(0.99); opacity: 0.05; filter: hue-rotate(-40deg); }
+        }
+
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            padding: 2rem;
+        }
+
+        .spiral-bg {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 150vmax; height: 150vmax;
+            background: repeating-radial-gradient(
+                circle at center,
+                transparent 0, transparent 20px,
+                var(--purple) 20px, var(--purple) 22px
+            );
+            opacity: 0.08;
+            animation: spin 60s linear infinite;
+            pointer-events: none;
+        }
+        @keyframes spin {
+            to { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        .hero h1 {
+            font-family: 'Press Start 2P', 'Courier New', monospace;
+            font-size: clamp(2rem, 8vw, 5rem);
+            text-transform: uppercase;
+            letter-spacing: -0.05em;
+            color: var(--white);
+            text-align: center;
+            z-index: 2;
+            margin-bottom: 1rem;
+        }
+        .hero .subtitle {
+            font-family: 'VT323', 'Courier New', monospace;
+            font-size: clamp(1.5rem, 4vw, 3rem);
+            color: var(--purple-glow);
+            text-shadow: 0 0 20px var(--purple);
+            z-index: 2;
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+
+        .retro-window {
+            background: var(--window-bg);
+            border: 3px solid var(--black);
+            box-shadow: 4px 4px 0 var(--purple), 8px 8px 0 var(--black);
+            border-radius: 4px;
+            max-width: 500px;
+            width: 100%;
+            z-index: 2;
+            animation: float 6s ease-in-out infinite;
+        }
+        .window-header {
+            background: linear-gradient(90deg, var(--gray), var(--white));
+            padding: 6px 10px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            border-bottom: 2px solid var(--black);
+        }
+        .window-btn {
+            width: 14px; height: 14px;
+            border: 2px solid var(--black);
+            background: var(--white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .window-btn:hover { background: var(--purple); color: var(--white); }
+        .window-title {
+            margin-left: auto;
+            font-family: 'VT323', 'Courier New', monospace;
+            font-size: 1.2rem;
+            color: var(--black);
+            font-weight: bold;
+        }
+        .window-body {
+            padding: 1.5rem;
+            color: var(--black);
+            font-family: 'VT323', 'Courier New', monospace;
+            font-size: 1.3rem;
+        }
+        .window-body p { margin-bottom: 0.8rem; }
+        .ok-btn {
+            background: var(--purple);
+            color: var(--white);
+            border: 2px solid var(--black);
+            padding: 8px 30px;
+            font-family: 'Press Start 2P', 'Courier New', monospace;
+            font-size: 0.7rem;
+            cursor: pointer;
+            box-shadow: 3px 3px 0 var(--black);
+            transition: 0.1s;
+            display: block;
+            margin: 1rem auto 0;
+        }
+        .ok-btn:hover {
+            transform: translate(2px, 2px);
+            box-shadow: 1px 1px 0 var(--black);
+        }
+        .ok-btn:active {
+            transform: translate(3px, 3px);
+            box-shadow: none;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        nav {
+            position: fixed;
+            top: 0; left: 0; width: 100%;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            background: rgba(10,10,10,0.8);
+            backdrop-filter: blur(4px);
+            border-bottom: 2px solid var(--purple);
+        }
+        .logo {
+            font-family: 'Press Start 2P', 'Courier New', monospace;
+            font-size: 0.9rem;
+            color: var(--purple-glow);
+            text-shadow: 0 0 10px var(--purple);
+        }
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+        .nav-links a {
+            color: var(--white);
+            text-decoration: none;
+            font-family: 'VT323', 'Courier New', monospace;
+            font-size: 1.3rem;
+            position: relative;
+            transition: 0.3s;
+            cursor: pointer;
+        }
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px; left: 0;
+            width: 0; height: 2px;
+            background: var(--purple);
+            transition: 0.3s;
+        }
+        .nav-links a:hover {
+            color: var(--purple-glow);
+            text-shadow: 0 0 10px var(--purple);
+        }
+        .nav-links a:hover::after { width: 100%; }
+
+        section {
+            padding: 6rem 2rem;
+            position: relative;
+            max-width: 1200px;
+            margin: 0 auto;
+            z-index: 2;
+        }
+        .section-title {
+            font-family: 'Press Start 2P', 'Courier New', monospace;
+            font-size: clamp(1.5rem, 4vw, 2.5rem);
+            margin-bottom: 3rem;
+            color: var(--white);
+            text-transform: uppercase;
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+        }
+        .project-card {
+            background: var(--black);
+            border: 2px solid var(--gray);
+            padding: 0;
+            transition: 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        .project-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(176,38,255,0.2), transparent);
+            transition: 0.5s;
+        }
+        .project-card:hover::before { left: 100%; }
+        .project-card:hover {
+            border-color: var(--purple);
+            box-shadow: 0 0 30px rgba(176,38,255,0.3);
+            transform: translateY(-5px);
+        }
+        .project-header {
+            background: var(--window-bg);
+            padding: 8px 12px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            border-bottom: 2px solid var(--gray);
+        }
+        .project-header .dot {
+            width: 12px; height: 12px;
+            border: 2px solid var(--black);
+            border-radius: 50%;
+        }
+        .project-header .dot.red { background: #ff4444; }
+        .project-header .dot.yellow { background: #ffbb00; }
+        .project-header .dot.green { background: #00ff66; }
+        .project-title-bar {
+            margin-left: auto;
+            font-family: 'VT323', 'Courier New', monospace;
+            font-size: 1.1rem;
+            color: var(--black);
+        }
+        .project-body { padding: 1.5rem; }
+        .project-body h3 {
+            font-family: 'Press Start 2P', 'Courier New', monospace;
+            font-size: 0.85rem;
+            margin-bottom: 1rem;
+            color: var(--purple-glow);
+        }
+        .project-body p {
+            color: var(--gray);
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+        .project-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        .tag {
+            border: 1px solid var(--purple);
+            color: var(--purple-glow);
+            padding: 4px 12px;
+            font-size: 0.75rem;
+            font-family: 'VT323', 'Courier New', monospace;
+            background: rgba(176,38,255,0.1);
+        }
+        .project-link {
+            display: inline-block;
+            margin-top: 1rem;
+            color: var(--white);
+            text-decoration: none;
+            font-family: 'VT323', 'Courier New', monospace;
+            font-size: 1.2rem;
+            border-bottom: 2px solid var(--purple);
+            transition: 0.3s;
+            cursor: pointer;
+        }
+        .project-link:hover {
+            color: var(--purple-glow);
+            text-shadow: 0 0 10px var(--purple);
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+        .about-text {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--gray);
+        }
+        .about-text span {
+            color: var(--purple-glow);
+            font-weight: bold;
+        }
+        .about-visual {
+            position: relative;
+            height: 300px;
+            border: 3px solid var(--purple);
+            background: var(--black);
+            overflow: hidden;
+        }
+        .about-visual::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: repeating-linear-gradient(
+                45deg,
+                transparent, transparent 10px,
+                var(--purple) 10px, var(--purple) 12px
+            );
+            opacity: 0.2;
+        }
+        .ascii-art {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            font-family: 'VT323', 'Courier New', monospace;
+            font-size: 0.7rem;
+            color: var(--purple-glow);
+            white-space: pre;
+            line-height: 1.2;
+            text-align: center;
+        }
+
+        .skill-bar { margin-bottom: 1.5rem; }
+        .skill-label {
+            display: flex;
+            justify-content: space-between;
+            font-family: 'VT323', 'Courier New', monospace;
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+        .skill-track {
+            height: 20px;
+            border: 2px solid var(--gray);
+            background: var(--black);
+            position: relative;
+            overflow: hidden;
+        }
+        .skill-fill {
+            height: 100%;
+            background: repeating-linear-gradient(
+                90deg,
+                var(--purple), var(--purple) 10px,
+                var(--purple-dark) 10px, var(--purple-dark) 20px
+            );
+            width: 0;
+            transition: width 1.5s ease-out;
+        }
+
+        .contact-box {
+            border: 3px solid var(--purple);
+            padding: 3rem;
+            background: rgba(176,38,255,0.05);
+            position: relative;
+        }
+        .contact-box::before {
+            content: '';
+            position: absolute;
+            top: 10px; left: 10px;
+            right: -10px; bottom: -10px;
+            border: 2px solid var(--purple);
+            opacity: 0.3;
+            pointer-events: none;
+        }
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        .contact-item {
+            border: 2px solid var(--gray);
+            padding: 1.5rem;
+            transition: 0.3s;
+            text-align: center;
+        }
+        .contact-item:hover {
+            border-color: var(--purple);
+            box-shadow: 0 0 20px rgba(176,38,255,0.2);
+        }
+        .contact-item h4 {
+            font-family: 'Press Start 2P', 'Courier New', monospace;
+            font-size: 0.7rem;
+            color: var(--purple-glow);
+            margin-bottom: 0.5rem;
+        }
+        .contact-item span {
+            color: var(--white);
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .contact-item span:hover {
+            color: var(--purple-glow);
+            text-shadow: 0 0 10px var(--purple);
+        }
+
+        .phone-text {
+            text-align: center;
+            margin-top: 2rem;
+            font-family: 'VT323', 'Courier New', monospace;
+            font-size: 1.5rem;
+            color: var(--gray);
+        }
+        .phone-text span {
+            color: var(--purple-glow);
+            text-shadow: 0 0 10px var(--purple);
+        }
+
+        footer {
+            text-align: center;
+            padding: 3rem 2rem;
+            border-top: 2px solid var(--purple);
+            font-family: 'VT323', 'Courier New', monospace;
+            font-size: 1.2rem;
+            color: var(--gray);
+        }
+        footer span { color: var(--purple-glow); }
+
+        .marquee-container {
+            overflow: hidden;
+            background: var(--purple);
+            color: var(--black);
+            padding: 0.6rem 0;
+            font-family: 'Press Start 2P', 'Courier New', monospace;
+            font-size: 0.75rem;
+            border-top: 2px solid var(--white);
+            border-bottom: 2px solid var(--white);
+            position: relative;
+        }
+        .marquee-track {
+            display: flex;
+            width: fit-content;
+            will-change: transform;
+            backface-visibility: hidden;
+            animation: marquee-scroll 18s linear infinite;
+        }
+        .marquee-text {
+            white-space: nowrap;
+            flex-shrink: 0;
+            padding-right: 4rem;
+        }
+        @keyframes marquee-scroll {
+            0% { transform: translate3d(0, 0, 0); }
+            100% { transform: translate3d(-50%, 0, 0); }
+        }
+
+        .floating-windows {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+        .error-window {
+            position: absolute;
+            background: var(--window-bg);
+            border: 2px solid var(--black);
+            box-shadow: 3px 3px 0 var(--purple);
+            opacity: 0.22;
+            will-change: transform;
+        }
+        .error-header {
+            background: linear-gradient(90deg, var(--gray), var(--white));
+            padding: 5px 10px;
+            font-size: 0.9rem;
+            font-family: 'VT323', 'Courier New', monospace;
+            color: var(--black);
+            border-bottom: 2px solid var(--black);
+            display: flex;
+            justify-content: space-between;
+        }
+        .error-body {
+            padding: 12px 10px;
+            font-size: 1rem;
+            color: var(--black);
+            font-family: 'VT323', 'Courier New', monospace;
+        }
+
+        .noise {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 9998;
+            opacity: 0.03;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+        }
+
+        @media (max-width: 768px) {
+            .about-grid { grid-template-columns: 1fr; }
+            .nav-links { display: none; }
+            .hero h1 { font-size: 2rem; }
+        }
+
+        .cursor-dot {
+            position: fixed;
+            width: 8px; height: 8px;
+            background: var(--purple);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 10000;
+            transition: transform 0.1s;
+            box-shadow: 0 0 10px var(--purple);
+        }
+
+        .blink { animation: blink 1s step-end infinite; }
+        @keyframes blink { 50% { opacity: 0; } }
+    </style>
+</head>
+<body>
+    <div class="noise"></div>
+    <div class="cursor-dot" id="cursor"></div>
+
+    <div class="pixel-glitch-bg" id="pixelGlitchBg"></div>
+    <div class="floating-windows" id="floatingWindows"></div>
+
+    <nav>
+        <div class="logo">&lt;ChronICLE&gt;</div>
+        <ul class="nav-links">
+            <li><a onclick="scrollToSection('projects')">[РАБОТЫ]</a></li>
+            <li><a onclick="scrollToSection('about')">[О_СЕБЕ]</a></li>
+            <li><a onclick="scrollToSection('contact')">[КОНТАКТ]</a></li>
+        </ul>
+    </nav>
+
+    <section class="hero">
+        <div class="spiral-bg"></div>
+        <div class="halftone"></div>
+        <h1 class="glitch" data-text="ChronICLE">ChronICLE</h1>
+        <p class="subtitle">Dev Team & Designers<span class="blink">_</span></p>
+        <div class="retro-window">
+            <div class="window-header">
+                <div class="window-btn">_</div>
+                <div class="window-btn">□</div>
+                <div class="window-btn">×</div>
+                <span class="window-title">system_message.exe</span>
+            </div>
+            <div class="window-body">
+                <p>> Добро пожаловать в нашу цифровую реальность.</p>
+                <p>> Мы создаём сайты, которые ломают шаблоны.</p>
+                <p>> Готовы к новым вызовам? Жми кнопку.</p>
+                <button class="ok-btn" onclick="scrollToSection('projects')">OK?</button>
+            </div>
+        </div>
+    </section>
+
+    <div class="marquee-container">
+        <div class="marquee-track">
+            <span class="marquee-text">HTML  CSS  JS  REACT  VUE  THREE.JS  GSAP  WEBGL  TYPESCRIPT  NODE.JS  VITE  TAILWIND  CANVAS  GIT  DOCKER  FIGMA  SHADERS  GLSL  PWA  SSR</span>
+            <span class="marquee-text">HTML  CSS  JS  REACT  VUE  THREE.JS  GSAP  WEBGL  TYPESCRIPT  NODE.JS  VITE  TAILWIND  CANVAS  GIT  DOCKER  FIGMA  SHADERS  GLSL  PWA  SSR</span>
+        </div>
+    </div>
+
+    <section id="projects">
+        <h2 class="section-title glitch" data-text="> РАБОТЫ">> РАБОТЫ</h2>
+        <div class="projects-grid">
+            <div class="project-card">
+                <div class="project-header">
+                    <div class="dot red"></div>
+                    <div class="dot yellow"></div>
+                    <div class="dot green"></div>
+                    <span class="project-title-bar">AmericanDrive.exe</span>
+                </div>
+                <div style="height:180px;background:linear-gradient(135deg,#1a1a1a,#2d0a3d);display:flex;align-items:center;justify-content:center;">
+    <img src="images/project1.jpg"
+         style="width:100%;height:100%;object-fit:cover;">
+</div>
+                <div class="project-body">
+                    <h3>American Drive</h3>
+                    <p>Интернет-магазин автомобилей из США с уникальным дизайном и функционалом.</p>
+                    <div class="project-tags">
+                        <span class="tag">React</span>
+                        <span class="tag">Three.js</span>
+                        <span class="tag">GLSL</span>
+                    </div>
+                    <a href="project1.html" class="project-link">[ СМОТРЕТЬ ]</a>
+                </div>
+            </div>
+            <div class="project-card">
+                <div class="project-header">
+                    <div class="dot red"></div>
+                    <div class="dot yellow"></div>
+                    <div class="dot green"></div>
+                    <span class="project-title-bar">Japany.exe</span>
+                </div>
+                <div style="height:180px;background:linear-gradient(135deg,#1a1a1a,#2d0a3d);display:flex;align-items:center;justify-content:center;">
+    <img src="images/project2.jpg"
+         style="width:100%;height:100%;object-fit:cover;">
+</div>
+                <div class="project-body">
+                    <h3>Japany</h3>
+                    <p>Лендинг для ресторана с японской тематикой и интерактивными эелементами.</p>
+                    <div class="project-tags">
+                        <span class="tag">Vue</span>
+                        <span class="tag">GSAP</span>
+                        <span class="tag">Canvas</span>
+                    </div>
+                    <a href="project2.html" class="project-link">[ СМОТРЕТЬ ]</a>
+                </div>
+            </div>
+            <div class="project-card">
+                <div class="project-header">
+                    <div class="dot red"></div>
+                    <div class="dot yellow"></div>
+                    <div class="dot green"></div>
+                    <span class="project-title-bar">project_03.exe</span>
+                </div>
+                <div style="height:180px;background:linear-gradient(135deg,#0d0d0d,#2a0a3d);display:flex;align-items:center;justify-content:center;font-family:'Press Start 2P','Courier New',monospace;font-size:0.7rem;color:var(--purple-glow);">PROJECT_03</div>
+                <div class="project-body">
+                    <h3>RETRO OS</h3>
+                    <p>Веб-приложение в стиле ретро-операционной системы с draggable окнами и терминалом.</p>
+                    <div class="project-tags">
+                        <span class="tag">Vanilla JS</span>
+                        <span class="tag">CSS Grid</span>
+                        <span class="tag">Web Audio</span>
+                    </div>
+                    <span class="project-link">[ СМОТРЕТЬ ]</span>
+                </div>
+            </div>
+            <div class="project-card">
+                <div class="project-header">
+                    <div class="dot red"></div>
+                    <div class="dot yellow"></div>
+                    <div class="dot green"></div>
+                    <span class="project-title-bar">project_04.exe</span>
+                </div>
+                <div style="height:180px;background:linear-gradient(135deg,#0a0a0a,#3d0a2d);display:flex;align-items:center;justify-content:center;font-family:'Press Start 2P','Courier New',monospace;font-size:0.7rem;color:var(--purple-glow);">PROJECT_04</div>
+                <div class="project-body">
+                    <h3>VAPORWAVE RADIO</h3>
+                    <p>Стриминговый сервис с визуализатором, ретро-интерфейсом и эффектом VHS.</p>
+                    <div class="project-tags">
+                        <span class="tag">React</span>
+                        <span class="tag">WebGL</span>
+                        <span class="tag">API</span>
+                    </div>
+                    <span class="project-link">[ СМОТРЕТЬ ]</span>
+                </div>
+            </div>
+            <div class="project-card">
+                <div class="project-header">
+                    <div class="dot red"></div>
+                    <div class="dot yellow"></div>
+                    <div class="dot green"></div>
+                    <span class="project-title-bar">project_05.exe</span>
+                </div>
+                <div style="height:180px;background:linear-gradient(135deg,#0a0a0a,#1a1a3d);display:flex;align-items:center;justify-content:center;font-family:'Press Start 2P','Courier New',monospace;font-size:0.7rem;color:var(--purple-glow);">PROJECT_05</div>
+                <div class="project-body">
+                    <h3>CYBER DASHBOARD</h3>
+                    <p>Админ-панель с real-time графиками, темной темой и киберпанк-визуализацией данных.</p>
+                    <div class="project-tags">
+                        <span class="tag">React</span>
+                        <span class="tag">D3.js</span>
+                        <span class="tag">Socket.io</span>
+                    </div>
+                    <span class="project-link">[ СМОТРЕТЬ ]</span>
+                </div>
+            </div>
+            <div class="project-card">
+                <div class="project-header">
+                    <div class="dot red"></div>
+                    <div class="dot yellow"></div>
+                    <div class="dot green"></div>
+                    <span class="project-title-bar">project_06.exe</span>
+                </div>
+                <div style="height:180px;background:linear-gradient(135deg,#0d0d0d,#2d1a0a);display:flex;align-items:center;justify-content:center;font-family:'Press Start 2P','Courier New',monospace;font-size:0.7rem;color:var(--purple-glow);">PROJECT_06</div>
+                <div class="project-body">
+                    <h3>PIXEL PORTFOLIO</h3>
+                    <p>Портфолио художника в стиле 8-bit игры с интерактивными пиксель-арт сценами.</p>
+                    <div class="project-tags">
+                        <span class="tag">Vanilla JS</span>
+                        <span class="tag">Canvas</span>
+                        <span class="tag">Pixel Art</span>
+                    </div>
+                    <span class="project-link">[ СМОТРЕТЬ ]</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="about">
+        <h2 class="section-title glitch" data-text="> О_СЕБЕ">> О_СЕБЕ</h2>
+        <div class="about-grid">
+            <div class="about-text">
+                <p>Привет. Мы — <span>команда разработчиков</span>, которая верит, что каждый сайт должен быть <span>перформансом</span>.</p>
+                <p>Не делаем шаблонные лендинги. Делаем <span>цифровой опыт</span>, который запоминается.</p>
+                <p>Специализируемся на: анимациях, нестандартном UI, WebGL-эффектах и ретро-эстетике.</p>
+                <div style="margin-top: 2rem;">
+                    <div class="skill-bar">
+                        <div class="skill-label"><span>HTML/CSS/JS</span><span>95%</span></div>
+                        <div class="skill-track"><div class="skill-fill" data-width="95%"></div></div>
+                    </div>
+                    <div class="skill-bar">
+                        <div class="skill-label"><span>React / Vue</span><span>85%</span></div>
+                        <div class="skill-track"><div class="skill-fill" data-width="85%"></div></div>
+                    </div>
+                    <div class="skill-bar">
+                        <div class="skill-label"><span>Анимации / GSAP</span><span>90%</span></div>
+                        <div class="skill-track"><div class="skill-fill" data-width="90%"></div></div>
+                    </div>
+                    <div class="skill-bar">
+                        <div class="skill-label"><span>UI / UX Дизайн</span><span>88%</span></div>
+                        <div class="skill-track"><div class="skill-fill" data-width="88%"></div></div>
+                    </div>
+                </div>
+            </div>
+            <div class="about-visual">
+                <div class="ascii-art">
+    ██████╗ ███████╗██╗   ██╗
+    ██╔══██╗██╔════╝██║   ██║
+    ██║  ██║█████╗  ██║   ██║
+    ██║  ██║██╔══╝  ╚██╗ ██╔╝
+    ██████╔╝██║      ╚████╔╝ 
+    ╚═════╝ ╚═╝       ╚═══╝  
+
+    // CHRONICLE_INIT_COMPLETE
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact">
+        <h2 class="section-title glitch" data-text="> КОНТАКТ">> КОНТАКТ</h2>
+        <div class="contact-box">
+            <p style="font-size:1.2rem;color:var(--gray);text-align:center;margin-bottom:1rem;">Есть идея? Давай воплотим её в цифровую реальность.</p>
+            <div class="contact-grid">
+                <div class="contact-item">
+                    <h4>GMAIL</h4>
+                    <span>dev.void@gmail.com</span>
+                </div>
+                <div class="contact-item">
+                    <h4>TELEGRAM</h4>
+                    <span>@devvoid</span>
+                </div>
+                <div class="contact-item">
+                    <h4>INSTAGRAM</h4>
+                    <span>@devvoid</span>
+                </div>
+            </div>
+            <div class="phone-text">
+                <span>+7 (999) 123-45-67</span>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&lt;ChronICLE&gt; // 2026 // <span>СДЕЛАНО В ЦИФРОВОЙ ПУСТОТЕ</span></p>
+    </footer>
+
+    <script>
+        function scrollToSection(id) {
+            document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+        }
+
+        const cursor = document.getElementById('cursor');
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX - 4 + 'px';
+            cursor.style.top = e.clientY - 4 + 'px';
+        });
+        document.addEventListener('mousedown', () => cursor.style.transform = 'scale(0.5)');
+        document.addEventListener('mouseup', () => cursor.style.transform = 'scale(1)');
+
+        const pixelBg = document.getElementById('pixelGlitchBg');
+        const pixelColors = ['#b026ff', '#7a00cc', '#d580ff', '#ffffff', '#ff00ff'];
+        const pixelShapes = [
+            'linear-gradient(45deg, transparent 40%, {color} 40%, {color} 60%, transparent 60%)',
+            'repeating-linear-gradient(0deg, {color} 0px, {color} 2px, transparent 2px, transparent 6px)',
+            'repeating-linear-gradient(90deg, {color} 0px, {color} 2px, transparent 2px, transparent 6px)',
+            'radial-gradient(circle, {color} 20%, transparent 20%)',
+            'conic-gradient(from 0deg, transparent 0deg, {color} 45deg, transparent 90deg)'
+        ];
+        for (let i = 0; i < 25; i++) {
+            const block = document.createElement('div');
+            block.className = 'pixel-block';
+            const size = 40 + Math.random() * 120;
+            const color = pixelColors[Math.floor(Math.random() * pixelColors.length)];
+            const shape = pixelShapes[Math.floor(Math.random() * pixelShapes.length)].replace('{color}', color);
+            block.style.cssText = `
+                width: ${size}px; height: ${size}px;
+                left: ${Math.random() * 100}%;
+                top: ${Math.random() * 100}%;
+                background: ${shape};
+                background-size: ${8 + Math.random() * 16}px ${8 + Math.random() * 16}px;
+                animation-delay: ${Math.random() * 4}s;
+                animation-duration: ${3 + Math.random() * 4}s;
+            `;
+            pixelBg.appendChild(block);
+        }
+
+        const fwContainer = document.getElementById('floatingWindows');
+        const messages = ['Epic fail.', 'Error 404.', 'System crash.', 'Access denied.', 'Fatal error.', 'Null pointer.', 'Stack overflow.', 'Segmentation fault.'];
+        const activeWindows = [];
+
+        function createErrorWindow() {
+            const win = document.createElement('div');
+            win.className = 'error-window';
+            const width = 220 + Math.random() * 180;
+            const startX = Math.random() * (window.innerWidth - width);
+            const startY = window.innerHeight + 80;
+            const speed = 0.4 + Math.random() * 0.7;
+            const wobble = Math.random() * 3;
+            const wobbleSpeed = 0.008 + Math.random() * 0.02;
+            const baseRotation = -20 + Math.random() * 40;
+            const rotSpeed = -0.15 + Math.random() * 0.3;
+
+            win.style.width = width + 'px';
+            win.style.left = startX + 'px';
+            win.style.top = startY + 'px';
+            win.style.transform = `rotate(${baseRotation}deg)`;
+
+            win.innerHTML = `
+                <div class="error-header">
+                    <span>!</span>
+                    <span>×</span>
+                </div>
+                <div class="error-body">${messages[Math.floor(Math.random() * messages.length)]}</div>
+            `;
+
+            fwContainer.appendChild(win);
+
+            const winObj = {
+                el: win,
+                x: startX,
+                y: startY,
+                speed: speed,
+                wobble: wobble,
+                wobblePhase: Math.random() * Math.PI * 2,
+                wobbleSpeed: wobbleSpeed,
+                rotation: baseRotation,
+                rotSpeed: rotSpeed,
+                dead: false
+            };
+            activeWindows.push(winObj);
+        }
+
+        function animateWindows() {
+            for (let i = activeWindows.length - 1; i >= 0; i--) {
+                const w = activeWindows[i];
+                if (w.dead) {
+                    activeWindows.splice(i, 1);
+                    continue;
+                }
+
+                w.y -= w.speed;
+                w.wobblePhase += w.wobbleSpeed;
+                w.x += Math.sin(w.wobblePhase) * w.wobble;
+                w.rotation += w.rotSpeed;
+
+                w.el.style.transform = `translate(${w.x - parseFloat(w.el.style.left)}px, ${w.y - (window.innerHeight + 80)}px) rotate(${w.rotation}deg)`;
+
+                if (w.y < -250) {
+                    w.el.remove();
+                    w.dead = true;
+                    activeWindows.splice(i, 1);
+                }
+            }
+            requestAnimationFrame(animateWindows);
+        }
+
+        setInterval(() => {
+            if (activeWindows.length < 2) {
+                createErrorWindow();
+            }
+        }, 3000);
+
+        setTimeout(createErrorWindow, 500);
+        animateWindows();
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.querySelectorAll('.skill-fill').forEach(bar => {
+                        bar.style.width = bar.getAttribute('data-width');
+                    });
+                }
+            });
+        }, { threshold: 0.3 });
+        observer.observe(document.querySelector('#about'));
+
+        document.querySelectorAll('.project-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.filter = 'hue-rotate(90deg)';
+                setTimeout(() => this.style.filter = 'none', 100);
+                setTimeout(() => this.style.filter = 'hue-rotate(180deg)', 150);
+                setTimeout(() => this.style.filter = 'none', 250);
+            });
+        });
+
+        document.querySelector('.hero').addEventListener('mousemove', (e) => {
+            const x = (e.clientX / window.innerWidth - 0.5) * 20;
+            const y = (e.clientY / window.innerHeight - 0.5) * 20;
+            document.querySelector('.spiral-bg').style.transform = `translate(calc(-50% + ${x}px), calc(-50% + ${y}px)) rotate(${x}deg)`;
+        });
+    </script>
+</body>
+</html>

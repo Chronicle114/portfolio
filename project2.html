@@ -1,0 +1,1209 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Japany — Ресторан Японской Кухни</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Noto+Serif+JP:wght@300;400;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Noto+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-cream: #f5e6d3;
+            --bg-parchment: #f0e0c8;
+            --pink-light: #f4c2c2;
+            --pink-medium: #e8a0a0;
+            --pink-deep: #c47878;
+            --pink-rose: #d4a5a5;
+            --sakura-pink: #ffb7c5;
+            --sakura-deep: #e89bb0;
+            --ink-black: #1a1a1a;
+            --ink-dark: #2d2d2d;
+            --ink-brown: #4a3728;
+            --gold: #c9a84c;
+            --gold-light: #e0c878;
+            --wave-blue: #4a7c8c;
+            --wave-deep: #2d5a6b;
+            --paper-texture: #f7f0e3;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Noto Sans', sans-serif;
+            background: var(--paper-texture);
+            color: var(--ink-dark);
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* === SCROLL ANIMATIONS === */
+        .reveal {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .reveal-left {
+            opacity: 0;
+            transform: translateX(-60px);
+            transition: all 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        .reveal-left.active {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        .reveal-right {
+            opacity: 0;
+            transform: translateX(60px);
+            transition: all 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        .reveal-right.active {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        .reveal-scale {
+            opacity: 0;
+            transform: scale(0.85);
+            transition: all 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        .reveal-scale.active {
+            opacity: 1;
+            transform: scale(1);
+        }
+        .stagger-1 { transition-delay: 0.1s; }
+        .stagger-2 { transition-delay: 0.2s; }
+        .stagger-3 { transition-delay: 0.3s; }
+        .stagger-4 { transition-delay: 0.4s; }
+        .stagger-5 { transition-delay: 0.5s; }
+        .stagger-6 { transition-delay: 0.6s; }
+
+        /* === SAKURA PARTICLES === */
+        .sakura-container {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: 1000; overflow: hidden;
+        }
+        .sakura-petal {
+            position: absolute; width: 12px; height: 12px;
+            background: radial-gradient(ellipse at 30% 30%, #ffd1dc, #ffb7c5, #e89bb0);
+            border-radius: 150% 0 150% 0; opacity: 0.8;
+            animation: fall linear infinite, sway ease-in-out infinite;
+            box-shadow: 0 0 3px rgba(255,183,197,0.4);
+        }
+        .sakura-petal::before {
+            content: ''; position: absolute; width: 100%; height: 100%;
+            background: radial-gradient(ellipse at 70% 70%, rgba(255,255,255,0.3), transparent);
+            border-radius: 150% 0 150% 0;
+        }
+        @keyframes fall {
+            0% { transform: translateY(-20px) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.8; } 90% { opacity: 0.6; }
+            100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+        }
+        @keyframes sway {
+            0%,100% { margin-left: 0; } 25% { margin-left: 30px; }
+            50% { margin-left: -20px; } 75% { margin-left: 15px; }
+        }
+
+        /* === UKIYO-E BACKGROUND === */
+        .ukiyo-bg {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2;
+            background: linear-gradient(180deg, #f5e6d3 0%, #f0e0c8 15%, #e8d5c0 30%, #f5e6d3 50%, #f0e0c8 70%, #e8d5c0 85%, #f5e6d3 100%);
+        }
+        .ukiyo-bg::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background-image: radial-gradient(circle at 20% 30%, rgba(255,183,197,0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(255,183,197,0.12) 0%, transparent 50%),
+                radial-gradient(circle at 50% 50%, rgba(201,168,76,0.05) 0%, transparent 60%);
+            pointer-events: none;
+        }
+        .ukiyo-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2; opacity: 0.25; }
+
+        /* === HEADER === */
+        header {
+            position: fixed; top: 0; width: 100%; z-index: 500;
+            background: rgba(245,230,211,0.92); backdrop-filter: blur(12px);
+            border-bottom: 2px solid var(--pink-medium);
+            box-shadow: 0 2px 20px rgba(196,120,120,0.15);
+            transition: all 0.4s ease;
+            transform: translateY(-100%);
+            animation: slideDown 0.8s ease forwards 0.3s;
+        }
+        @keyframes slideDown {
+            to { transform: translateY(0); }
+        }
+        .header-inner {
+            max-width: 1400px; margin: 0 auto; padding: 12px 30px;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .logo {
+            font-family: 'Cinzel', serif; font-size: 2.2rem; font-weight: 700;
+            color: var(--ink-brown); text-decoration: none;
+            display: flex; align-items: center; gap: 10px; letter-spacing: 4px;
+            transition: transform 0.3s ease;
+        }
+        .logo:hover { transform: scale(1.05); }
+        .logo svg { width: 40px; height: 40px; }
+        .nav-links { display: flex; gap: 35px; align-items: center; }
+        .nav-links a {
+            font-family: 'Playfair Display', serif; font-size: 1.05rem;
+            color: var(--ink-brown); text-decoration: none; position: relative;
+            padding: 5px 0; transition: color 0.3s; font-weight: 600; letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+        .nav-links a::after { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 2px; background: var(--pink-deep); transition: width 0.3s ease; }
+        .nav-links a:hover::after { width: 100%; }
+        .nav-links a:hover { color: var(--pink-deep); }
+        .header-actions { display: flex; gap: 15px; align-items: center; }
+        .lang-switcher {
+            display: flex; gap: 5px; background: rgba(255,255,255,0.5);
+            border-radius: 20px; padding: 4px; border: 1px solid var(--pink-medium);
+        }
+        .lang-btn {
+            padding: 5px 12px; border: none; background: transparent; cursor: pointer;
+            font-family: 'Noto Sans', sans-serif; font-size: 0.8rem; font-weight: 500;
+            color: var(--ink-brown); border-radius: 15px; transition: all 0.3s;
+        }
+        .lang-btn.active { background: var(--pink-medium); color: white; }
+        .lang-btn:hover:not(.active) { background: rgba(232,160,160,0.3); }
+        .cart-btn, .reservation-btn-header {
+            position: relative; background: var(--pink-medium); color: white; border: none;
+            padding: 10px 18px; border-radius: 25px; cursor: pointer;
+            font-family: 'Noto Sans', sans-serif; font-size: 0.9rem; font-weight: 500;
+            transition: all 0.3s; display: flex; align-items: center; gap: 8px;
+        }
+        .cart-btn:hover, .reservation-btn-header:hover {
+            background: var(--pink-deep); transform: translateY(-2px) scale(1.05);
+            box-shadow: 0 4px 15px rgba(196,120,120,0.3);
+        }
+        .cart-count {
+            position: absolute; top: -5px; right: -5px; background: var(--gold);
+            color: var(--ink-dark); font-size: 0.7rem; font-weight: 700;
+            width: 20px; height: 20px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%,100% { transform: scale(1); }
+            50% { transform: scale(1.15); }
+        }
+
+        /* === HERO (STICKY + FADE-OUT) === */
+        .hero-wrapper {
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            width: 100%;
+            z-index: 1;
+            overflow: hidden;
+        }
+        .hero {
+            height: 100vh; display: flex; align-items: center; justify-content: center;
+            position: relative; overflow: hidden;
+        }
+        .hero-content {
+            text-align: center; z-index: 10; padding: 40px; max-width: 900px;
+            animation: heroFadeIn 1.2s ease-out forwards;
+        }
+        @keyframes heroFadeIn {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .hero-badge {
+            display: inline-block; padding: 8px 25px;
+            border: 2px solid var(--pink-medium); border-radius: 30px;
+            font-family: 'Cormorant Garamond', serif; font-size: 1rem;
+            color: var(--pink-deep); margin-bottom: 25px; letter-spacing: 3px; text-transform: uppercase;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease forwards 0.6s;
+        }
+        .hero h1 {
+            font-family: 'Cinzel', serif; font-size: 5rem; font-weight: 700;
+            color: var(--ink-brown); margin-bottom: 20px; letter-spacing: 10px; line-height: 1.2;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.05);
+            opacity: 0;
+            animation: fadeInUp 1s ease forwards 0.3s;
+        }
+        .hero h1 .kanji { font-size: 2.8rem; display: block; color: var(--pink-deep); margin-top: 10px; font-weight: 300; font-family: 'Noto Serif JP', serif; letter-spacing: 15px; }
+        .hero-subtitle {
+            font-family: 'Cormorant Garamond', serif; font-size: 1.6rem;
+            color: var(--ink-brown); opacity: 0.8; margin-bottom: 40px;
+            font-style: italic; letter-spacing: 2px;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease forwards 0.9s;
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .hero-buttons {
+            display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease forwards 1.2s;
+        }
+        .btn-primary {
+            padding: 16px 40px; background: var(--pink-medium); color: white; border: none;
+            border-radius: 30px; font-family: 'Noto Sans', sans-serif; font-size: 1rem;
+            font-weight: 500; cursor: pointer; transition: all 0.3s; letter-spacing: 1px;
+            text-decoration: none; display: inline-block; position: relative; overflow: hidden;
+        }
+        .btn-primary::before {
+            content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s;
+        }
+        .btn-primary:hover::before { left: 100%; }
+        .btn-primary:hover { background: var(--pink-deep); transform: translateY(-3px); box-shadow: 0 8px 25px rgba(196,120,120,0.3); }
+        .btn-secondary {
+            padding: 16px 40px; background: transparent; color: var(--ink-brown);
+            border: 2px solid var(--pink-medium); border-radius: 30px;
+            font-family: 'Noto Sans', sans-serif; font-size: 1rem; font-weight: 500;
+            cursor: pointer; transition: all 0.3s; letter-spacing: 1px;
+            text-decoration: none; display: inline-block;
+        }
+        .btn-secondary:hover { background: var(--pink-medium); color: white; transform: translateY(-3px); }
+        .hero-deco { position: absolute; border: 1px solid rgba(196,120,120,0.2); border-radius: 50%; pointer-events: none; }
+        .hero-deco-1 { top: 10%; left: 5%; width: 400px; height: 400px; animation: float 8s ease-in-out infinite; }
+        .hero-deco-2 { bottom: 15%; right: 8%; width: 350px; height: 350px; animation: float 10s ease-in-out infinite 1s; }
+        .hero-deco-3 { top: 40%; right: 15%; width: 200px; height: 200px; border-color: rgba(201,168,76,0.15); animation: float 7s ease-in-out infinite 0.5s; }
+        @keyframes float {
+            0%,100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+        .scroll-indicator {
+            position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%);
+            display: flex; flex-direction: column; align-items: center; gap: 8px;
+            opacity: 0; animation: fadeInUp 0.8s ease forwards 1.5s;
+            cursor: pointer;
+        }
+        .scroll-indicator span {
+            font-family: 'Cormorant Garamond', serif; font-size: 0.85rem; color: var(--ink-brown); opacity: 0.6; letter-spacing: 2px;
+        }
+        .scroll-arrow {
+            width: 24px; height: 40px; border: 2px solid var(--pink-medium); border-radius: 12px;
+            display: flex; justify-content: center; padding-top: 6px;
+            animation: bounce 2s infinite;
+        }
+        .scroll-arrow::after {
+            content: ''; width: 4px; height: 8px; background: var(--pink-medium); border-radius: 2px;
+            animation: scrollDot 2s infinite;
+        }
+        @keyframes bounce {
+            0%,20%,50%,80%,100% { transform: translateY(0); }
+            40% { transform: translateY(-8px); }
+            60% { transform: translateY(-4px); }
+        }
+        @keyframes scrollDot {
+            0% { opacity: 1; transform: translateY(0); }
+            100% { opacity: 0; transform: translateY(12px); }
+        }
+
+        /* === CONTENT OVERLAY === */
+        .content-overlay {
+            position: relative;
+            z-index: 10;
+            background: var(--paper-texture);
+            box-shadow: 0 -20px 60px rgba(0,0,0,0.08);
+        }
+
+        /* === SECTIONS === */
+        section { padding: 100px 30px; position: relative; }
+        .section-title { text-align: center; margin-bottom: 60px; }
+        .section-title h2 { font-family: 'Playfair Display', serif; font-size: 2.8rem; color: var(--ink-brown); margin-bottom: 15px; letter-spacing: 4px; }
+        .section-title .divider { width: 80px; height: 3px; background: var(--pink-medium); margin: 0 auto; position: relative; }
+        .section-title .divider::before, .section-title .divider::after { content: '◆'; position: absolute; top: 50%; transform: translateY(-50%); color: var(--pink-medium); font-size: 0.7rem; }
+        .section-title .divider::before { left: -20px; } .section-title .divider::after { right: -20px; }
+        .section-title p { font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; color: var(--ink-brown); opacity: 0.7; margin-top: 15px; font-style: italic; }
+
+        /* === MENU === */
+        .menu-section { max-width: 1200px; margin: 0 auto; }
+        .menu-categories { display: flex; justify-content: center; gap: 15px; margin-bottom: 50px; flex-wrap: wrap; }
+        .category-btn {
+            padding: 12px 28px; background: rgba(255,255,255,0.6); border: 2px solid var(--pink-light);
+            border-radius: 25px; cursor: pointer; font-family: 'Playfair Display', serif;
+            font-size: 0.95rem; color: var(--ink-brown); transition: all 0.3s; font-weight: 600; letter-spacing: 1px;
+            position: relative; overflow: hidden;
+        }
+        .category-btn::after {
+            content: ''; position: absolute; bottom: 0; left: 50%; width: 0; height: 2px; background: white;
+            transition: all 0.3s ease; transform: translateX(-50%);
+        }
+        .category-btn:hover::after { width: 60%; }
+        .category-btn:hover, .category-btn.active { background: var(--pink-medium); border-color: var(--pink-medium); color: white; transform: translateY(-2px); box-shadow: 0 4px 15px rgba(196,120,120,0.2); }
+        .menu-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 30px; }
+        .menu-item {
+            background: rgba(255,255,255,0.7); border-radius: 20px; overflow: hidden;
+            border: 1px solid rgba(232,160,160,0.3); transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94); cursor: pointer; position: relative;
+        }
+        .menu-item:hover { transform: translateY(-12px) scale(1.02); box-shadow: 0 20px 50px rgba(196,120,120,0.25); border-color: var(--pink-medium); }
+        .menu-item-image {
+            width: 100%; height: 220px; position: relative; overflow: hidden;
+            background: linear-gradient(135deg, var(--pink-light), var(--pink-rose));
+        }
+        .menu-item-image img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
+        .menu-item:hover .menu-item-image img { transform: scale(1.15); }
+        .menu-item-image::after {
+            content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 40%;
+            background: linear-gradient(to top, rgba(0,0,0,0.15), transparent);
+            opacity: 0; transition: opacity 0.4s;
+        }
+        .menu-item:hover .menu-item-image::after { opacity: 1; }
+        .menu-item-badge {
+            position: absolute; top: 15px; right: 15px; background: var(--gold);
+            color: var(--ink-dark); padding: 5px 12px; border-radius: 15px; font-size: 0.75rem; font-weight: 700; z-index: 2;
+            animation: badgePop 0.5s ease;
+        }
+        @keyframes badgePop {
+            0% { transform: scale(0); }
+            80% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        .menu-item-content { padding: 25px; }
+        .menu-item-header { display: flex; justify-content: space-between; align-items: start; margin-bottom: 10px; }
+        .menu-item-title { font-family: 'Playfair Display', serif; font-size: 1.25rem; color: var(--ink-brown); font-weight: 600; }
+        .menu-item-price { text-align: right; }
+        .menu-item-price .price-mdl { font-size: 1.2rem; font-weight: 700; color: var(--pink-deep); transition: color 0.3s; }
+        .menu-item:hover .price-mdl { color: var(--pink-deep); }
+        .menu-item-price .price-eur { font-size: 0.85rem; color: var(--ink-brown); opacity: 0.7; }
+        .menu-item-desc { font-size: 0.9rem; color: var(--ink-brown); opacity: 0.7; line-height: 1.6; margin-bottom: 15px; }
+        .menu-item-footer { display: flex; justify-content: space-between; align-items: center; }
+        .menu-item-weight { font-size: 0.8rem; color: var(--ink-brown); opacity: 0.5; }
+        .add-to-cart-btn {
+            padding: 8px 20px; background: var(--pink-light); color: var(--ink-brown);
+            border: none; border-radius: 20px; cursor: pointer; font-size: 0.85rem; font-weight: 500; transition: all 0.3s;
+            position: relative; overflow: hidden;
+        }
+        .add-to-cart-btn:hover { background: var(--pink-medium); color: white; transform: scale(1.1); }
+        .add-to-cart-btn:active { transform: scale(0.95); }
+
+        /* === MODAL === */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5); z-index: 2000; display: none;
+            align-items: center; justify-content: center; backdrop-filter: blur(5px);
+            opacity: 0; transition: opacity 0.3s ease;
+        }
+        .modal-overlay.active { display: flex; opacity: 1; }
+        .modal {
+            background: var(--paper-texture); border-radius: 25px; max-width: 600px;
+            width: 90%; max-height: 85vh; overflow-y: auto; position: relative;
+            border: 2px solid var(--pink-medium); box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+            transform: scale(0.8) translateY(30px); opacity: 0;
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        .modal-overlay.active .modal {
+            transform: scale(1) translateY(0); opacity: 1;
+        }
+        .modal-close {
+            position: absolute; top: 20px; right: 20px; width: 40px; height: 40px;
+            background: var(--pink-light); border: none; border-radius: 50%; cursor: pointer;
+            font-size: 1.2rem; color: var(--ink-brown); transition: all 0.3s; z-index: 10;
+        }
+        .modal-close:hover { background: var(--pink-medium); color: white; transform: rotate(90deg) scale(1.1); }
+        .modal-image {
+            width: 100%; height: 280px; overflow: hidden; position: relative;
+            background: linear-gradient(135deg, var(--pink-light), var(--pink-rose));
+        }
+        .modal-image img { width: 100%; height: 100%; object-fit: cover; }
+        .modal-content { padding: 35px; }
+        .modal-title { font-family: 'Playfair Display', serif; font-size: 1.8rem; color: var(--ink-brown); margin-bottom: 5px; }
+        .modal-jp-name { font-family: 'Noto Serif JP', serif; font-size: 1rem; color: var(--pink-deep); margin-bottom: 20px; }
+        .modal-prices { display: flex; gap: 20px; margin-bottom: 20px; padding: 15px; background: rgba(255,255,255,0.5); border-radius: 15px; }
+        .modal-price-block { text-align: center; flex: 1; transition: transform 0.3s; }
+        .modal-price-block:hover { transform: scale(1.05); }
+        .modal-price-block .label { font-size: 0.75rem; color: var(--ink-brown); opacity: 0.6; margin-bottom: 5px; }
+        .modal-price-block .value { font-size: 1.4rem; font-weight: 700; color: var(--pink-deep); }
+        .modal-section { margin-bottom: 20px; }
+        .modal-section h4 { font-family: 'Playfair Display', serif; font-size: 1rem; color: var(--ink-brown); margin-bottom: 10px; padding-bottom: 5px; border-bottom: 1px solid var(--pink-light); }
+        .modal-section p, .modal-section ul { font-size: 0.95rem; color: var(--ink-brown); opacity: 0.8; line-height: 1.7; }
+        .modal-section ul { list-style: none; padding: 0; }
+        .modal-section ul li { padding: 5px 0; padding-left: 20px; position: relative; transition: padding-left 0.3s; }
+        .modal-section ul li:hover { padding-left: 25px; }
+        .modal-section ul li::before { content: '❀'; position: absolute; left: 0; color: var(--pink-medium); }
+        .modal-add-cart {
+            width: 100%; padding: 16px; background: var(--pink-medium); color: white;
+            border: none; border-radius: 15px; font-size: 1rem; font-weight: 600;
+            cursor: pointer; transition: all 0.3s; margin-top: 10px; position: relative; overflow: hidden;
+        }
+        .modal-add-cart:hover { background: var(--pink-deep); transform: translateY(-2px); box-shadow: 0 5px 20px rgba(196,120,120,0.3); }
+        .modal-add-cart:active { transform: translateY(0) scale(0.98); }
+
+        /* === CART SIDEBAR === */
+        .cart-sidebar {
+            position: fixed; top: 0; right: -450px; width: 450px; max-width: 100%; height: 100%;
+            background: var(--paper-texture); z-index: 2000; transition: right 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            box-shadow: -5px 0 30px rgba(0,0,0,0.15); display: flex; flex-direction: column;
+            border-left: 2px solid var(--pink-medium);
+        }
+        .cart-sidebar.active { right: 0; }
+        .cart-header { padding: 25px; border-bottom: 1px solid var(--pink-light); display: flex; justify-content: space-between; align-items: center; }
+        .cart-header h3 { font-family: 'Playfair Display', serif; font-size: 1.5rem; color: var(--ink-brown); }
+        .cart-close { background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--ink-brown); transition: transform 0.3s; }
+        .cart-close:hover { transform: rotate(90deg); }
+        .cart-items { flex: 1; overflow-y: auto; padding: 20px; }
+        .cart-item { display: flex; gap: 15px; padding: 15px; background: rgba(255,255,255,0.5); border-radius: 15px; margin-bottom: 15px; border: 1px solid var(--pink-light); transition: all 0.3s; }
+        .cart-item:hover { transform: translateX(-5px); box-shadow: 0 4px 15px rgba(196,120,120,0.1); }
+        .cart-item-image { width: 70px; height: 70px; border-radius: 10px; overflow: hidden; flex-shrink: 0; background: linear-gradient(135deg, var(--pink-light), var(--pink-rose)); }
+        .cart-item-image img { width: 100%; height: 100%; object-fit: cover; }
+        .cart-item-info { flex: 1; }
+        .cart-item-name { font-family: 'Playfair Display', serif; font-weight: 600; color: var(--ink-brown); margin-bottom: 5px; }
+        .cart-item-price { color: var(--pink-deep); font-weight: 700; font-size: 0.9rem; }
+        .cart-item-controls { display: flex; align-items: center; gap: 10px; margin-top: 8px; }
+        .qty-btn { width: 28px; height: 28px; border: 1px solid var(--pink-medium); background: white; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; color: var(--ink-brown); transition: all 0.2s; }
+        .qty-btn:hover { background: var(--pink-medium); color: white; transform: scale(1.15); }
+        .qty-btn:active { transform: scale(0.9); }
+        .cart-item-qty { font-weight: 600; min-width: 20px; text-align: center; }
+        .cart-item-remove { background: none; border: none; color: var(--pink-deep); cursor: pointer; font-size: 1.1rem; transition: all 0.2s; }
+        .cart-item-remove:hover { transform: scale(1.2) rotate(15deg); color: #c0392b; }
+        .cart-footer { padding: 25px; border-top: 1px solid var(--pink-light); background: rgba(255,255,255,0.3); }
+        .cart-total { display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 1.1rem; transition: all 0.3s; }
+        .cart-total.final { font-size: 1.3rem; font-weight: 700; color: var(--ink-brown); border-top: 1px solid var(--pink-light); padding-top: 10px; margin-top: 10px; }
+        .checkout-btn { width: 100%; padding: 16px; background: var(--pink-medium); color: white; border: none; border-radius: 15px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.3s; margin-top: 15px; position: relative; overflow: hidden; }
+        .checkout-btn:hover { background: var(--pink-deep); transform: translateY(-2px); box-shadow: 0 8px 25px rgba(196,120,120,0.3); }
+        .checkout-btn::before {
+            content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+        .checkout-btn:hover::before { left: 100%; }
+        .cart-empty { text-align: center; padding: 60px 20px; color: var(--ink-brown); opacity: 0.5; }
+        .cart-empty svg { width: 80px; height: 80px; margin-bottom: 20px; opacity: 0.3; }
+
+        /* === RESERVATION === */
+        .reservation-section { max-width: 800px; margin: 0 auto; background: rgba(255,255,255,0.6); border-radius: 25px; padding: 50px; border: 1px solid var(--pink-light); box-shadow: 0 10px 40px rgba(196,120,120,0.1); transition: all 0.4s; }
+        .reservation-section:hover { box-shadow: 0 15px 50px rgba(196,120,120,0.15); transform: translateY(-3px); }
+        .reservation-form { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; }
+        .form-group { display: flex; flex-direction: column; }
+        .form-group.full-width { grid-column: 1 / -1; }
+        .form-group label { font-family: 'Playfair Display', serif; font-size: 0.9rem; color: var(--ink-brown); margin-bottom: 8px; font-weight: 600; transition: color 0.3s; }
+        .form-group:focus-within label { color: var(--pink-deep); }
+        .form-group input, .form-group select, .form-group textarea { padding: 14px 18px; border: 2px solid var(--pink-light); border-radius: 12px; background: rgba(255,255,255,0.8); font-family: 'Noto Sans', sans-serif; font-size: 0.95rem; color: var(--ink-dark); transition: all 0.3s; }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus { outline: none; border-color: var(--pink-medium); box-shadow: 0 0 0 4px rgba(232,160,160,0.2); transform: translateY(-2px); }
+        .form-group textarea { resize: vertical; min-height: 100px; }
+        .submit-reservation { grid-column: 1 / -1; padding: 18px; background: var(--pink-medium); color: white; border: none; border-radius: 15px; font-size: 1.1rem; font-weight: 600; cursor: pointer; transition: all 0.3s; font-family: 'Noto Sans', sans-serif; position: relative; overflow: hidden; }
+        .submit-reservation:hover { background: var(--pink-deep); transform: translateY(-2px); box-shadow: 0 8px 25px rgba(196,120,120,0.3); }
+        .submit-reservation:active { transform: translateY(0) scale(0.98); }
+
+        /* === ABOUT === */
+        .about-content { max-width: 1000px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+        .about-text { font-size: 1.05rem; line-height: 1.9; color: var(--ink-brown); }
+        .about-text p { margin-bottom: 20px; transition: transform 0.3s; }
+        .about-text p:hover { transform: translateX(5px); }
+        .about-image {
+            height: 400px; background: linear-gradient(135deg, var(--pink-light), var(--pink-rose), var(--pink-medium));
+            border-radius: 20px; display: flex; align-items: center; justify-content: center;
+            position: relative; overflow: hidden; border: 2px solid rgba(255,255,255,0.5);
+            transition: all 0.5s;
+        }
+        .about-image:hover { transform: scale(1.03) rotate(1deg); }
+        .about-image::before { content: ''; position: absolute; width: 200%; height: 200%; background: repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(255,255,255,0.05) 10px, rgba(255,255,255,0.05) 20px); animation: shimmer 20s linear infinite; }
+        @keyframes shimmer { 0% { transform: translate(-50%,-50%) rotate(0deg); } 100% { transform: translate(-50%,-50%) rotate(360deg); } }
+        .about-image svg { width: 200px; height: 200px; opacity: 0.4; z-index: 1; }
+
+        /* === FOOTER === */
+        footer { background: var(--ink-brown); color: var(--bg-cream); padding: 60px 30px 30px; position: relative; overflow: hidden; }
+        footer::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 3px; background: linear-gradient(90deg, var(--pink-medium), var(--gold), var(--pink-medium)); }
+        .footer-inner { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; }
+        .footer-col h4 { font-family: 'Playfair Display', serif; font-size: 1.2rem; margin-bottom: 20px; color: var(--gold-light); }
+        .footer-col p, .footer-col a { color: rgba(245,230,211,0.7); text-decoration: none; line-height: 2; font-size: 0.95rem; transition: all 0.3s; display: inline-block; }
+        .footer-col a:hover { color: var(--sakura-pink); transform: translateX(5px); }
+        .footer-bottom { text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid rgba(245,230,211,0.1); color: rgba(245,230,211,0.5); font-size: 0.85rem; }
+
+        /* === NOTIFICATION === */
+        .notification {
+            position: fixed; bottom: 30px; right: 30px; background: var(--ink-brown); color: white;
+            padding: 16px 25px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            z-index: 3000; transform: translateY(100px) scale(0.8); opacity: 0;
+            transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            font-weight: 500;
+        }
+        .notification.show { transform: translateY(0) scale(1); opacity: 1; }
+
+        /* === CHECKOUT MODAL === */
+        .checkout-modal .modal { max-width: 500px; }
+        .checkout-form { display: flex; flex-direction: column; gap: 15px; }
+        .checkout-form input, .checkout-form textarea, .checkout-form select { padding: 12px 15px; border: 2px solid var(--pink-light); border-radius: 10px; font-family: 'Noto Sans', sans-serif; font-size: 0.95rem; transition: all 0.3s; }
+        .checkout-form input:focus, .checkout-form textarea:focus, .checkout-form select:focus { outline: none; border-color: var(--pink-medium); box-shadow: 0 0 0 4px rgba(232,160,160,0.2); transform: translateY(-2px); }
+
+        /* === RESPONSIVE === */
+        @media (max-width: 968px) {
+            .hero h1 { font-size: 3rem; } .hero h1 .kanji { font-size: 2rem; }
+            .about-content { grid-template-columns: 1fr; } .reservation-form { grid-template-columns: 1fr; }
+            .footer-inner { grid-template-columns: 1fr; text-align: center; } .nav-links { display: none; }
+            .cart-sidebar { width: 100%; }
+        }
+        @media (max-width: 600px) {
+            .hero h1 { font-size: 2.2rem; } .section-title h2 { font-size: 2rem; }
+            .menu-grid { grid-template-columns: 1fr; } .header-inner { padding: 12px 15px; }
+        }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg-cream); }
+        ::-webkit-scrollbar-thumb { background: var(--pink-medium); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--pink-deep); }
+    </style>
+</head>
+<body>
+    <div class="sakura-container" id="sakuraContainer"></div>
+    <canvas class="ukiyo-canvas" id="ukiyoCanvas"></canvas>
+    <div class="ukiyo-bg"></div>
+
+    <header id="header">
+        <div class="header-inner">
+            <a href="#" class="logo">
+                <svg viewBox="0 0 100 100" fill="none"><circle cx="50" cy="50" r="45" stroke="#c47878" stroke-width="2" fill="none"/><path d="M50 15 C30 35,30 65,50 85 C70 65,70 35,50 15" fill="#e8a0a0" opacity="0.6"/><circle cx="50" cy="45" r="8" fill="#c47878"/><path d="M50 53 L50 70 M40 60 L50 70 L60 60" stroke="#c47878" stroke-width="2" fill="none"/></svg>
+                JAPANY
+            </a>
+            <nav class="nav-links">
+                <a href="#home" data-key="nav_home">Главная</a>
+                <a href="#menu" data-key="nav_menu">Меню</a>
+                <a href="#reservation" data-key="nav_reserve">Бронь</a>
+                <a href="#about" data-key="nav_about">О нас</a>
+                <a href="#contact" data-key="nav_contact">Контакты</a>
+            </nav>
+            <div class="header-actions">
+                <div class="lang-switcher">
+                    <button class="lang-btn active" data-lang="ru">RU</button>
+                    <button class="lang-btn" data-lang="ro">RO</button>
+                    <button class="lang-btn" data-lang="en">EN</button>
+                </div>
+                <button class="reservation-btn-header" onclick="scrollToReserve()">
+                    <span>📅</span> <span data-key="btn_reserve">Бронь</span>
+                </button>
+                <button class="cart-btn" onclick="toggleCart()">
+                    <span>🛒</span> <span data-key="btn_cart">Корзина</span>
+                    <span class="cart-count" id="cartCount">0</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- STICKY HERO -->
+    <div class="hero-wrapper" id="home">
+        <section class="hero">
+            <div class="hero-deco hero-deco-1"></div>
+            <div class="hero-deco hero-deco-2"></div>
+            <div class="hero-deco hero-deco-3"></div>
+            <div class="hero-content">
+                <div class="hero-badge" data-key="hero_badge">Традиционная Японская Кухня</div>
+                <h1>JAPANY<span class="kanji">日本料理</span></h1>
+                <p class="hero-subtitle" data-key="hero_subtitle">Искусство вкуса, вдохновлённое вековыми традициями</p>
+                <div class="hero-buttons">
+                    <a href="#menu" class="btn-primary" data-key="btn_menu">Посмотреть Меню</a>
+                    <a href="#reservation" class="btn-secondary" data-key="btn_book_table">Забронировать Стол</a>
+                </div>
+            </div>
+            <div class="scroll-indicator" onclick="document.getElementById('menu').scrollIntoView({behavior:'smooth'})">
+                <span>SCROLL</span>
+                <div class="scroll-arrow"></div>
+            </div>
+        </section>
+    </div>
+
+    <!-- CONTENT OVERLAYS HERO -->
+    <div class="content-overlay">
+        <section id="menu">
+            <div class="menu-section">
+                <div class="section-title reveal">
+                    <h2 data-key="menu_title">Наше Меню</h2>
+                    <div class="divider"></div>
+                    <p data-key="menu_subtitle">Аутентичные блюда, приготовленные с душой</p>
+                </div>
+                <div class="menu-categories reveal stagger-1" id="menuCategories"></div>
+                <div class="menu-grid" id="menuGrid"></div>
+            </div>
+        </section>
+
+        <section id="reservation">
+            <div class="section-title reveal">
+                <h2 data-key="reserve_title">Бронирование Стола</h2>
+                <div class="divider"></div>
+                <p data-key="reserve_subtitle">Забронируйте столик для незабываемого вечера</p>
+            </div>
+            <div class="reservation-section reveal-scale">
+                <form class="reservation-form" id="reservationForm">
+                    <div class="form-group reveal-left stagger-1"><label data-key="label_name">Имя</label><input type="text" required placeholder="Ваше имя"></div>
+                    <div class="form-group reveal-right stagger-2"><label data-key="label_phone">Телефон</label><input type="tel" required placeholder="+373 ..."></div>
+                    <div class="form-group reveal-left stagger-3"><label data-key="label_date">Дата</label><input type="date" required></div>
+                    <div class="form-group reveal-right stagger-4"><label data-key="label_time">Время</label><input type="time" required></div>
+                    <div class="form-group reveal-left stagger-5">
+                        <label data-key="label_guests">Количество гостей</label>
+                        <select required>
+                            <option value="1">1</option><option value="2">2</option><option value="3">3</option>
+                            <option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7+">7+</option>
+                        </select>
+                    </div>
+                    <div class="form-group reveal-right stagger-6">
+                        <label data-key="label_occasion">Повод</label>
+                        <select>
+                            <option value="" data-key="opt_regular">Обычный визит</option>
+                            <option value="birthday" data-key="opt_birthday">День рождения</option>
+                            <option value="anniversary" data-key="opt_anniversary">Годовщина</option>
+                            <option value="business" data-key="opt_business">Деловая встреча</option>
+                            <option value="romantic" data-key="opt_romantic">Романтический ужин</option>
+                        </select>
+                    </div>
+                    <div class="form-group full-width reveal stagger-3">
+                        <label data-key="label_notes">Особые пожелания</label>
+                        <textarea placeholder="Аллергии, предпочтения..."></textarea>
+                    </div>
+                    <button type="submit" class="submit-reservation reveal-scale stagger-4" data-key="btn_confirm_reserve">Подтвердить Бронирование</button>
+                </form>
+            </div>
+        </section>
+
+        <section id="about">
+            <div class="section-title reveal">
+                <h2 data-key="about_title">О Нас</h2>
+                <div class="divider"></div>
+                <p data-key="about_subtitle">История и философия ресторана Japany</p>
+            </div>
+            <div class="about-content">
+                <div class="about-text reveal-left">
+                    <p data-key="about_p1">Ресторан Japany — это место, где встречаются традиции японской кухни и современная эстетика. Наши шеф-повара обучались искусству суши и сашими в лучших ресторанах Токио и Осаки.</p>
+                    <p data-key="about_p2">Мы используем только свежайшие ингредиенты, импортированные напрямую из Японии, и следуем вековым рецептам, передаваемым из поколения в поколение. Каждое блюдо — это маленькое произведение искусства.</p>
+                    <p data-key="about_p3">Атмосфера ресторана вдохновлена эстетикой укиё-э — "искусства преходящего мира". Розовые оттенки сакуры, величественные волны и тихие горы создают уникальную атмосферу для вашего ужина.</p>
+                </div>
+                <div class="about-image reveal-right">
+                    <svg viewBox="0 0 200 200" fill="none"><path d="M100 20 C60 50,40 100,100 180 C160 100,140 50,100 20" fill="#c47878" opacity="0.3"/><circle cx="100" cy="80" r="30" fill="#e8a0a0" opacity="0.4"/><path d="M70 140 Q100 120 130 140" stroke="#c47878" stroke-width="2" fill="none"/><path d="M80 130 Q100 115 120 130" stroke="#e8a0a0" stroke-width="1.5" fill="none"/></svg>
+                </div>
+            </div>
+        </section>
+
+        <footer id="contact">
+            <div class="footer-inner">
+                <div class="footer-col reveal-left stagger-1">
+                    <h4 data-key="footer_contact">Контакты</h4>
+                    <p>📍 str. Pușkin 20, Chișinău</p>
+                    <p>📞 +373 22 123 456</p>
+                    <p>✉️ info@japany.md</p>
+                    <p>🕐 10:00 — 23:00 ежедневно</p>
+                </div>
+                <div class="footer-col reveal stagger-2">
+                    <h4 data-key="footer_links">Навигация</h4>
+                    <p><a href="#home" data-key="nav_home">Главная</a></p>
+                    <p><a href="#menu" data-key="nav_menu">Меню</a></p>
+                    <p><a href="#reservation" data-key="nav_reserve">Бронь</a></p>
+                    <p><a href="#about" data-key="nav_about">О нас</a></p>
+                </div>
+                <div class="footer-col reveal-right stagger-3">
+                    <h4 data-key="footer_social">Мы в соцсетях</h4>
+                    <p><a href="#">Instagram</a></p>
+                    <p><a href="#">Facebook</a></p>
+                    <p><a href="#">TikTok</a></p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 Japany. <span data-key="footer_rights">Все права защищены.</span></p>
+            </div>
+        </footer>
+    </div>
+
+    <div class="modal-overlay" id="dishModal">
+        <div class="modal">
+            <button class="modal-close" onclick="closeModal()">✕</button>
+            <div class="modal-image" id="modalImage"></div>
+            <div class="modal-content">
+                <h3 class="modal-title" id="modalTitle"></h3>
+                <div class="modal-jp-name" id="modalJpName"></div>
+                <div class="modal-prices">
+                    <div class="modal-price-block"><div class="label">MDL</div><div class="value" id="modalPriceMdl"></div></div>
+                    <div class="modal-price-block"><div class="label">EUR</div><div class="value" id="modalPriceEur"></div></div>
+                </div>
+                <div class="modal-section"><h4 data-key="modal_desc">Описание</h4><p id="modalDesc"></p></div>
+                <div class="modal-section"><h4 data-key="modal_ingredients">Ингредиенты</h4><ul id="modalIngredients"></ul></div>
+                <div class="modal-section"><h4 data-key="modal_nutrition">Пищевая ценность (на 100г)</h4><p id="modalNutrition"></p></div>
+                <button class="modal-add-cart" id="modalAddCart" data-key="btn_add_cart">Добавить в корзину</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="cart-sidebar" id="cartSidebar">
+        <div class="cart-header">
+            <h3 data-key="cart_title">Ваша Корзина</h3>
+            <button class="cart-close" onclick="toggleCart()">✕</button>
+        </div>
+        <div class="cart-items" id="cartItems">
+            <div class="cart-empty">
+                <svg viewBox="0 0 80 80" fill="none"><circle cx="40" cy="40" r="35" stroke="#c47878" stroke-width="1" fill="none"/><path d="M25 30 L35 55 L55 55 L65 30" stroke="#c47878" stroke-width="2" fill="none"/><circle cx="35" cy="65" r="3" stroke="#c47878" stroke-width="1" fill="none"/><circle cx="55" cy="65" r="3" stroke="#c47878" stroke-width="1" fill="none"/></svg>
+                <p data-key="cart_empty">Корзина пуста</p>
+            </div>
+        </div>
+        <div class="cart-footer" id="cartFooter" style="display:none;">
+            <div class="cart-total"><span data-key="cart_subtotal">Подытог:</span><span id="cartSubtotalMdl">0 MDL</span></div>
+            <div class="cart-total"><span data-key="cart_delivery">Доставка:</span><span id="cartDelivery">50 MDL</span></div>
+            <div class="cart-total final"><span data-key="cart_total">Итого:</span><span id="cartTotalMdl">0 MDL</span></div>
+            <div style="text-align:center; margin-top:5px; color:#666; font-size:0.85rem;" id="cartTotalEur">0 EUR</div>
+            <button class="checkout-btn" onclick="openCheckout()" data-key="btn_checkout">Оформить Заказ</button>
+        </div>
+    </div>
+
+    <div class="modal-overlay checkout-modal" id="checkoutModal">
+        <div class="modal">
+            <button class="modal-close" onclick="closeCheckout()">✕</button>
+            <div class="modal-content">
+                <h3 class="modal-title" data-key="checkout_title">Оформление Доставки</h3>
+                <form class="checkout-form" id="checkoutForm">
+                    <input type="text" placeholder="Имя" required>
+                    <input type="tel" placeholder="Телефон" required>
+                    <input type="text" placeholder="Адрес доставки" required>
+                    <select required>
+                        <option value="" data-key="opt_payment">Способ оплаты</option>
+                        <option value="cash" data-key="opt_cash">Наличные</option>
+                        <option value="card" data-key="opt_card">Карта</option>
+                    </select>
+                    <textarea placeholder="Комментарий к заказу" rows="3"></textarea>
+                    <button type="submit" class="modal-add-cart" data-key="btn_confirm_order">Подтвердить Заказ</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="notification" id="notification"></div>
+    <script>
+    // === IMAGE MAP ===
+    const dishImages = {
+        's1': 'https://kimi-web-img.moonshot.cn/img/en.pimg.jp/45b83d2950b7a31312df8bf83ff654a097bcc27e.jpg',
+        's2': 'https://kimi-web-img.moonshot.cn/img/sushistaycation.com/342a7f59a70c078bdc2d8fb47faf8f4a0bdfb3ff.jpg',
+        's3': 'https://kimi-web-img.moonshot.cn/img/www.siftandsimmer.com/735cd6be55353e2b4ce43727ad9b6957d6952714.jpg',
+        's4': 'https://kimi-web-img.moonshot.cn/img/media-cdn2.greatbritishchefs.com/c5e8aca2e0e9845c49a988ccc29d0a01fefedf13.jpg',
+        's5': 'https://kimi-web-img.moonshot.cn/img/sushistaycation.com/e90d9a940ce464b586239f5dc715bff0367747ec.jpg',
+        's6': 'https://kimi-web-img.moonshot.cn/img/134522373.cdn6.editmysite.com/1579e449d3a1fb1ffbc6e0cf641906ed9df8bb91.jpeg',
+        'r1': 'https://kimi-web-img.moonshot.cn/img/pickledplum.com/d12c0ee682c5f6249d7f0e17264e5bd12a17b324.jpg',
+        'r2': 'https://kimi-web-img.moonshot.cn/img/thesushiman.com/756178f1c0bcdf4cb6e9228321304e86c975d1fa.jpg',
+        'r3': 'https://kimi-web-img.moonshot.cn/img/thesushiman.com/30f3059840af1d1e966b53dbcd6a56c4e8b295e5.jpg',
+        'r4': 'https://kimi-web-img.moonshot.cn/img/images.squarespace-cdn.com/c7512486b82b07ce7b46320112e09dfd0edfa8c9.jpg',
+        'r5': 'https://kimi-web-img.moonshot.cn/img/dinnerthendessert.com/f207a2ab9af59d53b7c89651e7d6e7fb401f2ccc.jpg',
+        'r6': 'https://kimi-web-img.moonshot.cn/img/olivesfordinner.com/308e2bae9613861f5207feb3a17a603a25e85796.jpg',
+        'p1': 'https://kimi-web-img.moonshot.cn/img/pickledplum.com/3a2431950945307684b505260c3a9e60e0445897.jpg',
+        'p2': 'https://kimi-web-img.moonshot.cn/img/simplehomeedit.com/50384f14e53bca87a0e601f2d88cc00af0802bbb.webp',
+        'p3': 'https://kimi-web-img.moonshot.cn/img/www.recipetineats.com/1bf9ad169fd08edb818c3c3ba6fb24e3c0c3efbe.jpg',
+        'p4': 'https://kimi-web-img.moonshot.cn/img/umamito.com/57f08f33ddfce8a715ff84ebf70a0fbeea93758b.jpg',
+        'h1': 'https://kimi-web-img.moonshot.cn/img/therealfooddietitians.com/a5efd82b088c97b36b1e828fb642e46a1882c2e1.jpg',
+        'h2': 'https://kimi-web-img.moonshot.cn/img/media-cdn.tripadvisor.com/bbb3347325826ed4ef2e33758615221747ce1454.jpg',
+        'h3': 'https://kimi-web-img.moonshot.cn/img/www.justonecookbook.com/590d54f5d1162093d01695f22afcfa3823dba47f.jpg',
+        'h4': 'https://kimi-web-img.moonshot.cn/img/static01.nyt.com/4c8b3f09c5aef5a42f19c8ce863d8944345b5dff.jpg',
+        'd1': 'https://kimi-web-img.moonshot.cn/img/images.stockcake.com/1f0144a05d2bdd2a5884bf32b37ac3a004d43ad0.jpg',
+        'd2': 'https://kimi-web-img.moonshot.cn/img/japan.recipetineats.com/6785b83a883ae2b0789e099beabf0ede9197d181.jpg',
+        'd3': 'https://kimi-web-img.moonshot.cn/img/www.cooking-therapy.com/ad1275c9f07e6f80c2e160ab90fbdfa90d9940ef.jpg',
+        'b1': 'https://kimi-web-img.moonshot.cn/img/www.japan-guide.com/fcc00be6432ff42f6723963f4b40c1afba26cb82.jpg',
+        'b2': 'https://kimi-web-img.moonshot.cn/img/cdn.loveandlemons.com/943ea763cedb97c51e4464bdd45db649d1814285.jpg',
+        'b3': 'https://kimi-web-img.moonshot.cn/img/produits.bienmanger.com/dfaf17880ee1252e548a8405233af662e271e9f8.jpg',
+        'b4': 'https://kimi-web-img.moonshot.cn/img/bokksu.com/5ca86942540ecb496ee5276200e11e23e8c1c4d8.jpg',
+    };
+
+    const translations = {
+        ru: {
+            nav_home: 'Главная', nav_menu: 'Меню', nav_reserve: 'Бронь', nav_about: 'О нас', nav_contact: 'Контакты',
+            btn_reserve: 'Бронь', btn_cart: 'Корзина', btn_menu: 'Посмотреть Меню', btn_book_table: 'Забронировать Стол',
+            hero_badge: 'Традиционная Японская Кухня', hero_subtitle: 'Искусство вкуса, вдохновлённое вековыми традициями',
+            menu_title: 'Наше Меню', menu_subtitle: 'Аутентичные блюда, приготовленные с душой',
+            cat_sushi: 'Суши', cat_rolls: 'Роллы', cat_soups: 'Супы', cat_hot: 'Горячее', cat_desserts: 'Десерты', cat_drinks: 'Напитки',
+            reserve_title: 'Бронирование Стола', reserve_subtitle: 'Забронируйте столик для незабываемого вечера',
+            label_name: 'Имя', label_phone: 'Телефон', label_date: 'Дата', label_time: 'Время',
+            label_guests: 'Количество гостей', label_occasion: 'Повод', label_notes: 'Особые пожелания',
+            opt_regular: 'Обычный визит', opt_birthday: 'День рождения', opt_anniversary: 'Годовщина',
+            opt_business: 'Деловая встреча', opt_romantic: 'Романтический ужин',
+            btn_confirm_reserve: 'Подтвердить Бронирование',
+            about_title: 'О Нас', about_subtitle: 'История и философия ресторана Japany',
+            about_p1: 'Ресторан Japany — это место, где встречаются традиции японской кухни и современная эстетика. Наши шеф-повара обучались искусству суши и сашими в лучших ресторанах Токио и Осаки.',
+            about_p2: 'Мы используем только свежайшие ингредиенты, импортированные напрямую из Японии, и следуем вековым рецептам, передаваемым из поколения в поколение. Каждое блюдо — это маленькое произведение искусства.',
+            about_p3: 'Атмосфера ресторана вдохновлена эстетикой укиё-э — "искусства преходящего мира". Розовые оттенки сакуры, величественные волны и тихие горы создают уникальную атмосферу для вашего ужина.',
+            footer_contact: 'Контакты', footer_links: 'Навигация', footer_social: 'Мы в соцсетях', footer_rights: 'Все права защищены.',
+            modal_desc: 'Описание', modal_ingredients: 'Ингредиенты', modal_nutrition: 'Пищевая ценность (на 100г)',
+            btn_add_cart: 'Добавить в корзину', cart_title: 'Ваша Корзина', cart_empty: 'Корзина пуста',
+            cart_subtotal: 'Подытог:', cart_delivery: 'Доставка:', cart_total: 'Итого:',
+            btn_checkout: 'Оформить Заказ', checkout_title: 'Оформление Доставки',
+            opt_payment: 'Способ оплаты', opt_cash: 'Наличные', opt_card: 'Карта',
+            btn_confirm_order: 'Подтвердить Заказ',
+            badge_popular: 'Популярное', badge_premium: 'Премиум', badge_new: 'Новинка', badge_spicy: 'Острое',
+            notif_added: 'Добавлено в корзину!', notif_reserve: 'Бронирование подтверждено! Мы свяжемся с вами.',
+            notif_order: 'Заказ оформлен! Спасибо за выбор Japany!'
+        },
+        ro: {
+            nav_home: 'Acasă', nav_menu: 'Meniu', nav_reserve: 'Rezervare', nav_about: 'Despre Noi', nav_contact: 'Contact',
+            btn_reserve: 'Rezervare', btn_cart: 'Coș', btn_menu: 'Vezi Meniul', btn_book_table: 'Rezervă Masă',
+            hero_badge: 'Bucătărie Japoneză Tradițională', hero_subtitle: 'Arta gustului, inspirată de tradiții seculare',
+            menu_title: 'Meniul Nostru', menu_subtitle: 'Feluri autentice, preparate cu suflet',
+            cat_sushi: 'Sushi', cat_rolls: 'Rolls', cat_soups: 'Supe', cat_hot: 'Calde', cat_desserts: 'Deserturi', cat_drinks: 'Băuturi',
+            reserve_title: 'Rezervare Masă', reserve_subtitle: 'Rezervă o masă pentru o seară de neuitat',
+            label_name: 'Nume', label_phone: 'Telefon', label_date: 'Data', label_time: 'Ora',
+            label_guests: 'Număr de oaspeți', label_occasion: 'Ocazie', label_notes: 'Preferințe speciale',
+            opt_regular: 'Vizită obișnuită', opt_birthday: 'Zi de naștere', opt_anniversary: 'Aniversare',
+            opt_business: 'Întâlnire de afaceri', opt_romantic: 'Cină romantică',
+            btn_confirm_reserve: 'Confirmă Rezervarea',
+            about_title: 'Despre Noi', about_subtitle: 'Istoria și filosofia restaurantului Japany',
+            about_p1: 'Restaurantul Japany este locul unde se întâlnesc tradițiile bucătăriei japoneze și estetica modernă. Bucătarii noștri au învățat arta sushi și sashimi în cele mai bune restaurante din Tokyo și Osaka.',
+            about_p2: 'Folosim doar cele mai proaspete ingrediente, importate direct din Japonia, și urmăm rețete vechi de secole, transmise din generație în generație. Fiecare fel este o mică operă de artă.',
+            about_p3: 'Atmosfera restaurantului este inspirată de estetica ukiyo-e — "arta lumii trecătoare". Nuanțele roz ale cireșului, valurile mărețe și munții liniștiți creează o atmosferă unică pentru cina dumneavoastră.',
+            footer_contact: 'Contact', footer_links: 'Navigare', footer_social: 'Social Media', footer_rights: 'Toate drepturile rezervate.',
+            modal_desc: 'Descriere', modal_ingredients: 'Ingrediente', modal_nutrition: 'Valoare nutrițională (per 100g)',
+            btn_add_cart: 'Adaugă în coș', cart_title: 'Coșul Tău', cart_empty: 'Coșul este gol',
+            cart_subtotal: 'Subtotal:', cart_delivery: 'Livrare:', cart_total: 'Total:',
+            btn_checkout: 'Finalizează Comanda', checkout_title: 'Finalizare Livrare',
+            opt_payment: 'Metodă de plată', opt_cash: 'Numerar', opt_card: 'Card',
+            btn_confirm_order: 'Confirmă Comanda',
+            badge_popular: 'Popular', badge_premium: 'Premium', badge_new: 'Nou', badge_spicy: 'Picant',
+            notif_added: 'Adăugat în coș!', notif_reserve: 'Rezervare confirmată! Vă contactăm în curând.',
+            notif_order: 'Comandă plasată! Mulțumim că ați ales Japany!'
+        },
+        en: {
+            nav_home: 'Home', nav_menu: 'Menu', nav_reserve: 'Reservation', nav_about: 'About Us', nav_contact: 'Contact',
+            btn_reserve: 'Reserve', btn_cart: 'Cart', btn_menu: 'View Menu', btn_book_table: 'Book a Table',
+            hero_badge: 'Traditional Japanese Cuisine', hero_subtitle: 'The art of taste, inspired by centuries-old traditions',
+            menu_title: 'Our Menu', menu_subtitle: 'Authentic dishes prepared with soul',
+            cat_sushi: 'Sushi', cat_rolls: 'Rolls', cat_soups: 'Soups', cat_hot: 'Hot Dishes', cat_desserts: 'Desserts', cat_drinks: 'Drinks',
+            reserve_title: 'Table Reservation', reserve_subtitle: 'Book a table for an unforgettable evening',
+            label_name: 'Name', label_phone: 'Phone', label_date: 'Date', label_time: 'Time',
+            label_guests: 'Number of guests', label_occasion: 'Occasion', label_notes: 'Special requests',
+            opt_regular: 'Regular visit', opt_birthday: 'Birthday', opt_anniversary: 'Anniversary',
+            opt_business: 'Business meeting', opt_romantic: 'Romantic dinner',
+            btn_confirm_reserve: 'Confirm Reservation',
+            about_title: 'About Us', about_subtitle: 'The history and philosophy of Japany restaurant',
+            about_p1: 'Japany is a place where Japanese culinary traditions meet modern aesthetics. Our chefs trained in the art of sushi and sashimi at the finest restaurants in Tokyo and Osaka.',
+            about_p2: 'We use only the freshest ingredients imported directly from Japan and follow centuries-old recipes passed down through generations. Every dish is a small work of art.',
+            about_p3: 'The restaurant atmosphere is inspired by the aesthetics of ukiyo-e — "the art of the fleeting world". Cherry blossom pinks, majestic waves, and quiet mountains create a unique ambiance for your dinner.',
+            footer_contact: 'Contact', footer_links: 'Navigation', footer_social: 'Follow Us', footer_rights: 'All rights reserved.',
+            modal_desc: 'Description', modal_ingredients: 'Ingredients', modal_nutrition: 'Nutrition facts (per 100g)',
+            btn_add_cart: 'Add to Cart', cart_title: 'Your Cart', cart_empty: 'Your cart is empty',
+            cart_subtotal: 'Subtotal:', cart_delivery: 'Delivery:', cart_total: 'Total:',
+            btn_checkout: 'Checkout', checkout_title: 'Delivery Checkout',
+            opt_payment: 'Payment method', opt_cash: 'Cash', opt_card: 'Card',
+            btn_confirm_order: 'Confirm Order',
+            badge_popular: 'Popular', badge_premium: 'Premium', badge_new: 'New', badge_spicy: 'Spicy',
+            notif_added: 'Added to cart!', notif_reserve: 'Reservation confirmed! We will contact you soon.',
+            notif_order: 'Order placed! Thank you for choosing Japany!'
+        }
+    };
+
+    let currentLang = 'ru';
+
+    const menuData = {
+        sushi: [
+            { id:'s1', name:{ru:'Сяке Нигири',ro:'Sake Nigiri',en:'Salmon Nigiri'}, jp:'鮭握り', priceMdl:45, priceEur:2.30, weight:'30г', desc:{ru:'Нежнейший лосось на рисовой подушке с лёгким намёком на васаби.',ro:'Somon delicat pe perna de orez cu o notă subtilă de wasabi.',en:'Delicate salmon on a rice pillow with a subtle hint of wasabi.'}, ingredients:{ru:['Лосось','Рис для суши','Васаби','Соевый соус'],ro:['Somon','Orez pentru sushi','Wasabi','Sos de soia'],en:['Salmon','Sushi rice','Wasabi','Soy sauce']}, nutrition:{ru:'Калории: 120 | Белки: 8г | Жиры: 4г | Углеводы: 12г',ro:'Calorii: 120 | Proteine: 8g | Grăsimi: 4g | Carbohidrați: 12g',en:'Calories: 120 | Protein: 8g | Fat: 4g | Carbs: 12g'}, badge:null },
+            { id:'s2', name:{ru:'Магуро Нигири',ro:'Maguro Nigiri',en:'Tuna Nigiri'}, jp:'鮪握り', priceMdl:55, priceEur:2.80, weight:'30г', desc:{ru:'Свежайший тунец высшего качества с рисом и лёгким блеском соевого соуса.',ro:'Ton proaspăt de cea mai înaltă calitate cu orez și o strălucire ușoară de sos de soia.',en:'Fresh highest-quality tuna with rice and a light sheen of soy sauce.'}, ingredients:{ru:['Тунец','Рис для суши','Васаби','Имбирь'],ro:['Ton','Orez pentru sushi','Wasabi','Ghimbir'],en:['Tuna','Sushi rice','Wasabi','Ginger']}, nutrition:{ru:'Калории: 110 | Белки: 10г | Жиры: 2г | Углеводы: 12г',ro:'Calorii: 110 | Proteine: 10g | Grăsimi: 2g | Carbohidrați: 12g',en:'Calories: 110 | Protein: 10g | Fat: 2g | Carbs: 12g'}, badge:null },
+            { id:'s3', name:{ru:'Унаги Нигири',ro:'Unagi Nigiri',en:'Eel Nigiri'}, jp:'鰻握り', priceMdl:65, priceEur:3.30, weight:'35г', desc:{ru:'Копчёный угорь в сладком соусе кабаяки на воздушном рисе.',ro:'Anguină afumată în sos dulce kabayaki pe orez aerat.',en:'Smoked eel in sweet kabayaki sauce on airy rice.'}, ingredients:{ru:['Угорь','Рис для суши','Соус кабаяки','Кунжут'],ro:['Anguină','Orez pentru sushi','Sos kabayaki','Susan'],en:['Eel','Sushi rice','Kabayaki sauce','Sesame']}, nutrition:{ru:'Калории: 180 | Белки: 9г | Жиры: 8г | Углеводы: 18г',ro:'Calorii: 180 | Proteine: 9g | Grăsimi: 8g | Carbohidrați: 18g',en:'Calories: 180 | Protein: 9g | Fat: 8g | Carbs: 18g'}, badge:'popular' },
+            { id:'s4', name:{ru:'Тамаго Нигири',ro:'Tamago Nigiri',en:'Egg Nigiri'}, jp:'卵握り', priceMdl:35, priceEur:1.80, weight:'30г', desc:{ru:'Сладкий японский омлет на рисовой подушке с лентой нори.',ro:'Omlet japonez dulce pe perna de orez cu bandă de nori.',en:'Sweet Japanese omelette on a rice pillow with a nori strip.'}, ingredients:{ru:['Яйцо','Рис для суши','Нори','Мирин'],ro:['Ou','Orez pentru sushi','Nori','Mirin'],en:['Egg','Sushi rice','Nori','Mirin']}, nutrition:{ru:'Калории: 140 | Белки: 5г | Жиры: 6г | Углеводы: 16г',ro:'Calorii: 140 | Proteine: 5g | Grăsimi: 6g | Carbohidrați: 16g',en:'Calories: 140 | Protein: 5g | Fat: 6g | Carbs: 16g'}, badge:null },
+            { id:'s5', name:{ru:'Эби Нигири',ro:'Ebi Nigiri',en:'Shrimp Nigiri'}, jp:'海老握り', priceMdl:50, priceEur:2.55, weight:'30г', desc:{ru:'Отварная тигровая креветка на рисе с лимонным акцентом.',ro:'Crevede tigru fiert pe orez cu accent de lămâie.',en:'Boiled tiger shrimp on rice with a lemon accent.'}, ingredients:{ru:['Креветка','Рис для суши','Лимон','Васаби'],ro:['Crevede','Orez pentru sushi','Lămâie','Wasabi'],en:['Shrimp','Sushi rice','Lemon','Wasabi']}, nutrition:{ru:'Калории: 100 | Белки: 7г | Жиры: 1г | Углеводы: 14г',ro:'Calorii: 100 | Proteine: 7g | Grăsimi: 1g | Carbohidrați: 14g',en:'Calories: 100 | Protein: 7g | Fat: 1g | Carbs: 14g'}, badge:null },
+            { id:'s6', name:{ru:'Икура Гункан',ro:'Ikura Gunkan',en:'Salmon Roe Gunkan'}, jp:'イクラ軍艦', priceMdl:85, priceEur:4.35, weight:'35г', desc:{ru:'Икра лосося в нори-корзиночке с рисом — взрыв вкуса моря.',ro:'Icre de somon în coșuleț de nori cu orez — explozie de gust marin.',en:'Salmon roe in a nori basket with rice — an explosion of sea flavor.'}, ingredients:{ru:['Икра лосося','Рис для суши','Нори'],ro:['Icre de somon','Orez pentru sushi','Nori'],en:['Salmon roe','Sushi rice','Nori']}, nutrition:{ru:'Калории: 90 | Белки: 6г | Жиры: 3г | Углеводы: 10г',ro:'Calorii: 90 | Proteine: 6g | Grăsimi: 3g | Carbohidrați: 10g',en:'Calories: 90 | Protein: 6g | Fat: 3g | Carbs: 10g'}, badge:'premium' },
+        ],
+        rolls: [
+            { id:'r1', name:{ru:'Филадельфия Классик',ro:'Philadelphia Classic',en:'Philadelphia Classic'}, jp:'フィラデルフィア', priceMdl:180, priceEur:9.20, weight:'280г', desc:{ru:'Лосось, сливочный сыр, авокадо и огурец в классическом исполнении.',ro:'Somon, brânză cremă, avocado și castravete în interpretare clasică.',en:'Salmon, cream cheese, avocado and cucumber in a classic rendition.'}, ingredients:{ru:['Лосось','Сливочный сыр','Авокадо','Огурец','Рис','Нори'],ro:['Somon','Brânză cremă','Avocado','Castravete','Orez','Nori'],en:['Salmon','Cream cheese','Avocado','Cucumber','Rice','Nori']}, nutrition:{ru:'Калории: 320 | Белки: 12г | Жиры: 18г | Углеводы: 28г',ro:'Calorii: 320 | Proteine: 12g | Grăsimi: 18g | Carbohidrați: 28g',en:'Calories: 320 | Protein: 12g | Fat: 18g | Carbs: 28g'}, badge:'popular' },
+            { id:'r2', name:{ru:'Дракон',ro:'Dragon',en:'Dragon Roll'}, jp:'ドラゴン', priceMdl:220, priceEur:11.25, weight:'300г', desc:{ru:'Угорь, авокадо, огурец внутри, сверху — ломтики авокадо и соус унаги.',ro:'Anguină, avocado, castravete în interior, deasupra — felii de avocado și sos unagi.',en:'Eel, avocado, cucumber inside, topped with avocado slices and unagi sauce.'}, ingredients:{ru:['Угорь','Авокадо','Огурец','Рис','Нори','Соус унаги','Кунжут'],ro:['Anguină','Avocado','Castravete','Orez','Nori','Sos unagi','Susan'],en:['Eel','Avocado','Cucumber','Rice','Nori','Unagi sauce','Sesame']}, nutrition:{ru:'Калории: 350 | Белки: 14г | Жиры: 20г | Углеводы: 30г',ro:'Calorii: 350 | Proteine: 14g | Grăsimi: 20g | Carbohidrați: 30g',en:'Calories: 350 | Protein: 14g | Fat: 20g | Carbs: 30g'}, badge:'premium' },
+            { id:'r3', name:{ru:'Калифорния',ro:'California',en:'California Roll'}, jp:'カリフォルニア', priceMdl:160, priceEur:8.20, weight:'260г', desc:{ru:'Краб, авокадо, огурец, икра тобико — классика западного побережья.',ro:'Crab, avocado, castravete, icre tobiko — clasicul de pe coasta de vest.',en:'Crab, avocado, cucumber, tobiko roe — the classic from the West Coast.'}, ingredients:{ru:['Краб','Авокадо','Огурец','Рис','Нори','Икра тобико','Майонез'],ro:['Crab','Avocado','Castravete','Orez','Nori','Icre tobiko','Maioneză'],en:['Crab','Avocado','Cucumber','Rice','Nori','Tobiko roe','Mayonnaise']}, nutrition:{ru:'Калории: 290 | Белки: 10г | Жиры: 14г | Углеводы: 32г',ro:'Calorii: 290 | Proteine: 10g | Grăsimi: 14g | Carbohidrați: 32g',en:'Calories: 290 | Protein: 10g | Fat: 14g | Carbs: 32g'}, badge:'popular' },
+            { id:'r4', name:{ru:'Спайси Тунец',ro:'Spicy Tuna',en:'Spicy Tuna Roll'}, jp:'スパイシー鮪', priceMdl:190, priceEur:9.70, weight:'270г', desc:{ru:'Острый тунец с соусом шрирача, огурцом и зелёным луком.',ro:'Ton picant cu sos sriracha, castravete și ceapă verde.',en:'Spicy tuna with sriracha sauce, cucumber, and green onion.'}, ingredients:{ru:['Тунец','Соус шрирача','Огурец','Зелёный лук','Рис','Нори'],ro:['Ton','Sos sriracha','Castravete','Ceapă verde','Orez','Nori'],en:['Tuna','Sriracha sauce','Cucumber','Green onion','Rice','Nori']}, nutrition:{ru:'Калории: 260 | Белки: 15г | Жиры: 8г | Углеводы: 28г',ro:'Calorii: 260 | Proteine: 15g | Grăsimi: 8g | Carbohidrați: 28g',en:'Calories: 260 | Protein: 15g | Fat: 8g | Carbs: 28g'}, badge:'spicy' },
+            { id:'r5', name:{ru:'Радуга',ro:'Curcubeu',en:'Rainbow Roll'}, jp:'虹', priceMdl:240, priceEur:12.25, weight:'320г', desc:{ru:'Калифорния внутри, сверху — лосось, тунец, креветка, авокадо.',ro:'California în interior, deasupra — somon, ton, crevede, avocado.',en:'California inside, topped with salmon, tuna, shrimp, and avocado.'}, ingredients:{ru:['Лосось','Тунец','Креветка','Авокадо','Краб','Рис','Нори'],ro:['Somon','Ton','Crevede','Avocado','Crab','Orez','Nori'],en:['Salmon','Tuna','Shrimp','Avocado','Crab','Rice','Nori']}, nutrition:{ru:'Калории: 340 | Белки: 18г | Жиры: 16г | Углеводы: 30г',ro:'Calorii: 340 | Proteine: 18g | Grăsimi: 16g | Carbohidrați: 30g',en:'Calories: 340 | Protein: 18g | Fat: 16g | Carbs: 30g'}, badge:'premium' },
+            { id:'r6', name:{ru:'Веган Ролл',ro:'Vegan Roll',en:'Vegan Roll'}, jp:'ヴィーガン', priceMdl:140, priceEur:7.15, weight:'250г', desc:{ru:'Авокадо, огурец, спаржа, манго и кунжут — чистая свежесть.',ro:'Avocado, castravete, sparanghel, mango și susan — prospețime pură.',en:'Avocado, cucumber, asparagus, mango, and sesame — pure freshness.'}, ingredients:{ru:['Авокадо','Огурец','Спаржа','Манго','Рис','Нори','Кунжут'],ro:['Avocado','Castravete','Sparanghel','Mango','Orez','Nori','Susan'],en:['Avocado','Cucumber','Asparagus','Mango','Rice','Nori','Sesame']}, nutrition:{ru:'Калории: 210 | Белки: 5г | Жиры: 9г | Углеводы: 28г',ro:'Calorii: 210 | Proteine: 5g | Grăsimi: 9g | Carbohidrați: 28g',en:'Calories: 210 | Protein: 5g | Fat: 9g | Carbs: 28g'}, badge:'new' },
+        ],
+        soups: [
+            { id:'p1', name:{ru:'Мисо Сиру',ro:'Miso Shiru',en:'Miso Soup'}, jp:'味噌汁', priceMdl:55, priceEur:2.80, weight:'300мл', desc:{ru:'Классический мисо-суп с тофу, водорослями вакаме и зелёным луком.',ro:'Supă clasică miso cu tofu, alge wakame și ceapă verde.',en:'Classic miso soup with tofu, wakame seaweed, and green onion.'}, ingredients:{ru:['Мисо паста','Тофу','Вакаме','Зелёный лук','Даси'],ro:['Pastă miso','Tofu','Wakame','Ceapă verde','Dashi'],en:['Miso paste','Tofu','Wakame','Green onion','Dashi']}, nutrition:{ru:'Калории: 45 | Белки: 3г | Жиры: 1г | Углеводы: 6г',ro:'Calorii: 45 | Proteine: 3g | Grăsimi: 1g | Carbohidrați: 6g',en:'Calories: 45 | Protein: 3g | Fat: 1g | Carbs: 6g'}, badge:null },
+            { id:'p2', name:{ru:'Рамен с Лососем',ro:'Ramen cu Somon',en:'Salmon Ramen'}, jp:'鮭ラーメン', priceMdl:145, priceEur:7.40, weight:'450мл', desc:{ru:'Насыщенный бульон тонкоцу с ломтиками лосося, яйцом и лапшой.',ro:'Bulion bogat tonkotsu cu felii de somon, ou și tăiței.',en:'Rich tonkotsu broth with salmon slices, egg, and noodles.'}, ingredients:{ru:['Лосось','Лапша рамен','Яйцо','Бульон тонкоцу','Нори','Кунжут'],ro:['Somon','Tăiței ramen','Ou','Bulion tonkotsu','Nori','Susan'],en:['Salmon','Ramen noodles','Egg','Tonkotsu broth','Nori','Sesame']}, nutrition:{ru:'Калории: 480 | Белки: 28г | Жиры: 22г | Углеводы: 42г',ro:'Calorii: 480 | Proteine: 28g | Grăsimi: 22g | Carbohidrați: 42g',en:'Calories: 480 | Protein: 28g | Fat: 22g | Carbs: 42g'}, badge:'popular' },
+            { id:'p3', name:{ru:'Том Ям',ro:'Tom Yum',en:'Tom Yum'}, jp:'トムヤム', priceMdl:135, priceEur:6.90, weight:'400мл', desc:{ru:'Острый тайский суп с креветками, грибами и лемонграссом.',ro:'Supă thailandeză picantă cu crevede, ciuperci și lemongrass.',en:'Spicy Thai soup with shrimp, mushrooms, and lemongrass.'}, ingredients:{ru:['Креветки','Грибы шиитаке','Лемонграсс','Лайм','Чили','Кокосовое молоко'],ro:['Crevede','Ciuperci shiitake','Lemongrass','Lime','Chili','Lapte de cocos'],en:['Shrimp','Shiitake mushrooms','Lemongrass','Lime','Chili','Coconut milk']}, nutrition:{ru:'Калории: 220 | Белки: 14г | Жиры: 12г | Углеводы: 14г',ro:'Calorii: 220 | Proteine: 14g | Grăsimi: 12g | Carbohidrați: 14g',en:'Calories: 220 | Protein: 14g | Fat: 12g | Carbs: 14g'}, badge:'spicy' },
+            { id:'p4', name:{ru:'Суимоно',ro:'Suimono',en:'Suimono'}, jp:'吸い物', priceMdl:75, priceEur:3.85, weight:'250мл', desc:{ru:'Прозрачный бульон даси с грибами эноки и ломтиками лосося.',ro:'Bulion clar dashi cu ciuperci enoki și felii de somon.',en:'Clear dashi broth with enoki mushrooms and salmon slices.'}, ingredients:{ru:['Лосось','Эноки','Даси','Лимон','Мицуба'],ro:['Somon','Enoki','Dashi','Lămâie','Mitsuba'],en:['Salmon','Enoki','Dashi','Lemon','Mitsuba']}, nutrition:{ru:'Калории: 80 | Белки: 10г | Жиры: 2г | Углеводы: 5г',ro:'Calorii: 80 | Proteine: 10g | Grăsimi: 2g | Carbohidrați: 5g',en:'Calories: 80 | Protein: 10g | Fat: 2g | Carbs: 5g'}, badge:null },
+        ],
+        hot: [
+            { id:'h1', name:{ru:'Терияки Лосось',ro:'Somon Teriyaki',en:'Salmon Teriyaki'}, jp:'照り焼き鮭', priceMdl:195, priceEur:9.95, weight:'320г', desc:{ru:'Филе лосося в глянцевом соусе терияки с овощами и рисом.',ro:'File de somon în sos strălucitor teriyaki cu legume și orez.',en:'Salmon fillet in glossy teriyaki sauce with vegetables and rice.'}, ingredients:{ru:['Лосось','Соус терияки','Брокколи','Перец','Рис','Кунжут'],ro:['Somon','Sos teriyaki','Broccoli','Ardei','Orez','Susan'],en:['Salmon','Teriyaki sauce','Broccoli','Pepper','Rice','Sesame']}, nutrition:{ru:'Калории: 520 | Белки: 32г | Жиры: 24г | Углеводы: 38г',ro:'Calorii: 520 | Proteine: 32g | Grăsimi: 24g | Carbohidrați: 38g',en:'Calories: 520 | Protein: 32g | Fat: 24g | Carbs: 38g'}, badge:'popular' },
+            { id:'h2', name:{ru:'Теппаньяки Говядина',ro:'Teppanyaki Vită',en:'Beef Teppanyaki'}, jp:'鉄板焼き牛肉', priceMdl:225, priceEur:11.50, weight:'350г', desc:{ru:'Мраморная говядина на раскалённой плите с чесноком и имбирём.',ro:'Vită marmorată pe plită încinsă cu usturoi și ghimbir.',en:'Marbled beef on a hot plate with garlic and ginger.'}, ingredients:{ru:['Говядина','Чеснок','Имбирь','Соевый соус','Масло','Овощи'],ro:['Vită','Usturoi','Ghimbir','Sos de soia','Ulei','Legume'],en:['Beef','Garlic','Ginger','Soy sauce','Oil','Vegetables']}, nutrition:{ru:'Калории: 580 | Белки: 38г | Жиры: 32г | Углеводы: 18г',ro:'Calorii: 580 | Proteine: 38g | Grăsimi: 32g | Carbohidrați: 18g',en:'Calories: 580 | Protein: 38g | Fat: 32g | Carbs: 18g'}, badge:'premium' },
+            { id:'h3', name:{ru:'Кацу Дон',ro:'Katsu Don',en:'Katsu Don'}, jp:'カツ丼', priceMdl:155, priceEur:7.90, weight:'400г', desc:{ru:'Хрустящая свинина в панировке с яйцом и луком на рисе.',ro:'Porc crocant pane cu ou și ceapă pe orez.',en:'Crispy breaded pork with egg and onion on rice.'}, ingredients:{ru:['Свинина','Яйцо','Лук','Рис','Панировка','Даси'],ro:['Porc','Ou','Ceapă','Orez','Pane','Dashi'],en:['Pork','Egg','Onion','Rice','Breadcrumbs','Dashi']}, nutrition:{ru:'Калории: 650 | Белки: 28г | Жиры: 30г | Углеводы: 62г',ro:'Calorii: 650 | Proteine: 28g | Grăsimi: 30g | Carbohidrați: 62g',en:'Calories: 650 | Protein: 28g | Fat: 30g | Carbs: 62g'}, badge:null },
+            { id:'h4', name:{ru:'Гёдза',ro:'Gyoza',en:'Gyoza'}, jp:'餃子', priceMdl:95, priceEur:4.85, weight:'200г (6 шт)', desc:{ru:'Жареные пельмени со свининой, капустой и имбирём.',ro:'Colțunași prăjiți cu porc, varză și ghimbir.',en:'Pan-fried dumplings with pork, cabbage, and ginger.'}, ingredients:{ru:['Свинина','Капуста','Имбирь','Чеснок','Соевый соус','Кунжут'],ro:['Porc','Varză','Ghimbir','Usturoi','Sos de soia','Susan'],en:['Pork','Cabbage','Ginger','Garlic','Soy sauce','Sesame']}, nutrition:{ru:'Калории: 340 | Белки: 16г | Жиры: 18г | Углеводы: 28г',ro:'Calorii: 340 | Proteine: 16g | Grăsimi: 18g | Carbohidrați: 28g',en:'Calories: 340 | Protein: 16g | Fat: 18g | Carbs: 28g'}, badge:null },
+        ],
+        desserts: [
+            { id:'d1', name:{ru:'Моти Ассорти',ro:'Mochi Asortat',en:'Mochi Assortment'}, jp:'餅', priceMdl:85, priceEur:4.35, weight:'120г', desc:{ru:'Рисовые пирожные с начинкой из зелёного чая, манго и клубники.',ro:'Prăjituri de orez cu umplutură de ceai verde, mango și căpșuni.',en:'Rice cakes with matcha, mango, and strawberry filling.'}, ingredients:{ru:['Рисовая мука','Паста из бобов','Манго','Клубника','Матча'],ro:['Făină de orez','Pastă de fasole','Mango','Căpșuni','Matcha'],en:['Rice flour','Bean paste','Mango','Strawberry','Matcha']}, nutrition:{ru:'Калории: 180 | Белки: 3г | Жиры: 2г | Углеводы: 38г',ro:'Calorii: 180 | Proteine: 3g | Grăsimi: 2g | Carbohidrați: 38g',en:'Calories: 180 | Protein: 3g | Fat: 2g | Carbs: 38g'}, badge:'popular' },
+            { id:'d2', name:{ru:'Дораяки',ro:'Dorayaki',en:'Dorayaki'}, jp:'どら焼き', priceMdl:65, priceEur:3.30, weight:'100г', desc:{ru:'Пышные блинчики с анко — сладкой пастой из красных бобов.',ro:'Clătite pufoase cu anko — pastă dulce de fasole roșie.',en:'Fluffy pancakes with anko — sweet red bean paste.'}, ingredients:{ru:['Мука','Яйцо','Мёд','Анко','Сахар'],ro:['Făină','Ou','Miere','Anko','Zahăr'],en:['Flour','Egg','Honey','Anko','Sugar']}, nutrition:{ru:'Калории: 240 | Белки: 6г | Жиры: 8г | Углеводы: 36г',ro:'Calorii: 240 | Proteine: 6g | Grăsimi: 8g | Carbohidrați: 36g',en:'Calories: 240 | Protein: 6g | Fat: 8g | Carbs: 36g'}, badge:null },
+            { id:'d3', name:{ru:'Матча Тирамису',ro:'Matcha Tiramisu',en:'Matcha Tiramisu'}, jp:'抹茶ティラミス', priceMdl:115, priceEur:5.85, weight:'180г', desc:{ru:'Итальянская классика с японским акцентом — зелёный чай матча.',ro:'Clasic italian cu acces japonez — ceai verde matcha.',en:'Italian classic with a Japanese twist — matcha green tea.'}, ingredients:{ru:['Маскарпоне','Матча','Печенье савоярди','Яйцо','Сахар'],ro:['Mascarpone','Matcha','Piscoturi savoiardi','Ou','Zahăr'],en:['Mascarpone','Matcha','Ladyfingers','Egg','Sugar']}, nutrition:{ru:'Калории: 380 | Белки: 8г | Жиры: 22г | Углеводы: 36г',ro:'Calorii: 380 | Proteine: 8g | Grăsimi: 22g | Carbohidrați: 36g',en:'Calories: 380 | Protein: 8g | Fat: 22g | Carbs: 36g'}, badge:'new' },
+        ],
+        drinks: [
+            { id:'b1', name:{ru:'Саке Тёко',ro:'Sake Tyoko',en:'Sake Tyoko'}, jp:'燗酒', priceMdl:120, priceEur:6.15, weight:'180мл', desc:{ru:'Тёко — подогретое саке с лёгким ароматом риса и фруктов.',ro:'Tyoko — sake încălzit cu aromă ușoară de orez și fructe.',en:'Tyoko — warmed sake with a light aroma of rice and fruits.'}, ingredients:{ru:['Рис','Вода','Кодзи','Дрожжи'],ro:['Orez','Apă','Koji','Drojdie'],en:['Rice','Water','Koji','Yeast']}, nutrition:{ru:'Калории: 120 | Алкоголь: 15%',ro:'Calorii: 120 | Alcool: 15%',en:'Calories: 120 | Alcohol: 15%'}, badge:'premium' },
+            { id:'b2', name:{ru:'Матча Латте',ro:'Matcha Latte',en:'Matcha Latte'}, jp:'抹茶ラテ', priceMdl:65, priceEur:3.30, weight:'300мл', desc:{ru:'Взбитый зелёный чай матча с молоком и лёгкой пенкой.',ro:'Ceai verde matcha bătut cu lapte și spumă ușoară.',en:'Whisked matcha green tea with milk and light foam.'}, ingredients:{ru:['Матча','Молоко','Вода','Мёд'],ro:['Matcha','Lapte','Apă','Miere'],en:['Matcha','Milk','Water','Honey']}, nutrition:{ru:'Калории: 140 | Белки: 6г | Жиры: 5г | Углеводы: 16г',ro:'Calorii: 140 | Proteine: 6g | Grăsimi: 5g | Carbohidrați: 16g',en:'Calories: 140 | Protein: 6g | Fat: 5g | Carbs: 16g'}, badge:null },
+            { id:'b3', name:{ru:'Генмайтя',ro:'Genmaicha',en:'Genmaicha'}, jp:'玄米茶', priceMdl:45, priceEur:2.30, weight:'300мл', desc:{ru:'Зелёный чай с обжаренным коричневым рисом — ореховый вкус.',ro:'Ceai verde cu orez brun prăjit — gust de nuci.',en:'Green tea with roasted brown rice — nutty flavor.'}, ingredients:{ru:['Зелёный чай сенча','Обжаренный рис'],ro:['Ceai verde sencha','Orez prăjit'],en:['Sencha green tea','Roasted rice']}, nutrition:{ru:'Калории: 5 | Белки: 0г | Жиры: 0г | Углеводы: 1г',ro:'Calorii: 5 | Proteine: 0g | Grăsimi: 0g | Carbohidrați: 1g',en:'Calories: 5 | Protein: 0g | Fat: 0g | Carbs: 1g'}, badge:null },
+            { id:'b4', name:{ru:'Рамунэ',ro:'Ramune',en:'Ramune'}, jp:'ラムネ', priceMdl:55, priceEur:2.80, weight:'200мл', desc:{ru:'Японская газировка с оригинальным шариком в горлышке — классика!',ro:'Băutură carbogazoasă japoneză cu bilă originală în gât — clasic!',en:'Japanese soda with the original marble in the neck — a classic!'}, ingredients:{ru:['Вода','Сахар','Лимонная кислота','Ароматизатор'],ro:['Apă','Zahăr','Acid citric','Aromă'],en:['Water','Sugar','Citric acid','Flavoring']}, nutrition:{ru:'Калории: 80 | Белки: 0г | Жиры: 0г | Углеводы: 20г',ro:'Calorii: 80 | Proteine: 0g | Grăsimi: 0g | Carbohidrați: 20g',en:'Calories: 80 | Protein: 0g | Fat: 0g | Carbs: 20g'}, badge:'new' },
+        ]
+    };
+
+    const categories = [{ key: 'sushi' }, { key: 'rolls' }, { key: 'soups' }, { key: 'hot' }, { key: 'desserts' }, { key: 'drinks' }];
+    let currentCategory = 'sushi';
+    let cart = [];
+    let currentDish = null;
+
+    document.addEventListener('DOMContentLoaded', () => {
+        initSakura();
+        initUkiyoCanvas();
+        renderCategories();
+        renderMenu();
+        initLangSwitcher();
+        initScroll();
+        initForms();
+        initScrollReveal();
+        initHeroFadeOut();
+    });
+
+    // === SAKURA ===
+    function initSakura() {
+        const container = document.getElementById('sakuraContainer');
+        for (let i = 0; i < 40; i++) {
+            const petal = document.createElement('div');
+            petal.className = 'sakura-petal';
+            petal.style.left = Math.random() * 100 + '%';
+            petal.style.animationDuration = (Math.random() * 8 + 6) + 's, ' + (Math.random() * 4 + 3) + 's';
+            petal.style.animationDelay = Math.random() * 10 + 's';
+            petal.style.width = (Math.random() * 8 + 8) + 'px';
+            petal.style.height = (Math.random() * 6 + 6) + 'px';
+            petal.style.opacity = Math.random() * 0.5 + 0.3;
+            container.appendChild(petal);
+        }
+    }
+
+    // === UKIYO CANVAS ===
+    function initUkiyoCanvas() {
+        const canvas = document.getElementById('ukiyoCanvas');
+        const ctx = canvas.getContext('2d');
+        let w, h;
+        function resize() { w = canvas.width = window.innerWidth; h = canvas.height = window.innerHeight; }
+        resize(); window.addEventListener('resize', resize);
+        let time = 0;
+        function draw() {
+            ctx.clearRect(0, 0, w, h); time += 0.003;
+            for (let i = 0; i < 5; i++) {
+                ctx.beginPath(); ctx.strokeStyle = `rgba(74,124,140,${0.08+i*0.02})`; ctx.lineWidth = 2+i;
+                for (let x = 0; x <= w; x += 5) {
+                    const y = h*0.6 + Math.sin(x*0.003+time*(i+1)+i)*(30+i*15)+i*40;
+                    if (x===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
+                } ctx.stroke();
+            }
+            ctx.beginPath(); ctx.fillStyle = 'rgba(74,55,40,0.06)'; ctx.moveTo(0,h);
+            for (let x = 0; x <= w; x += 10) { const m = Math.sin(x*0.002)*80+Math.sin(x*0.005)*40+50; ctx.lineTo(x,h*0.5-m); }
+            ctx.lineTo(w,h); ctx.closePath(); ctx.fill();
+            ctx.beginPath(); ctx.fillStyle = 'rgba(196,120,120,0.04)'; ctx.moveTo(0,h);
+            for (let x = 0; x <= w; x += 10) { const m = Math.sin(x*0.0015+1)*120+80; ctx.lineTo(x,h*0.45-m); }
+            ctx.lineTo(w,h); ctx.closePath(); ctx.fill();
+            ctx.beginPath(); ctx.fillStyle = 'rgba(201,168,76,0.08)'; ctx.arc(w*0.75,h*0.2,60,0,Math.PI*2); ctx.fill();
+            ctx.strokeStyle = 'rgba(196,120,120,0.1)'; ctx.lineWidth = 2;
+            for (let i = 0; i < 8; i++) { ctx.beginPath(); const sx=Math.random()*w, sy=-20; ctx.moveTo(sx,sy); ctx.bezierCurveTo(sx+50,sy+100,sx-30,sy+200,sx+20,sy+300); ctx.stroke(); }
+            requestAnimationFrame(draw);
+        } draw();
+    }
+
+    // === SCROLL REVEAL ===
+    function initScrollReveal() {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+        document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale').forEach(el => observer.observe(el));
+    }
+
+    // === HERO FADE-OUT ON SCROLL ===
+    function initHeroFadeOut() {
+        const hero = document.querySelector('.hero-wrapper');
+        const heroContent = document.querySelector('.hero-content');
+        window.addEventListener('scroll', () => {
+            const scrollY = window.scrollY;
+            const vh = window.innerHeight;
+            const progress = Math.min(scrollY / vh, 1);
+            if (heroContent) {
+                heroContent.style.opacity = 1 - progress;
+                heroContent.style.transform = `translateY(${progress * 60}px) scale(${1 - progress * 0.05})`;
+            }
+            if (hero) {
+                hero.style.filter = `brightness(${1 - progress * 0.3})`;
+            }
+        });
+    }
+
+    // === LANGUAGE ===
+    function initLangSwitcher() {
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentLang = btn.dataset.lang;
+                updateLanguage();
+                renderCategories();
+                renderMenu();
+                renderCart();
+            });
+        });
+    }
+    function updateLanguage() {
+        document.querySelectorAll('[data-key]').forEach(el => {
+            const key = el.dataset.key;
+            if (translations[currentLang][key]) el.textContent = translations[currentLang][key];
+        });
+    }
+
+    // === MENU ===
+    function renderCategories() {
+        const container = document.getElementById('menuCategories');
+        container.innerHTML = categories.map(cat => `
+            <button class="category-btn ${cat.key === currentCategory ? 'active' : ''}" onclick="setCategory('${cat.key}')">
+                ${translations[currentLang]['cat_' + cat.key] || cat.key}
+            </button>
+        `).join('');
+    }
+    function setCategory(cat) {
+        currentCategory = cat;
+        renderCategories();
+        renderMenu();
+    }
+    function renderMenu() {
+        const grid = document.getElementById('menuGrid');
+        const items = menuData[currentCategory] || [];
+        grid.innerHTML = items.map((item, idx) => {
+            const badgeText = item.badge ? (translations[currentLang]['badge_' + item.badge] || item.badge) : '';
+            const imgUrl = dishImages[item.id] || '';
+            const animClass = idx % 2 === 0 ? 'reveal-left' : 'reveal-right';
+            const delay = (idx % 3) + 1;
+            return `
+                <div class="menu-item ${animClass} stagger-${delay}" onclick="openDishModal('${item.id}')">
+                    <div class="menu-item-image">
+                        <img src="${imgUrl}" alt="${item.name[currentLang]}" loading="lazy">
+                        ${item.badge ? `<span class="menu-item-badge">${badgeText}</span>` : ''}
+                    </div>
+                    <div class="menu-item-content">
+                        <div class="menu-item-header">
+                            <div class="menu-item-title">${item.name[currentLang]}<br><small style="color:#c47878;font-size:0.75rem;font-family:'Noto Serif JP',serif;">${item.jp}</small></div>
+                            <div class="menu-item-price">
+                                <div class="price-mdl">${item.priceMdl} MDL</div>
+                                <div class="price-eur">≈ ${item.priceEur.toFixed(2)} EUR</div>
+                            </div>
+                        </div>
+                        <p class="menu-item-desc">${item.desc[currentLang]}</p>
+                        <div class="menu-item-footer">
+                            <span class="menu-item-weight">${item.weight}</span>
+                            <button class="add-to-cart-btn" onclick="event.stopPropagation(); addToCart('${item.id}')">+</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }).join('');
+        // Re-observe new menu items
+        setTimeout(() => {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('active'); });
+            }, { threshold: 0.1 });
+            document.querySelectorAll('.menu-item.reveal-left, .menu-item.reveal-right').forEach(el => observer.observe(el));
+        }, 50);
+    }
+
+    // === MODAL ===
+    function openDishModal(id) {
+        let item = null;
+        for (const cat in menuData) { item = menuData[cat].find(i => i.id === id); if (item) break; }
+        if (!item) return;
+        currentDish = item;
+        const imgUrl = dishImages[item.id] || '';
+        document.getElementById('modalImage').innerHTML = `<img src="${imgUrl}" alt="${item.name[currentLang]}">`;
+        document.getElementById('modalTitle').textContent = item.name[currentLang];
+        document.getElementById('modalJpName').textContent = item.jp;
+        document.getElementById('modalPriceMdl').textContent = item.priceMdl + ' MDL';
+        document.getElementById('modalPriceEur').textContent = '≈ ' + item.priceEur.toFixed(2) + ' EUR';
+        document.getElementById('modalDesc').textContent = item.desc[currentLang];
+        document.getElementById('modalIngredients').innerHTML = item.ingredients[currentLang].map(ing => `<li>${ing}</li>`).join('');
+        document.getElementById('modalNutrition').textContent = item.nutrition[currentLang];
+        document.getElementById('modalAddCart').onclick = () => { addToCart(item.id); closeModal(); };
+        document.getElementById('dishModal').classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+    function closeModal() {
+        document.getElementById('dishModal').classList.remove('active');
+        document.body.style.overflow = '';
+    }
+
+    // === CART ===
+    function addToCart(id) {
+        let item = null;
+        for (const cat in menuData) { item = menuData[cat].find(i => i.id === id); if (item) break; }
+        if (!item) return;
+        const existing = cart.find(c => c.id === id);
+        if (existing) existing.qty++;
+        else cart.push({ ...item, qty: 1 });
+        updateCart();
+        showNotification(translations[currentLang].notif_added);
+    }
+    function removeFromCart(id) { cart = cart.filter(c => c.id !== id); updateCart(); }
+    function changeQty(id, delta) {
+        const item = cart.find(c => c.id === id);
+        if (!item) return;
+        item.qty += delta;
+        if (item.qty <= 0) removeFromCart(id);
+        else updateCart();
+    }
+    function updateCart() {
+        const count = cart.reduce((sum, c) => sum + c.qty, 0);
+        document.getElementById('cartCount').textContent = count;
+        renderCart();
+    }
+    function renderCart() {
+        const container = document.getElementById('cartItems');
+        const footer = document.getElementById('cartFooter');
+        if (cart.length === 0) {
+            container.innerHTML = `<div class="cart-empty"><svg viewBox="0 0 80 80" fill="none"><circle cx="40" cy="40" r="35" stroke="#c47878" stroke-width="1" fill="none"/><path d="M25 30 L35 55 L55 55 L65 30" stroke="#c47878" stroke-width="2" fill="none"/><circle cx="35" cy="65" r="3" stroke="#c47878" stroke-width="1" fill="none"/><circle cx="55" cy="65" r="3" stroke="#c47878" stroke-width="1" fill="none"/></svg><p>${translations[currentLang].cart_empty}</p></div>`;
+            footer.style.display = 'none'; return;
+        }
+        footer.style.display = 'block';
+        const subtotalMdl = cart.reduce((sum, c) => sum + c.priceMdl * c.qty, 0);
+        const subtotalEur = cart.reduce((sum, c) => sum + c.priceEur * c.qty, 0);
+        const delivery = 50;
+        const totalMdl = subtotalMdl + delivery;
+        const totalEur = subtotalEur + (delivery / 19.5);
+        container.innerHTML = cart.map(item => {
+            const imgUrl = dishImages[item.id] || '';
+            return `<div class="cart-item"><div class="cart-item-image"><img src="${imgUrl}" alt="${item.name[currentLang]}"></div><div class="cart-item-info"><div class="cart-item-name">${item.name[currentLang]}</div><div class="cart-item-price">${item.priceMdl} MDL</div><div class="cart-item-controls"><button class="qty-btn" onclick="changeQty('${item.id}',-1)">−</button><span class="cart-item-qty">${item.qty}</span><button class="qty-btn" onclick="changeQty('${item.id}',1)">+</button><button class="cart-item-remove" onclick="removeFromCart('${item.id}')">🗑</button></div></div></div>`;
+        }).join('');
+        document.getElementById('cartSubtotalMdl').textContent = subtotalMdl + ' MDL';
+        document.getElementById('cartTotalMdl').textContent = totalMdl + ' MDL';
+        document.getElementById('cartTotalEur').textContent = '≈ ' + totalEur.toFixed(2) + ' EUR';
+    }
+    function toggleCart() { document.getElementById('cartSidebar').classList.toggle('active'); }
+
+    // === CHECKOUT ===
+    function openCheckout() { if (cart.length === 0) return; document.getElementById('checkoutModal').classList.add('active'); }
+    function closeCheckout() { document.getElementById('checkoutModal').classList.remove('active'); }
+
+    // === NOTIFICATION ===
+    function showNotification(text) {
+        const notif = document.getElementById('notification');
+        notif.textContent = text;
+        notif.classList.add('show');
+        setTimeout(() => notif.classList.remove('show'), 3000);
+    }
+
+    // === SCROLL ===
+    function initScroll() {
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) target.scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+        window.addEventListener('scroll', () => {
+            const header = document.getElementById('header');
+            if (window.scrollY > 50) header.style.boxShadow = '0 4px 30px rgba(196,120,120,0.2)';
+            else header.style.boxShadow = '0 2px 20px rgba(196,120,120,0.15)';
+        });
+    }
+    function scrollToReserve() { document.getElementById('reservation').scrollIntoView({ behavior: 'smooth' }); }
+
+    // === FORMS ===
+    function initForms() {
+        document.getElementById('reservationForm').addEventListener('submit', e => {
+            e.preventDefault();
+            showNotification(translations[currentLang].notif_reserve);
+            e.target.reset();
+        });
+        document.getElementById('checkoutForm').addEventListener('submit', e => {
+            e.preventDefault();
+            showNotification(translations[currentLang].notif_order);
+            cart = []; updateCart(); closeCheckout(); toggleCart(); e.target.reset();
+        });
+    }
+
+    // Close modals on overlay click
+    document.getElementById('dishModal').addEventListener('click', e => { if (e.target === document.getElementById('dishModal')) closeModal(); });
+    document.getElementById('checkoutModal').addEventListener('click', e => { if (e.target === document.getElementById('checkoutModal')) closeCheckout(); });
+    </script>
+</body>
+</html>

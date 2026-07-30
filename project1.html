@@ -1,0 +1,1079 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>AmericanDrive — Auto din SUA</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+:root {
+  --navy: #0a1628;
+  --navy-light: #14254a;
+  --blue: #1e3a8a;
+  --blue-bright: #2563eb;
+  --red: #dc2626;
+  --red-glow: #ef4444;
+  --white: #f8fafc;
+  --gray: #94a3b8;
+  --gold: #fbbf24;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--navy);
+  color: var(--white);
+  line-height: 1.5;
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(0deg, transparent 0px, transparent 28px, rgba(178,34,52,0.07) 28px, rgba(178,34,52,0.07) 56px);
+  z-index: 0;
+  pointer-events: none;
+}
+body::after {
+  content: '';
+  position: fixed;
+  top: 0; left: 0;
+  width: 38%; height: 260px;
+  background: radial-gradient(circle, rgba(255,255,255,0.18) 1.2px, transparent 1.2px);
+  background-size: 16px 16px;
+  background-color: rgba(15,30,70,0.55);
+  z-index: 0;
+  pointer-events: none;
+  border-bottom-right-radius: 40px;
+  box-shadow: 0 0 60px rgba(30,58,138,0.3);
+}
+button, input, select, textarea { font: inherit; color: inherit; }
+
+/* ===== HEADER ===== */
+.header {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(10,22,40,0.9);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+.header-inner {
+  max-width: 1440px; margin: 0 auto; padding: 0 20px;
+  height: 68px; display: flex; align-items: center; justify-content: space-between;
+}
+.logo {
+  display: flex; align-items: center; gap: 10px;
+  font-size: 22px; font-weight: 900;
+  background: linear-gradient(135deg, #fff 0%, #93c5fd 50%, #fff 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+  white-space: nowrap;
+}
+.logo-badge {
+  width: 38px; height: 38px; border-radius: 10px;
+  background: linear-gradient(135deg, var(--red) 0%, var(--blue-bright) 100%);
+  display: flex; align-items: center; justify-content: center;
+  color: white; font-weight: 900; font-size: 14px;
+  box-shadow: 0 4px 20px rgba(220,38,38,0.4);
+  border: 2px solid rgba(255,255,255,0.2);
+  flex-shrink: 0;
+}
+.desktop-nav { display: flex; align-items: center; gap: 6px; }
+.nav-btn {
+  padding: 9px 16px; border-radius: 10px; border: none;
+  background: transparent; color: var(--gray); font-size: 14px; font-weight: 600;
+  cursor: pointer; transition: all 0.25s; white-space: nowrap;
+}
+.nav-btn:hover { color: white; background: rgba(255,255,255,0.06); }
+.nav-btn.active {
+  background: linear-gradient(135deg, var(--red) 0%, #b91c1c 100%);
+  color: white; box-shadow: 0 4px 20px rgba(220,38,38,0.35);
+}
+.fav-btn { position: relative; padding: 9px 14px; }
+.fav-count {
+  position: absolute; top: 2px; right: 2px;
+  background: var(--gold); color: var(--navy);
+  font-size: 10px; font-weight: 800; min-width: 18px; height: 18px;
+  border-radius: 9px; display: flex; align-items: center; justify-content: center;
+  padding: 0 5px;
+}
+.lang-switch {
+  display: flex; gap: 3px; margin-left: 12px;
+  background: rgba(255,255,255,0.06); padding: 3px; border-radius: 8px;
+}
+.lang-btn {
+  padding: 6px 9px; border-radius: 6px; border: none; background: transparent;
+  color: var(--gray); font-size: 11px; font-weight: 700; cursor: pointer;
+  text-transform: uppercase; transition: all 0.2s;
+}
+.lang-btn:hover { color: white; }
+.lang-btn.active { background: var(--blue-bright); color: white; }
+.burger {
+  display: none; flex-direction: column; gap: 5px;
+  background: none; border: none; cursor: pointer; padding: 8px;
+}
+.burger span {
+  display: block; width: 24px; height: 2.5px;
+  background: white; border-radius: 2px; transition: all 0.3s;
+}
+.burger.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+.burger.active span:nth-child(2) { opacity: 0; }
+.burger.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+.mobile-nav {
+  display: none; position: absolute; top: 68px; left: 0; right: 0;
+  background: rgba(10,22,40,0.97); backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  padding: 16px 20px; flex-direction: column; gap: 8px;
+}
+.mobile-nav.active { display: flex; }
+.mobile-nav .nav-btn { width: 100%; text-align: left; padding: 14px 16px; font-size: 16px; }
+.mobile-nav .lang-switch { margin-left: 0; margin-top: 8px; align-self: flex-start; }
+
+/* ===== HERO ===== */
+.hero {
+  position: relative; z-index: 1;
+  padding: 60px 20px 48px; text-align: center;
+  overflow: hidden;
+}
+.hero::before {
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(ellipse at 50% 0%, rgba(37,99,235,0.22) 0%, transparent 60%);
+  z-index: -1;
+}
+.hero h1 {
+  font-size: 44px; font-weight: 900; margin-bottom: 14px;
+  background: linear-gradient(135deg, #fff 0%, #bfdbfe 40%, #fff 70%, #fca5a5 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text; letter-spacing: -1px; line-height: 1.1;
+}
+.hero p {
+  font-size: 17px; color: var(--gray); max-width: 600px; margin: 0 auto 28px;
+  line-height: 1.6;
+}
+.hero-stats {
+  display: flex; justify-content: center; gap: 40px; margin-top: 28px;
+  flex-wrap: wrap;
+}
+.stat { text-align: center; min-width: 100px; }
+.stat-num {
+  font-size: 32px; font-weight: 900;
+  background: linear-gradient(135deg, var(--red-glow), var(--gold));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.stat-label { font-size: 12px; color: var(--gray); text-transform: uppercase; letter-spacing: 1px; margin-top: 4px; }
+
+/* ===== SEARCH BAR ===== */
+.search-bar-wrap {
+  max-width: 1440px; margin: 0 auto; padding: 0 24px 20px;
+  position: relative; z-index: 1;
+}
+.search-bar {
+  display: flex; align-items: center; gap: 12px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 14px; padding: 4px 4px 4px 16px;
+  max-width: 600px;
+}
+.search-bar input {
+  flex: 1; background: transparent; border: none; outline: none;
+  color: white; font-size: 15px; padding: 10px 0;
+}
+.search-bar input::placeholder { color: rgba(148,163,184,0.5); }
+.search-btn {
+  padding: 10px 20px; background: linear-gradient(135deg, var(--blue-bright), var(--blue));
+  border: none; border-radius: 10px; color: white; font-weight: 700; font-size: 14px;
+  cursor: pointer; white-space: nowrap;
+}
+
+/* ===== FLOATING SEARCH ===== */
+.floating-search {
+  position: fixed; bottom: 0; left: 0; right: 0; z-index: 95;
+  background: rgba(10,22,40,0.95); backdrop-filter: blur(20px);
+  border-top: 1px solid rgba(255,255,255,0.1);
+  padding: 12px 20px;
+  transform: translateY(100%);
+  transition: transform 0.35s cubic-bezier(0.4,0,0.2,1);
+}
+.floating-search.visible { transform: translateY(0); }
+.floating-search-inner {
+  max-width: 600px; margin: 0 auto;
+  display: flex; gap: 10px; align-items: center;
+}
+.floating-search input {
+  flex: 1; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 12px; padding: 12px 16px; color: white; font-size: 15px; outline: none;
+  transition: all 0.2s;
+}
+.floating-search input:focus {
+  border-color: var(--blue-bright);
+  box-shadow: 0 0 0 3px rgba(37,99,235,0.15);
+}
+.floating-search input::placeholder { color: rgba(148,163,184,0.5); }
+.floating-search .search-btn {
+  padding: 12px 20px; font-size: 14px;
+}
+
+/* ===== LAYOUT ===== */
+.container {
+  max-width: 1440px; margin: 0 auto; padding: 0 24px 100px;
+  display: flex; gap: 24px; position: relative; z-index: 1;
+  align-items: flex-start;
+}
+
+/* ===== SIDEBAR (sticky + independent scroll) ===== */
+.sidebar {
+  width: 260px; flex-shrink: 0;
+  position: sticky;
+  top: 84px;
+  align-self: flex-start;
+  max-height: calc(100vh - 100px);
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-right: 6px;
+}
+/* Custom scrollbar for sidebar */
+.sidebar::-webkit-scrollbar { width: 5px; }
+.sidebar::-webkit-scrollbar-track { background: transparent; }
+.sidebar::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.12); border-radius: 10px; }
+.sidebar::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.25); }
+
+.sidebar-toggle {
+  display: none; width: 100%; padding: 14px;
+  background: linear-gradient(135deg, rgba(37,99,235,0.2), rgba(30,58,138,0.3));
+  border: 1px solid rgba(37,99,235,0.3); border-radius: 12px;
+  color: white; font-size: 15px; font-weight: 700; cursor: pointer;
+  margin-bottom: 12px; align-items: center; justify-content: space-between;
+}
+.sidebar-toggle::after {
+  content: '▼'; font-size: 12px; transition: transform 0.3s;
+}
+.sidebar-toggle.active::after { transform: rotate(180deg); }
+.sidebar-inner { display: block; }
+.filter-block {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 16px; padding: 18px; margin-bottom: 14px;
+  backdrop-filter: blur(10px);
+}
+.filter-title {
+  font-size: 13px; font-weight: 700; margin-bottom: 12px;
+  color: var(--gold); text-transform: uppercase; letter-spacing: 1px;
+}
+.filter-group { margin-bottom: 12px; }
+.filter-label { font-size: 12px; color: var(--gray); margin-bottom: 5px; display: block; }
+.filter-input, .filter-select {
+  width: 100%; padding: 10px 12px;
+  background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 10px; font-size: 14px; outline: none; color: white;
+  transition: all 0.2s; min-height: 44px;
+}
+.filter-input:focus, .filter-select:focus {
+  border-color: var(--blue-bright);
+  box-shadow: 0 0 0 3px rgba(37,99,235,0.15);
+}
+.filter-input::placeholder { color: rgba(148,163,184,0.5); }
+.price-row { display: flex; gap: 8px; }
+.price-row input { width: 50%; }
+.checkbox-list { display: flex; flex-direction: column; gap: 6px; }
+.checkbox-item {
+  display: flex; align-items: center; gap: 10px; font-size: 14px;
+  cursor: pointer; padding: 6px 8px; border-radius: 8px;
+  color: var(--gray); transition: all 0.2s; min-height: 40px;
+}
+.checkbox-item:hover { background: rgba(255,255,255,0.04); color: white; }
+.checkbox-item input {
+  width: 20px; height: 20px; accent-color: var(--red); cursor: pointer; flex-shrink: 0;
+}
+.reset-btn {
+  width: 100%; padding: 12px;
+  background: linear-gradient(135deg, rgba(220,38,38,0.15), rgba(37,99,235,0.15));
+  border: 1px solid rgba(220,38,38,0.3); border-radius: 10px;
+  font-size: 14px; font-weight: 600; cursor: pointer; color: var(--red-glow);
+  transition: all 0.2s; min-height: 48px;
+}
+.reset-btn:hover {
+  background: linear-gradient(135deg, rgba(220,38,38,0.3), rgba(37,99,235,0.3));
+  border-color: var(--red); color: white;
+}
+
+/* ===== CONTENT ===== */
+.content { flex: 1; min-width: 0; }
+.grid-header {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 20px; padding: 0 4px; flex-wrap: wrap; gap: 12px;
+}
+.grid-count { font-size: 15px; color: var(--gray); }
+.grid-count span { color: var(--gold); font-weight: 700; }
+.sort-select {
+  padding: 10px 14px; border-radius: 10px;
+  background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
+  font-size: 14px; color: white; cursor: pointer; outline: none; min-height: 44px;
+}
+.sort-select:focus { border-color: var(--blue-bright); }
+
+/* ===== CARDS GRID ===== */
+.cars-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+.car-card {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 18px; overflow: hidden; cursor: pointer;
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+}
+.car-card::before {
+  content: ''; position: absolute; inset: 0; border-radius: 18px;
+  padding: 1.5px;
+  background: linear-gradient(135deg, rgba(220,38,38,0.4), rgba(37,99,235,0.4), rgba(255,255,255,0.1));
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor; mask-composite: exclude;
+  opacity: 0; transition: opacity 0.35s; pointer-events: none;
+}
+.car-card:hover::before { opacity: 1; }
+.car-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 50px rgba(0,0,0,0.4), 0 0 30px rgba(37,99,235,0.08);
+  border-color: rgba(255,255,255,0.15);
+}
+.car-image-wrap {
+  height: 200px; background: linear-gradient(135deg, #0f172a, #1e293b);
+  overflow: hidden; position: relative;
+}
+.car-image {
+  width: 100%; height: 100%; object-fit: cover;
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.car-card:hover .car-image { transform: scale(1.06); }
+.car-badge-year {
+  position: absolute; top: 12px; left: 12px;
+  background: linear-gradient(135deg, var(--red), #b91c1c);
+  color: white; font-size: 11px; font-weight: 800;
+  padding: 5px 12px; border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(220,38,38,0.4);
+  text-transform: uppercase; letter-spacing: 0.5px;
+}
+.car-badge-body {
+  position: absolute; top: 12px; right: 44px;
+  background: rgba(10,22,40,0.8); backdrop-filter: blur(8px);
+  color: var(--gold); font-size: 10px; font-weight: 700;
+  padding: 5px 10px; border-radius: 20px;
+  border: 1px solid rgba(251,191,36,0.3);
+  text-transform: uppercase; letter-spacing: 0.5px;
+}
+.fav-heart {
+  position: absolute; top: 10px; right: 10px; z-index: 5;
+  width: 36px; height: 36px; border-radius: 50%;
+  background: rgba(10,22,40,0.7); backdrop-filter: blur(4px);
+  border: 1px solid rgba(255,255,255,0.15);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; transition: all 0.2s; font-size: 18px;
+  color: rgba(255,255,255,0.5); user-select: none;
+}
+.fav-heart:hover { background: rgba(220,38,38,0.3); transform: scale(1.1); }
+.fav-heart.active { color: var(--red); background: rgba(220,38,38,0.25); border-color: rgba(220,38,38,0.5); }
+.fav-heart:active { transform: scale(0.9); }
+.car-info { padding: 18px; }
+.car-name { font-size: 17px; font-weight: 700; margin-bottom: 6px; color: white; line-height: 1.3; }
+.car-meta { font-size: 12px; color: var(--gray); margin-bottom: 14px; display: flex; gap: 10px; flex-wrap: wrap; }
+.car-meta span { display: flex; align-items: center; gap: 4px; }
+.car-price-row { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+.car-price {
+  font-size: 22px; font-weight: 900;
+  background: linear-gradient(135deg, var(--red-glow), var(--gold));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text; white-space: nowrap;
+}
+.car-btn {
+  padding: 8px 16px;
+  background: linear-gradient(135deg, var(--blue-bright), var(--blue));
+  color: white; border: none; border-radius: 10px;
+  font-size: 13px; font-weight: 700; cursor: pointer;
+  box-shadow: 0 4px 15px rgba(37,99,235,0.3);
+  transition: all 0.2s; white-space: nowrap; min-height: 40px;
+}
+.car-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(37,99,235,0.5); }
+
+/* ===== DETAIL VIEW ===== */
+.detail-back {
+  display: inline-flex; align-items: center; gap: 8px; margin-bottom: 20px;
+  color: var(--gray); font-size: 14px; cursor: pointer; border: none;
+  background: rgba(255,255,255,0.04); padding: 10px 18px; border-radius: 10px;
+  transition: all 0.2s; min-height: 44px;
+}
+.detail-back:hover { color: white; background: rgba(255,255,255,0.08); }
+.detail-layout { display: flex; gap: 28px; }
+.detail-gallery { flex: 1; min-width: 0; }
+.detail-main-img {
+  width: 100%; height: 450px; object-fit: cover; border-radius: 18px;
+  background: linear-gradient(135deg, #0f172a, #1e293b);
+  margin-bottom: 14px; border: 1px solid rgba(255,255,255,0.1);
+}
+.detail-thumbs { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 4px; }
+.detail-thumb {
+  width: 100px; height: 70px; object-fit: cover; border-radius: 10px;
+  border: 2px solid transparent; cursor: pointer; opacity: 0.6;
+  transition: all 0.2s; background: #1e293b; flex-shrink: 0;
+}
+.detail-thumb:hover, .detail-thumb.active { opacity: 1; border-color: var(--blue-bright); }
+.detail-info { width: 400px; flex-shrink: 0; }
+.detail-title { font-size: 28px; font-weight: 900; margin-bottom: 8px;
+  background: linear-gradient(135deg, #fff, #bfdbfe);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text; line-height: 1.2;
+}
+.detail-sub { font-size: 15px; color: var(--gray); margin-bottom: 24px; }
+.detail-price-big {
+  font-size: 38px; font-weight: 900; margin-bottom: 24px;
+  background: linear-gradient(135deg, var(--red-glow), var(--gold));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.detail-params {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 24px;
+}
+.param-item {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  padding: 14px; border-radius: 12px;
+  transition: all 0.2s;
+}
+.param-item:hover {
+  background: rgba(255,255,255,0.07);
+  border-color: rgba(37,99,235,0.3);
+}
+.param-label { font-size: 10px; color: var(--gray); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 3px; }
+.param-value { font-size: 15px; font-weight: 700; color: white; }
+.detail-desc { font-size: 14px; line-height: 1.7; color: var(--gray); margin-bottom: 20px; }
+.detail-features-title { font-size: 13px; font-weight: 700; color: var(--gold); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; }
+.detail-features { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 24px; }
+.feature-tag {
+  background: rgba(37,99,235,0.12); border: 1px solid rgba(37,99,235,0.25);
+  color: #93c5fd; padding: 5px 12px; border-radius: 20px;
+  font-size: 12px; font-weight: 600;
+}
+.detail-actions { display: flex; flex-direction: column; gap: 10px; }
+.btn-glow {
+  width: 100%; padding: 14px; border: none; border-radius: 14px;
+  font-size: 15px; font-weight: 700; cursor: pointer; transition: all 0.25s;
+  position: relative; overflow: hidden; min-height: 52px;
+}
+.btn-glow::before {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.2), transparent);
+  opacity: 0; transition: opacity 0.25s;
+}
+.btn-glow:hover::before { opacity: 1; }
+.btn-glow:hover { transform: translateY(-2px); }
+.btn-red {
+  background: linear-gradient(135deg, var(--red), #b91c1c);
+  color: white; box-shadow: 0 8px 30px rgba(220,38,38,0.35);
+}
+.btn-red:hover { box-shadow: 0 12px 40px rgba(220,38,38,0.5); }
+.btn-blue {
+  background: linear-gradient(135deg, var(--blue-bright), var(--blue));
+  color: white; box-shadow: 0 8px 30px rgba(37,99,235,0.3);
+}
+.btn-blue:hover { box-shadow: 0 12px 40px rgba(37,99,235,0.45); }
+
+/* ===== MODAL ===== */
+.modal-overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.75);
+  display: none; align-items: center; justify-content: center; z-index: 200;
+  padding: 20px; backdrop-filter: blur(8px);
+}
+.modal-overlay.active { display: flex; }
+.modal {
+  background: linear-gradient(180deg, #0f1f3a, #0a1628);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 22px; width: 100%; max-width: 520px;
+  max-height: 90vh; overflow-y: auto; padding: 32px;
+  position: relative; box-shadow: 0 40px 80px rgba(0,0,0,0.6);
+}
+.modal-close {
+  position: absolute; top: 16px; right: 16px; width: 36px; height: 36px;
+  border: none; background: rgba(255,255,255,0.08); border-radius: 10px;
+  cursor: pointer; font-size: 20px; color: var(--gray);
+  transition: all 0.2s; display: flex; align-items: center; justify-content: center;
+}
+.modal-close:hover { background: rgba(220,38,38,0.2); color: var(--red-glow); }
+.modal-title { font-size: 22px; font-weight: 800; margin-bottom: 8px;
+  background: linear-gradient(135deg, #fff, #bfdbfe);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.modal-sub { font-size: 14px; color: var(--gray); margin-bottom: 24px; }
+.form-group { margin-bottom: 16px; }
+.form-label { display: block; font-size: 12px; font-weight: 600; color: var(--gray); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
+.form-input, .form-textarea {
+  width: 100%; padding: 12px;
+  background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 12px; font-size: 15px; outline: none; color: white;
+  transition: all 0.2s; min-height: 48px;
+}
+.form-input:focus, .form-textarea:focus {
+  border-color: var(--blue-bright);
+  box-shadow: 0 0 0 4px rgba(37,99,235,0.1);
+}
+.form-input::placeholder { color: rgba(148,163,184,0.4); }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.contacts-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 24px; }
+.contact-card {
+  background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
+  padding: 20px 12px; border-radius: 14px; text-align: center;
+  transition: all 0.2s;
+}
+.contact-card:hover { border-color: rgba(37,99,235,0.3); background: rgba(255,255,255,0.06); }
+.contact-icon { font-size: 26px; margin-bottom: 8px; }
+.contact-label { font-size: 10px; color: var(--gray); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+.contact-value { font-size: 14px; font-weight: 700; color: white; word-break: break-word; }
+
+/* ===== ANIMATIONS ===== */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.fade-in { animation: fadeInUp 0.5s ease-out forwards; }
+
+.hidden { display: none !important; }
+
+/* ===== MOBILE RESPONSIVE ===== */
+@media (max-width: 960px) {
+  .desktop-nav { display: none; }
+  .burger { display: flex; }
+  .hero { padding: 40px 16px 32px; }
+  .hero h1 { font-size: 28px; }
+  .hero p { font-size: 15px; }
+  .hero-stats { gap: 20px; }
+  .stat-num { font-size: 26px; }
+  .search-bar-wrap { padding: 0 16px 16px; }
+  .container { flex-direction: column; padding: 0 16px 100px; gap: 16px; }
+  .sidebar {
+    width: 100%; position: relative; top: auto;
+    max-height: none; overflow-y: visible; padding-right: 0;
+  }
+  .sidebar-toggle { display: flex; }
+  .sidebar-inner { display: none; }
+  .sidebar-inner.active { display: block; }
+  .detail-layout { flex-direction: column; }
+  .detail-info { width: 100%; }
+  .detail-main-img { height: 280px; }
+  .detail-title { font-size: 22px; }
+  .detail-price-big { font-size: 30px; }
+  .cars-grid { grid-template-columns: 1fr; gap: 16px; }
+  .contacts-grid { grid-template-columns: 1fr; }
+  .modal { padding: 24px; border-radius: 18px; }
+  .form-row { grid-template-columns: 1fr; }
+  .grid-header { flex-direction: column; align-items: flex-start; }
+  .car-image-wrap { height: 220px; }
+  .floating-search { padding: 10px 16px; }
+}
+
+@media (min-width: 961px) {
+  .sidebar-inner { display: block !important; }
+}
+
+@media (max-width: 480px) {
+  .header-inner { padding: 0 14px; height: 60px; }
+  .logo { font-size: 18px; }
+  .logo-badge { width: 32px; height: 32px; font-size: 12px; }
+  .hero h1 { font-size: 24px; }
+  .car-name { font-size: 16px; }
+  .car-price { font-size: 20px; }
+  .detail-main-img { height: 220px; }
+  .detail-thumbs { gap: 8px; }
+  .detail-thumb { width: 72px; height: 52px; }
+  .floating-search input { font-size: 14px; padding: 10px 12px; }
+  .floating-search .search-btn { padding: 10px 14px; }
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-inner">
+    <div class="logo"><div class="logo-badge">AD</div>AmericanDrive</div>
+    <nav class="desktop-nav">
+      <button class="nav-btn active" data-key="catalog" onclick="showView('catalog')">Каталог</button>
+      <button class="nav-btn" data-key="credit" onclick="openModal('credit')">Кредит</button>
+      <button class="nav-btn" data-key="tradein" onclick="openModal('tradein')">Трейд-ин</button>
+      <button class="nav-btn" data-key="contacts" onclick="openModal('contacts')">Контакты</button>
+      <button class="nav-btn fav-btn" data-key="favorites" onclick="toggleFavFilter()">
+        <span>❤️</span>
+        <span class="fav-count" id="favCount" style="display:none">0</span>
+      </button>
+      <div class="lang-switch">
+        <button class="lang-btn active" onclick="setLang('ru')">RU</button>
+        <button class="lang-btn" onclick="setLang('ro')">RO</button>
+        <button class="lang-btn" onclick="setLang('en')">EN</button>
+      </div>
+    </nav>
+    <button class="burger" id="burger" onclick="toggleMobileMenu()">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <div class="mobile-nav" id="mobileNav">
+    <button class="nav-btn active" data-key="catalog" onclick="showView('catalog');toggleMobileMenu()">Каталог</button>
+    <button class="nav-btn" data-key="credit" onclick="openModal('credit');toggleMobileMenu()">Кредит</button>
+    <button class="nav-btn" data-key="tradein" onclick="openModal('tradein');toggleMobileMenu()">Трейд-ин</button>
+    <button class="nav-btn" data-key="contacts" onclick="openModal('contacts');toggleMobileMenu()">Контакты</button>
+    <button class="nav-btn fav-btn" data-key="favorites" onclick="toggleFavFilter();toggleMobileMenu()">
+      <span>❤️</span> <span data-key="favorites">Избранное</span>
+      <span class="fav-count" id="favCountMob" style="display:none">0</span>
+    </button>
+    <div class="lang-switch">
+      <button class="lang-btn active" onclick="setLang('ru')">RU</button>
+      <button class="lang-btn" onclick="setLang('ro')">RO</button>
+      <button class="lang-btn" onclick="setLang('en')">EN</button>
+    </div>
+  </div>
+</div>
+
+<div class="hero" id="hero">
+  <h1 data-key="heroTitle">Автомобили из Америки</h1>
+  <p data-key="heroSub">Проверенные б/у машины с полной историей. Доставка, растаможка, постановка на учёт под ключ.</p>
+  <div class="hero-stats">
+    <div class="stat"><div class="stat-num">30+</div><div class="stat-label" data-key="statCars">Авто в наличии</div></div>
+    <div class="stat"><div class="stat-num">5+</div><div class="stat-label" data-key="statYears">Лет на рынке</div></div>
+    <div class="stat"><div class="stat-num">500+</div><div class="stat-label" data-key="statClients">Довольных клиентов</div></div>
+  </div>
+</div>
+
+<div class="search-bar-wrap" id="originalSearchWrap">
+  <div class="search-bar">
+    <input type="text" id="searchInput" data-key="searchPlaceholder" placeholder="Поиск по марке, модели..." oninput="onSearchInput(this.value)">
+    <button class="search-btn" data-key="search" onclick="applyFilters()">Поиск</button>
+  </div>
+</div>
+
+<div class="container" id="main-container">
+  <aside class="sidebar" id="sidebar">
+    <button class="sidebar-toggle" id="sidebarToggle" onclick="toggleSidebar()">
+      <span data-key="filters">Фильтры</span>
+    </button>
+    <div class="sidebar-inner" id="sidebarInner">
+      <div class="filter-block">
+        <div class="filter-title" data-key="price">Цена, €</div>
+        <div class="filter-group">
+          <div class="price-row">
+            <input type="number" class="filter-input" id="priceFrom" placeholder="От" oninput="applyFilters()">
+            <input type="number" class="filter-input" id="priceTo" placeholder="До" oninput="applyFilters()">
+          </div>
+        </div>
+      </div>
+      <div class="filter-block">
+        <div class="filter-title" data-key="bodyType">Кузов</div>
+        <div class="checkbox-list" id="bodyFilters"></div>
+      </div>
+      <div class="filter-block">
+        <div class="filter-title" data-key="brand">Марка</div>
+        <div class="checkbox-list" id="brandFilters"></div>
+      </div>
+      <div class="filter-block">
+        <div class="filter-title" data-key="year">Год выпуска</div>
+        <div class="filter-group">
+          <select class="filter-select" id="yearFrom" onchange="applyFilters()"><option value="" data-key="from">От</option></select>
+        </div>
+        <div class="filter-group">
+          <select class="filter-select" id="yearTo" onchange="applyFilters()"><option value="" data-key="to">До</option></select>
+        </div>
+      </div>
+      <div class="filter-block">
+        <label class="checkbox-item" style="color:white;font-weight:600;">
+          <input type="checkbox" id="onlyFavorites" onchange="applyFilters()">
+          <span data-key="onlyFavorites">Только избранное</span>
+        </label>
+      </div>
+      <button class="reset-btn" data-key="resetFilters" onclick="resetFilters()">Сбросить фильтры</button>
+    </div>
+  </aside>
+
+  <main class="content" id="content">
+    <div id="catalog-view">
+      <div class="grid-header">
+        <div class="grid-count"><span data-key="found">Найдено</span>: <span id="count">0</span> <span data-key="cars">авто</span></div>
+        <select class="sort-select" id="sort" onchange="applyFilters()">
+          <option value="price-asc" data-key="priceAsc">Цена: по возрастанию</option>
+          <option value="price-desc" data-key="priceDesc">Цена: по убыванию</option>
+          <option value="year-desc" data-key="yearNew">Год: новее</option>
+          <option value="year-asc" data-key="yearOld">Год: старше</option>
+        </select>
+      </div>
+      <div class="cars-grid" id="carsGrid"></div>
+    </div>
+    <div id="detail-view" class="hidden"></div>
+  </main>
+</div>
+
+<div class="floating-search" id="floatingSearch">
+  <div class="floating-search-inner">
+    <input type="text" id="floatingSearchInput" data-key="searchPlaceholder" placeholder="Поиск по марке, модели..." oninput="onFloatingSearch(this.value)">
+    <button class="search-btn" data-key="search" onclick="applyFilters()">🔍</button>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal" onclick="if(event.target===this)closeModal()">
+  <div class="modal" onclick="event.stopPropagation()">
+    <button class="modal-close" onclick="closeModal()">&times;</button>
+    <div id="modal-body"></div>
+  </div>
+</div>
+
+<script>
+
+const cars = [{"id": 1, "brand": "Ford", "model": "Mustang Shelby GT350", "year": 2019, "price": 52000, "body": "coupe", "mileage": 34000, "engine": "5.2 V8", "hp": 526, "transmission": "Manual", "color": "White/Blue stripes", "image": "https://kimi-web-img.moonshot.cn/img/static.overfuel.com/b05d9d69d0b96cd16bef97f07e749f5f360157c3.jpg", "desc": "Muscle coupe with atmospheric V8 5.2L. Full US service history. One owner. Near perfect condition.", "features": ["Brembo brakes", "Recaro seats", "Magneride", "Borla exhaust"]}, {"id": 2, "brand": "Dodge", "model": "Challenger R/T", "year": 2020, "price": 42000, "body": "coupe", "mileage": 42000, "engine": "5.7 HEMI", "hp": 375, "transmission": "Auto", "color": "Blue", "image": "https://kimi-web-img.moonshot.cn/img/platform.cstatic-images.com/98693f2f771f3687a4de665fc889375d7ce3b1df.jpg", "desc": "Classic American muscle car. Powerful HEMI V8 combined with comfortable cruiser. Excellent body and interior condition.", "features": ["Leather interior", "Heated seats", "Alpine Audio", "Cruise control"]}, {"id": 3, "brand": "Chevrolet", "model": "Camaro SS", "year": 2021, "price": 45000, "body": "coupe", "mileage": 28000, "engine": "6.2 V8", "hp": 455, "transmission": "Auto", "color": "White", "image": "https://kimi-web-img.moonshot.cn/img/carfax-img.vast.com/0219097c4d94514749a21b4067cd61c8cf662292", "desc": "Sports coupe with excellent handling. LT1 6.2L engine. Full options package. New brake discs and pads.", "features": ["Head-Up Display", "Bose audio", "Recaro seats", "Magnetic dampers"]}, {"id": 4, "brand": "Cadillac", "model": "Escalade Platinum", "year": 2022, "price": 91000, "body": "suv", "mileage": 18000, "engine": "6.2 V8", "hp": 420, "transmission": "Auto", "color": "Dark Blue", "image": "https://kimi-web-img.moonshot.cn/img/carfax-img.vast.com/7601806ce179a9d8fc24b59237f0d87b56bdf28b", "desc": "Flagship full-size premium SUV. Platinum trim with maximum equipment. Perfect for a large family.", "features": ["AKG Studio 36 speakers", "Panoramic roof", "Night vision", "Super Cruise"]}, {"id": 5, "brand": "Jeep", "model": "Wrangler Rubicon", "year": 2021, "price": 55000, "body": "suv", "mileage": 35000, "engine": "3.6 V6", "hp": 285, "transmission": "Auto", "color": "Light Blue", "image": "https://kimi-web-img.moonshot.cn/img/carfax-img.vast.com/ebe5fe4d01dc4600f0439be35910847dfcec61c4", "desc": "Legendary off-roader in top Rubicon trim. Rock-Trac 4WD, differential locks, removable doors and roof.", "features": ["Rock-Trac 4x4", "Warn winch", "Steel bumpers", "Apple CarPlay"]}, {"id": 6, "brand": "Chevrolet", "model": "Tahoe RST", "year": 2023, "price": 73000, "body": "suv", "mileage": 12000, "engine": "5.3 V8", "hp": 355, "transmission": "Auto", "color": "Red", "image": "https://kimi-web-img.moonshot.cn/img/vehicle-images.carscommerce.inc/30249542841e9cca6fe65fed719570e1bdde2f7c.jpg", "desc": "Fresh full-size SUV in sporty RST trim. Black grille, 22-inch wheels, powerful V8. Practically new.", "features": ["RST Performance", "22 wheels", "Bose 10 speakers", "Air suspension"]}, {"id": 7, "brand": "Dodge", "model": "Challenger SRT 392", "year": 2019, "price": 58000, "body": "coupe", "mileage": 31000, "engine": "6.4 HEMI", "hp": 485, "transmission": "Manual", "color": "Gray", "image": "https://kimi-web-img.moonshot.cn/img/carfax-img.vast.com/1e6b6add1aa226011be336fa4cac9a756a0f545c", "desc": "Most powerful Challenger with 392 cubic inch engine. Manual transmission for true enthusiasts. Reinforced suspension and brakes.", "features": ["Brembo 6-piston", "Launch Control", "Line Lock", "SRT Performance Pages"]}, {"id": 8, "brand": "Chevrolet", "model": "Camaro 2SS", "year": 2020, "price": 40000, "body": "coupe", "mileage": 39000, "engine": "6.2 V8", "hp": 455, "transmission": "Auto", "color": "Gray", "image": "https://kimi-web-img.moonshot.cn/img/carfax-img.vast.com/4639e736a63690154fd19173760390b2d43a2e01", "desc": "Balanced sports coupe with rich equipment. 2SS package includes all safety and comfort systems.", "features": ["Blind spot", "Heated steering", "Bose audio", "TPMS"]}, {"id": 9, "brand": "Cadillac", "model": "Escalade Luxury", "year": 2021, "price": 77000, "body": "suv", "mileage": 25000, "engine": "6.2 V8", "hp": 420, "transmission": "Auto", "color": "White", "image": "https://kimi-web-img.moonshot.cn/img/carfax-img.vast.com/a8c1eb43ec422d6cf8e5769d63b622d9032208d0", "desc": "Luxurious SUV with spacious 7-seat interior. Excellent condition, timely maintenance. Full-time 4WD.", "features": ["38 OLED display", "Massage seats", "Third row", "4WD"]}, {"id": 10, "brand": "Chevrolet", "model": "Tahoe Z71", "year": 2022, "price": 64000, "body": "suv", "mileage": 22000, "engine": "5.3 V8", "hp": 355, "transmission": "Auto", "color": "White", "image": "https://kimi-web-img.moonshot.cn/img/carfax-img.vast.com/0381a69a40e7662a54fa5ac2ea78ec70d81bf06d", "desc": "Off-road Tahoe version with skid plates, off-road tires and improved approach/departure angles. For travel and off-road.", "features": ["Z71 Off-Road", "Hill Descent", "Air Ride", "Trailer system"]}, {"id": 11, "brand": "Ford", "model": "F-150 XLT", "year": 2021, "price": 48000, "body": "pickup", "mileage": 45000, "engine": "3.5 EcoBoost", "hp": 400, "transmission": "Auto", "color": "Brown", "image": "https://kimi-web-img.moonshot.cn/img/images.jazelc.com/2a52b3ebf3126506e382a3c71628a218603ed5f5.jpeg", "desc": "America's best-selling pickup. Spacious crew cab, powerful twin-turbo V6. Towing capacity over 5 tons.", "features": ["Pro Trailer Backup", "SYNC 4", "360 camera", "LED headlights"]}, {"id": 12, "brand": "Chevrolet", "model": "Silverado LT Trail Boss", "year": 2022, "price": 52000, "body": "pickup", "mileage": 33000, "engine": "5.3 V8", "hp": 355, "transmission": "Auto", "color": "Red", "image": "https://kimi-web-img.moonshot.cn/img/images.ctfassets.net/8fd508df8a686b417d8fc516eb03259ea5ea622c.jpeg", "desc": "Off-road pickup with lifted suspension, all-terrain tires and aggressive styling. Ready for any challenge.", "features": ["Trail Boss lift", "Z71 suspension", "Locking diff", "Trailering package"]}, {"id": 13, "brand": "RAM", "model": "1500 Rebel", "year": 2021, "price": 56000, "body": "pickup", "mileage": 38000, "engine": "5.7 HEMI", "hp": 395, "transmission": "Auto", "color": "Gray", "image": "https://kimi-web-img.moonshot.cn/img/images.ctfassets.net/4b31df33e5073351246e225fc939b805b1f1f05a.jpeg", "desc": "The most comfortable pickup in its class. Air suspension, premium interior, powerful HEMI V8. Rebel off-road styling.", "features": ["Air suspension", "12 touchscreen", "Harman Kardon", "RamBox"]}, {"id": 14, "brand": "Cadillac", "model": "CT5 Sport", "year": 2022, "price": 44000, "body": "sedan", "mileage": 26000, "engine": "3.0 Turbo", "hp": 360, "transmission": "Auto", "color": "Silver", "image": "https://kimi-web-img.moonshot.cn/img/images.ctfassets.net/8315381235e8663519ed11293b160b9172b936c2.jpeg", "desc": "Premium sports sedan with rear-wheel drive. Twin-turbo V6, magnetic dampers, aggressive design.", "features": ["Magnetic Ride", "Brembo brakes", "Super Cruise", "Panoramic roof"]}, {"id": 15, "brand": "Ford", "model": "Explorer XLT", "year": 2021, "price": 38000, "body": "crossover", "mileage": 48000, "engine": "2.3 EcoBoost", "hp": 300, "transmission": "Auto", "color": "Silver", "image": "https://kimi-web-img.moonshot.cn/img/carfax-img.vast.com/6bab424a625f5971d0c471f18bcea7da5326aab9", "desc": "Versatile 7-seat crossover. Spacious interior, modern technology, excellent safety ratings. Perfect family car.", "features": ["Co-Pilot 360", "SYNC 3", "Third row", "Power tailgate"]}, {"id": 16, "brand": "Jeep", "model": "Grand Cherokee Overland", "year": 2022, "price": 49000, "body": "suv", "mileage": 29000, "engine": "3.6 V6", "hp": 295, "transmission": "Auto", "color": "Black", "image": "https://kimi-web-img.moonshot.cn/img/di-uploads-development.dealerinspire.com/821d6d1e7f1a8443a805b5580ad7dd0794d904f5.png", "desc": "Premium SUV with off-road capability. Overland trim with leather, air suspension and advanced 4WD system.", "features": ["Quadra-Lift air", "Nappa leather", "McIntosh audio", "Night vision"]}, {"id": 17, "brand": "Chevrolet", "model": "Corvette C8 Stingray", "year": 2021, "price": 68000, "body": "coupe", "mileage": 15000, "engine": "6.2 V8", "hp": 495, "transmission": "Auto", "color": "White", "image": "https://kimi-web-img.moonshot.cn/img/images.ctfassets.net/06b4c6fa55c947d979b4b75588941a109aca66b1.jpeg", "desc": "Mid-engine American supercar. Incredible performance, precise handling, exotic looks. Z51 performance package.", "features": ["Z51 package", "Brembo brakes", "Performance exhaust", "Magnetic dampers"]}, {"id": 18, "brand": "Dodge", "model": "Charger Scat Pack", "year": 2020, "price": 46000, "body": "sedan", "mileage": 36000, "engine": "6.4 HEMI", "hp": 485, "transmission": "Auto", "color": "Black", "image": "https://kimi-web-img.moonshot.cn/img/carfax-img.vast.com/a1049602b80cebd8243cbef07d7dd0867defa7d3", "desc": "Four-door muscle car with 392 HEMI. Practical sedan with supercar acceleration. Full service history.", "features": ["Scat Pack", "Launch Control", "Brembo brakes", "SRT pages"]}, {"id": 19, "brand": "Ford", "model": "Bronco Badlands", "year": 2022, "price": 51000, "body": "suv", "mileage": 22000, "engine": "2.7 EcoBoost", "hp": 330, "transmission": "Auto", "color": "Blue", "image": "https://kimi-web-img.moonshot.cn/img/images.autotrader.com/e09b778af144c855bbaa6ae5b68e96cd9bc2b1e1.jpg", "desc": "Iconic off-roader reborn. Badlands trim with Sasquatch package, front and rear lockers, removable roof.", "features": ["Sasquatch package", "Front+rear lockers", "35 tires", "G.O.A.T. modes"]}, {"id": 20, "brand": "GMC", "model": "Sierra 1500 Denali", "year": 2022, "price": 59000, "body": "pickup", "mileage": 28000, "engine": "6.2 V8", "hp": 420, "transmission": "Auto", "color": "Black", "image": "https://kimi-web-img.moonshot.cn/img/di-uploads-pod26.dealerinspire.com/deed437e30b52162f5076cde8df313c080c2e925.png", "desc": "Premium pickup with chrome Denali grille and luxurious interior. Powerful 6.2L V8, MultiPro tailgate.", "features": ["Denali trim", "MultiPro tailgate", "Bose audio", "CarbonPro bed"]}, {"id": 21, "brand": "Buick", "model": "Enclave Avenir", "year": 2021, "price": 36000, "body": "crossover", "mileage": 42000, "engine": "3.6 V6", "hp": 310, "transmission": "Auto", "color": "Red", "image": "https://kimi-web-img.moonshot.cn/img/vehicle-images.carscommerce.inc/b77809aaa8891d35011ecbbe45a497bc9f0ba663.jpg", "desc": "Premium 7-seat crossover. Avenir top trim with quilted leather, panoramic roof and quiet cabin.", "features": ["Avenir trim", "Quilted leather", "Panoramic roof", "QuietTuning"]}, {"id": 22, "brand": "Chrysler", "model": "300C", "year": 2019, "price": 28000, "body": "sedan", "mileage": 55000, "engine": "5.7 HEMI", "hp": 363, "transmission": "Auto", "color": "Silver", "image": "https://kimi-web-img.moonshot.cn/img/carfax-img.vast.com/a1049602b80cebd8243cbef07d7dd0867defa7d3", "desc": "Full-size American luxury sedan. Classic design, spacious interior, powerful HEMI V8. Great value.", "features": ["Leather seats", "Heated+ventilated", "Beats Audio", "Adaptive cruise"]}, {"id": 23, "brand": "Lincoln", "model": "Navigator Reserve", "year": 2022, "price": 82000, "body": "suv", "mileage": 20000, "engine": "3.5 EcoBoost", "hp": 450, "transmission": "Auto", "color": "Black", "image": "https://kimi-web-img.moonshot.cn/img/images.ctfassets.net/02357053db9ba2c3ab24dab02f0510e68c8c26dd.jpg", "desc": "Ultimate American luxury SUV. Reserve trim with 30-way seats, Revel audio and perfect ride quality.", "features": ["30-way seats", "Revel Ultima", "Active Glide", "Air suspension"]}, {"id": 24, "brand": "Chevrolet", "model": "Suburban Premier", "year": 2021, "price": 67000, "body": "suv", "mileage": 24000, "engine": "5.3 V8", "hp": 355, "transmission": "Auto", "color": "Dark Blue", "image": "https://kimi-web-img.moonshot.cn/img/images.dealer.com/5d597dace8d0cc5606a9640f3d1b6194175da6bc.jpg", "desc": "The largest SUV in the lineup. Premier trim with maximum space for 8 passengers and luggage.", "features": ["Premier trim", "Power running boards", "Rear entertainment", "Magnetic dampers"]}, {"id": 25, "brand": "Ford", "model": "Mustang GT Premium", "year": 2020, "price": 39000, "body": "coupe", "mileage": 41000, "engine": "5.0 V8", "hp": 460, "transmission": "Auto", "color": "Red", "image": "https://kimi-web-img.moonshot.cn/img/carfax-img.vast.com/de4d173ff3f81d3f2d3419ec639f4c3569bd177b", "desc": "Iconic pony car with Coyote 5.0 V8. Premium trim with leather, digital dash and active exhaust.", "features": ["Premium trim", "Active exhaust", "Digital dash", "Sync 3"]}, {"id": 26, "brand": "Jeep", "model": "Grand Cherokee SRT", "year": 2021, "price": 62000, "body": "suv", "mileage": 27000, "engine": "6.4 HEMI", "hp": 475, "transmission": "Auto", "color": "Red", "image": "https://kimi-web-img.moonshot.cn/img/images.ctfassets.net/48aef8950b99c79552541211a7f8e9c2ce55739e.jpeg", "desc": "Supercharged SUV with track performance. Brembo brakes, launch control, and 0-100 in 4.8 seconds.", "features": ["SRT track mode", "Brembo 6-piston", "Launch control", "Performance exhaust"]}, {"id": 27, "brand": "GMC", "model": "Yukon AT4", "year": 2022, "price": 71000, "body": "suv", "mileage": 19000, "engine": "6.2 V8", "hp": 420, "transmission": "Auto", "color": "Blue", "image": "https://kimi-web-img.moonshot.cn/img/images.ctfassets.net/8ae38c93e42885390bab992f4c5d95e06f2a6f8c.jpeg", "desc": "Off-road luxury SUV. AT4 trim with skid plates, all-terrain tires and magnetic dampers.", "features": ["AT4 off-road", "Magnetic dampers", "Panoramic roof", "Bose 14 speakers"]}, {"id": 28, "brand": "Dodge", "model": "Durango R/T", "year": 2021, "price": 43000, "body": "suv", "mileage": 35000, "engine": "5.7 HEMI", "hp": 360, "transmission": "Auto", "color": "White", "image": "https://kimi-web-img.moonshot.cn/img/carfax-img.vast.com/ddbce02eaae5b53a0b3491515957d8ccc00048bf", "desc": "Three-row muscle SUV. R/T trim with HEMI V8, tow package and sporty styling. Family hauler with attitude.", "features": ["R/T trim", "Tow package", "Performance exhaust", "Uconnect 10.1"]}, {"id": 29, "brand": "Ford", "model": "Expedition Platinum", "year": 2022, "price": 75000, "body": "suv", "mileage": 16000, "engine": "3.5 EcoBoost", "hp": 400, "transmission": "Auto", "color": "White", "image": "https://kimi-web-img.moonshot.cn/img/images.ctfassets.net/5d6d52ed483351c3a95d7938a0d0f132e803a804.jpg", "desc": "Full-size luxury SUV with best-in-class space. Platinum trim with every conceivable option included.", "features": ["Platinum trim", "Panoramic roof", "B&O audio", "Pro Trailer Backup"]}, {"id": 30, "brand": "Chevrolet", "model": "Traverse RS", "year": 2021, "price": 34000, "body": "crossover", "mileage": 44000, "engine": "3.6 V6", "hp": 310, "transmission": "Auto", "color": "Black", "image": "https://kimi-web-img.moonshot.cn/img/cdn.ebizautos.media/ee23cec41b4790b4c726753fb9c9154b9a848975.jpg", "desc": "Practical 8-seat crossover. RS trim with blacked-out styling, sporty suspension and great value.", "features": ["RS black styling", "8 seats", "Wireless CarPlay", "Power liftgate"]}];
+const i18n = {"ru": {"catalog": "Каталог", "credit": "Кредит", "tradein": "Трейд-ин", "contacts": "Контакты", "favorites": "Избранное", "heroTitle": "Автомобили из Америки", "heroSub": "Проверенные б/у машины с полной историей. Доставка, растаможка, постановка на учёт под ключ.", "statCars": "Авто в наличии", "statYears": "Лет на рынке", "statClients": "Довольных клиентов", "price": "Цена, €", "bodyType": "Кузов", "brand": "Марка", "year": "Год выпуска", "from": "От", "to": "До", "resetFilters": "Сбросить фильтры", "found": "Найдено", "cars": "авто", "priceAsc": "Цена: по возрастанию", "priceDesc": "Цена: по убыванию", "yearNew": "Год: новее", "yearOld": "Год: старше", "search": "Поиск", "searchPlaceholder": "Поиск по марке, модели...", "onlyFavorites": "Только избранное", "details": "Подробнее", "backToCatalog": "← Назад в каталог", "requestCall": "Оставить заявку", "calculateCredit": "Рассчитать кредит", "creditTitle": "Кредитование", "creditSub": "Рассчитаем выгодные условия от 4.9% годовых. Одобрение за 15 минут.", "name": "Имя", "phone": "Телефон", "loanAmount": "Сумма кредита", "downPayment": "Первоначальный взнос", "getApproval": "Получить одобрение", "tradeinTitle": "Трейд-ин", "tradeinSub": "Оценим ваш автомобиль по рыночной цене и зачтём его в счёт покупки.", "carMake": "Марка авто", "yourCarYear": "Год выпуска", "mileage": "Пробег", "evaluateCar": "Оценить автомобиль", "contactsTitle": "Контакты", "contactsSub": "Мы работаем ежедневно с 9:00 до 21:00. Приезжайте на осмотр!", "address": "Адрес", "phoneLabel": "Телефон", "email": "Email", "addressValue": "Кишинёв, ул. Американская, 17", "phoneValue": "+373 69 123 456", "emailValue": "info@americandrive.md", "yourName": "Ваше имя", "phoneOrEmail": "Телефон или email", "message": "Сообщение", "sendMessage": "Отправить сообщение", "callbackTitle": "Заявка на", "callbackSub": "Менеджер перезвонит вам в течение 15 минут и ответит на все вопросы.", "convenientTime": "Удобное время звонка", "callMeBack": "Перезвоните мне", "engine": "Двигатель", "power": "Мощность", "transmission": "Коробка", "body": "Кузов", "color": "Цвет", "features": "Особенности комплектации", "description": "Описание", "workingHours": "Пн–Вс: 9:00 – 21:00", "noResults": "По вашему запросу ничего не найдено", "sedan": "Седан", "coupe": "Купе", "suv": "Внедорожник", "pickup": "Пикап", "crossover": "Кроссовер", "menu": "Меню", "filters": "Фильтры"}, "ro": {"catalog": "Catalog", "credit": "Credit", "tradein": "Trade-in", "contacts": "Contacte", "favorites": "Favorite", "heroTitle": "Automobile din America", "heroSub": "Mașini verificate second-hand cu istoric complet. Livrare, vamă, înmatriculare la cheie.", "statCars": "Auto în stoc", "statYears": "Ani pe piață", "statClients": "Clienți mulțumiți", "price": "Preț, €", "bodyType": "Caroserie", "brand": "Marcă", "year": "An fabricație", "from": "De la", "to": "Până la", "resetFilters": "Resetează filtrele", "found": "Găsite", "cars": "mașini", "priceAsc": "Preț: crescător", "priceDesc": "Preț: descrescător", "yearNew": "An: mai nou", "yearOld": "An: mai vechi", "search": "Căutare", "searchPlaceholder": "Caută după marcă, model...", "onlyFavorites": "Doar favorite", "details": "Detalii", "backToCatalog": "← Înapoi la catalog", "requestCall": "Lasă o cerere", "calculateCredit": "Calculează creditul", "creditTitle": "Creditare", "creditSub": "Calculăm condiții avantajoase de la 4.9% pe an. Aprobare în 15 minute.", "name": "Nume", "phone": "Telefon", "loanAmount": "Suma creditului", "downPayment": "Avans", "getApproval": "Obține aprobare", "tradeinTitle": "Trade-in", "tradeinSub": "Evaluăm mașina ta la prețul pieței și o acceptăm la schimb.", "carMake": "Marcă auto", "yourCarYear": "An fabricație", "mileage": "Kilometraj", "evaluateCar": "Evaluează mașina", "contactsTitle": "Contacte", "contactsSub": "Lucrăm zilnic de la 9:00 până la 21:00. Vino la vizionare!", "address": "Adresă", "phoneLabel": "Telefon", "email": "Email", "addressValue": "Chișinău, str. Americana, 17", "phoneValue": "+373 69 123 456", "emailValue": "info@americandrive.md", "yourName": "Numele tău", "phoneOrEmail": "Telefon sau email", "message": "Mesaj", "sendMessage": "Trimite mesaj", "callbackTitle": "Cerere pentru", "callbackSub": "Managerul te va suna în 15 minute și va răspunde la toate întrebările.", "convenientTime": "Ora convenabilă", "callMeBack": "Sună-mă înapoi", "engine": "Motor", "power": "Putere", "transmission": "Cutie", "body": "Caroserie", "color": "Culoare", "features": "Dotări", "description": "Descriere", "workingHours": "Lun–Dum: 9:00 – 21:00", "noResults": "Nu s-a găsit nimic pentru cererea ta", "sedan": "Sedan", "coupe": "Coupe", "suv": "SUV", "pickup": "Pickup", "crossover": "Crossover", "menu": "Meniu", "filters": "Filtre"}, "en": {"catalog": "Catalog", "credit": "Financing", "tradein": "Trade-in", "contacts": "Contacts", "favorites": "Favorites", "heroTitle": "Cars from America", "heroSub": "Verified used cars with full history. Delivery, customs, registration turnkey.", "statCars": "Cars in stock", "statYears": "Years on market", "statClients": "Happy clients", "price": "Price, €", "bodyType": "Body type", "brand": "Brand", "year": "Year", "from": "From", "to": "To", "resetFilters": "Reset filters", "found": "Found", "cars": "cars", "priceAsc": "Price: low to high", "priceDesc": "Price: high to low", "yearNew": "Year: newest", "yearOld": "Year: oldest", "search": "Search", "searchPlaceholder": "Search by brand, model...", "onlyFavorites": "Favorites only", "details": "Details", "backToCatalog": "← Back to catalog", "requestCall": "Leave a request", "calculateCredit": "Calculate loan", "creditTitle": "Car Financing", "creditSub": "We calculate favorable terms from 4.9% APR. Approval in 15 minutes.", "name": "Name", "phone": "Phone", "loanAmount": "Loan amount", "downPayment": "Down payment", "getApproval": "Get approval", "tradeinTitle": "Trade-in", "tradeinSub": "We evaluate your car at market price and accept it as part of payment.", "carMake": "Car make", "yourCarYear": "Year of manufacture", "mileage": "Mileage", "evaluateCar": "Evaluate car", "contactsTitle": "Contacts", "contactsSub": "We work daily from 9:00 to 21:00. Come for a test drive!", "address": "Address", "phoneLabel": "Phone", "email": "Email", "addressValue": "Chișinău, Americană str. 17", "phoneValue": "+373 69 123 456", "emailValue": "info@americandrive.md", "yourName": "Your name", "phoneOrEmail": "Phone or email", "message": "Message", "sendMessage": "Send message", "callbackTitle": "Request for", "callbackSub": "Manager will call you back within 15 minutes and answer all questions.", "convenientTime": "Best time to call", "callMeBack": "Call me back", "engine": "Engine", "power": "Power", "transmission": "Transmission", "body": "Body", "color": "Color", "features": "Features", "description": "Description", "workingHours": "Mon–Sun: 9:00 – 21:00", "noResults": "Nothing found for your request", "sedan": "Sedan", "coupe": "Coupe", "suv": "SUV", "pickup": "Pickup", "crossover": "Crossover", "menu": "Menu", "filters": "Filters"}};
+const bodyTrans = {"ru": {"sedan": "Седан", "coupe": "Купе", "suv": "Внедорожник", "pickup": "Пикап", "crossover": "Кроссовер"}, "ro": {"sedan": "Sedan", "coupe": "Coupe", "suv": "SUV", "pickup": "Pickup", "crossover": "Crossover"}, "en": {"sedan": "Sedan", "coupe": "Coupe", "suv": "SUV", "pickup": "Pickup", "crossover": "Crossover"}};
+let currentLang = 'ru';
+
+const bodies = [...new Set(cars.map(c => c.body))].sort();
+const brands = [...new Set(cars.map(c => c.brand))].sort();
+const years = [...new Set(cars.map(c => c.year))].sort((a,b) => a-b);
+
+function t(key) { return i18n[currentLang][key] || key; }
+function bodyLabel(body) { return bodyTrans[currentLang][body] || body; }
+
+/* ===== FAVORITES ===== */
+function getFavorites() {
+  try { return JSON.parse(localStorage.getItem('ad_favorites') || '[]'); }
+  catch(e) { return []; }
+}
+function saveFavorites(favs) {
+  localStorage.setItem('ad_favorites', JSON.stringify(favs));
+  updateFavCount();
+}
+function isFav(id) { return getFavorites().includes(id); }
+function toggleFavorite(e, id) {
+  e.stopPropagation();
+  const favs = getFavorites();
+  const idx = favs.indexOf(id);
+  if (idx > -1) favs.splice(idx, 1);
+  else favs.push(id);
+  saveFavorites(favs);
+  applyFilters();
+}
+function updateFavCount() {
+  const count = getFavorites().length;
+  const c1 = document.getElementById('favCount');
+  const c2 = document.getElementById('favCountMob');
+  if (c1) { c1.textContent = count; c1.style.display = count > 0 ? 'flex' : 'none'; }
+  if (c2) { c2.textContent = count; c2.style.display = count > 0 ? 'flex' : 'none'; }
+}
+function toggleFavFilter() {
+  const cb = document.getElementById('onlyFavorites');
+  if (cb) { cb.checked = !cb.checked; applyFilters(); }
+}
+
+/* ===== SEARCH SYNC ===== */
+function onSearchInput(val) {
+  document.getElementById('floatingSearchInput').value = val;
+  applyFilters();
+}
+function onFloatingSearch(val) {
+  document.getElementById('searchInput').value = val;
+  applyFilters();
+}
+
+/* ===== FLOATING SEARCH OBSERVER ===== */
+const originalSearch = document.getElementById('originalSearchWrap');
+const floatingSearch = document.getElementById('floatingSearch');
+if (originalSearch && floatingSearch && 'IntersectionObserver' in window) {
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        floatingSearch.classList.remove('visible');
+      } else {
+        floatingSearch.classList.add('visible');
+      }
+    });
+  }, { threshold: 0, rootMargin: '-68px 0px 0px 0px' });
+  observer.observe(originalSearch);
+}
+
+/* ===== LANGUAGE ===== */
+function setLang(lang) {
+  currentLang = lang;
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.textContent.toLowerCase() === lang));
+  document.querySelectorAll('[data-key]').forEach(el => {
+    const key = el.getAttribute('data-key');
+    if (i18n[lang][key]) el.textContent = i18n[lang][key];
+  });
+  document.querySelectorAll('.nav-btn').forEach(btn => {
+    const key = btn.getAttribute('data-key');
+    if (key && i18n[lang][key]) btn.textContent = i18n[lang][key];
+  });
+  document.querySelectorAll('.fav-btn').forEach(b => {
+    const hasCount = b.querySelector('.fav-count');
+    if (hasCount) {
+      const count = getFavorites().length;
+      hasCount.textContent = count;
+      hasCount.style.display = count > 0 ? 'flex' : 'none';
+    }
+  });
+  initFilters();
+  applyFilters();
+  const dv = document.getElementById('detail-view');
+  if (!dv.classList.contains('hidden') && dv.dataset.carId) {
+    showDetail(+dv.dataset.carId);
+  }
+}
+
+function initFilters() {
+  const bf = document.getElementById('bodyFilters');
+  bf.innerHTML = '';
+  bodies.forEach(b => {
+    bf.innerHTML += `<label class="checkbox-item"><input type="checkbox" value="${b}" onchange="applyFilters()"> ${bodyLabel(b)}</label>`;
+  });
+  const brf = document.getElementById('brandFilters');
+  brf.innerHTML = '';
+  brands.forEach(b => {
+    brf.innerHTML += `<label class="checkbox-item"><input type="checkbox" value="${b}" onchange="applyFilters()"> ${b}</label>`;
+  });
+  const yf = document.getElementById('yearFrom');
+  const yt = document.getElementById('yearTo');
+  const yfVal = yf.value; const ytVal = yt.value;
+  yf.innerHTML = `<option value="">${t('from')}</option>`;
+  yt.innerHTML = `<option value="">${t('to')}</option>`;
+  years.forEach(y => {
+    yf.innerHTML += `<option value="${y}">${y}</option>`;
+    yt.innerHTML += `<option value="${y}">${y}</option>`;
+  });
+  yf.value = yfVal; yt.value = ytVal;
+}
+
+function formatPrice(p) { return p.toLocaleString('de-DE') + ' €'; }
+
+function applyFilters() {
+  const search = (document.getElementById('searchInput').value || document.getElementById('floatingSearchInput').value).toLowerCase().trim();
+  const priceFrom = +document.getElementById('priceFrom').value || 0;
+  const priceTo = +document.getElementById('priceTo').value || Infinity;
+  const yearFrom = +document.getElementById('yearFrom').value || 0;
+  const yearTo = +document.getElementById('yearTo').value || Infinity;
+  const selectedBodies = [...document.querySelectorAll('#bodyFilters input:checked')].map(i => i.value);
+  const selectedBrands = [...document.querySelectorAll('#brandFilters input:checked')].map(i => i.value);
+  const onlyFav = document.getElementById('onlyFavorites').checked;
+  const sort = document.getElementById('sort').value;
+  const favs = getFavorites();
+
+  let filtered = cars.filter(c => {
+    const matchesSearch = !search ||
+      c.brand.toLowerCase().includes(search) ||
+      c.model.toLowerCase().includes(search) ||
+      c.desc.toLowerCase().includes(search) ||
+      c.engine.toLowerCase().includes(search);
+    return matchesSearch &&
+      c.price >= priceFrom && c.price <= priceTo &&
+      c.year >= yearFrom && c.year <= yearTo &&
+      (selectedBodies.length === 0 || selectedBodies.includes(c.body)) &&
+      (selectedBrands.length === 0 || selectedBrands.includes(c.brand)) &&
+      (!onlyFav || favs.includes(c.id));
+  });
+
+  if (sort === 'price-asc') filtered.sort((a,b) => a.price - b.price);
+  if (sort === 'price-desc') filtered.sort((a,b) => b.price - a.price);
+  if (sort === 'year-desc') filtered.sort((a,b) => b.year - a.year);
+  if (sort === 'year-asc') filtered.sort((a,b) => a.year - b.year);
+
+  renderGrid(filtered);
+}
+
+function renderGrid(list) {
+  document.getElementById('count').textContent = list.length;
+  const grid = document.getElementById('carsGrid');
+  if (list.length === 0) {
+    grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:80px 20px;color:var(--gray);font-size:18px;">${t('noResults')}</div>`;
+    return;
+  }
+  grid.innerHTML = list.map((car, idx) => {
+    const fav = isFav(car.id);
+    return `
+    <div class="car-card fade-in" style="animation-delay:${idx * 0.04}s" onclick="showDetail(${car.id})">
+      <div class="car-image-wrap">
+        <img src="${car.image}" class="car-image" alt="${car.brand} ${car.model}" loading="lazy">
+        <div class="car-badge-year">${car.year}</div>
+        <div class="car-badge-body">${bodyLabel(car.body)}</div>
+        <div class="fav-heart ${fav ? 'active' : ''}" onclick="toggleFavorite(event, ${car.id})">${fav ? '❤️' : '🤍'}</div>
+      </div>
+      <div class="car-info">
+        <div class="car-name">${car.brand} ${car.model}</div>
+        <div class="car-meta">
+          <span>${car.engine}</span>
+          <span>${car.transmission}</span>
+          <span>${car.mileage.toLocaleString('de-DE')} km</span>
+        </div>
+        <div class="car-price-row">
+          <div class="car-price">${formatPrice(car.price)}</div>
+          <button class="car-btn">${t('details')}</button>
+        </div>
+      </div>
+    </div>
+  `}).join('');
+}
+
+function resetFilters() {
+  document.getElementById('searchInput').value = '';
+  document.getElementById('floatingSearchInput').value = '';
+  document.getElementById('priceFrom').value = '';
+  document.getElementById('priceTo').value = '';
+  document.getElementById('yearFrom').value = '';
+  document.getElementById('yearTo').value = '';
+  document.querySelectorAll('.checkbox-list input').forEach(i => i.checked = false);
+  document.getElementById('onlyFavorites').checked = false;
+  document.getElementById('sort').value = 'price-asc';
+  applyFilters();
+}
+
+function showDetail(id) {
+  const car = cars.find(c => c.id === id);
+  if (!car) return;
+  document.getElementById('hero').classList.add('hidden');
+  document.getElementById('sidebar').classList.add('hidden');
+  document.getElementById('catalog-view').classList.add('hidden');
+  document.querySelector('.search-bar-wrap').classList.add('hidden');
+  document.getElementById('floatingSearch').classList.remove('visible');
+  const view = document.getElementById('detail-view');
+  view.classList.remove('hidden');
+  view.dataset.carId = id;
+  const fav = isFav(car.id);
+  view.innerHTML = `
+    <button class="detail-back" onclick="showCatalog()">${t('backToCatalog')}</button>
+    <div class="detail-layout">
+      <div class="detail-gallery">
+        <img src="${car.image}" class="detail-main-img" id="mainImg" alt="${car.brand} ${car.model}">
+        <div class="detail-thumbs">
+          <img src="${car.image}" class="detail-thumb active" onclick="setMain(this,'${car.image}')">
+          <img src="${car.image}" class="detail-thumb" style="filter:brightness(0.85) saturate(1.2)" onclick="setMain(this,'${car.image}')">
+          <img src="${car.image}" class="detail-thumb" style="filter:contrast(1.15) hue-rotate(10deg)" onclick="setMain(this,'${car.image}')">
+          <img src="${car.image}" class="detail-thumb" style="filter:sepia(0.3) saturate(1.4)" onclick="setMain(this,'${car.image}')">
+        </div>
+      </div>
+      <div class="detail-info">
+        <div class="detail-title">${car.brand} ${car.model}</div>
+        <div class="detail-sub">${car.year} &bull; ${car.color} &bull; ${car.mileage.toLocaleString('de-DE')} km</div>
+        <div class="detail-price-big">${formatPrice(car.price)}</div>
+        <div class="detail-params">
+          <div class="param-item"><div class="param-label">${t('engine')}</div><div class="param-value">${car.engine}</div></div>
+          <div class="param-item"><div class="param-label">${t('power')}</div><div class="param-value">${car.hp} HP</div></div>
+          <div class="param-item"><div class="param-label">${t('transmission')}</div><div class="param-value">${car.transmission}</div></div>
+          <div class="param-item"><div class="param-label">${t('body')}</div><div class="param-value">${bodyLabel(car.body)}</div></div>
+        </div>
+        <div class="detail-desc">${car.desc}</div>
+        <div class="detail-features-title">${t('features')}</div>
+        <div class="detail-features">${car.features.map(f => `<span class="feature-tag">${f}</span>`).join('')}</div>
+        <div class="detail-actions">
+          <button class="btn-glow btn-red" onclick="openModal('callback', '${car.brand} ${car.model}')">${t('requestCall')}</button>
+          <button class="btn-glow btn-blue" onclick="openModal('credit')">${t('calculateCredit')}</button>
+          <button class="btn-glow btn-blue" style="background:linear-gradient(135deg,#7c3aed,#4c1d95);" onclick="toggleFavorite(event, ${car.id}); showDetail(${car.id});">${fav ? '❤️ ' + (currentLang==='ru'?'В избранном':currentLang==='ro'?'În favorite':'In favorites') : '🤍 ' + (currentLang==='ru'?'Добавить в избранное':currentLang==='ro'?'Adaugă la favorite':'Add to favorites')}</button>
+        </div>
+      </div>
+    </div>
+  `;
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
+function setMain(thumb, src) {
+  document.getElementById('mainImg').src = src;
+  document.querySelectorAll('.detail-thumb').forEach(t => t.classList.remove('active'));
+  thumb.classList.add('active');
+}
+
+function showCatalog() {
+  document.getElementById('hero').classList.remove('hidden');
+  document.getElementById('sidebar').classList.remove('hidden');
+  document.getElementById('catalog-view').classList.remove('hidden');
+  document.querySelector('.search-bar-wrap').classList.remove('hidden');
+  document.getElementById('detail-view').classList.add('hidden');
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
+function showView(v) { if (v === 'catalog') showCatalog(); }
+
+function toggleMobileMenu() {
+  document.getElementById('burger').classList.toggle('active');
+  document.getElementById('mobileNav').classList.toggle('active');
+}
+function toggleSidebar() {
+  const btn = document.getElementById('sidebarToggle');
+  const inner = document.getElementById('sidebarInner');
+  btn.classList.toggle('active');
+  inner.classList.toggle('active');
+}
+
+function openModal(type, carName) {
+  const modal = document.getElementById('modal');
+  const body = document.getElementById('modal-body');
+  modal.classList.add('active');
+  if (type === 'credit') {
+    body.innerHTML = `
+      <div class="modal-title">${t('creditTitle')}</div>
+      <div class="modal-sub">${t('creditSub')}</div>
+      <form onsubmit="submitForm(event, 'credit')">
+        <div class="form-row"><div class="form-group"><label class="form-label">${t('name')}</label><input class="form-input" required placeholder="John"></div><div class="form-group"><label class="form-label">${t('phone')}</label><input class="form-input" required placeholder="+373 69 123 456"></div></div>
+        <div class="form-group"><label class="form-label">${t('loanAmount')}</label><input class="form-input" placeholder="30 000 €"></div>
+        <div class="form-group"><label class="form-label">${t('downPayment')}</label><input class="form-input" placeholder="5 000 €"></div>
+        <button class="btn-glow btn-red" type="submit" style="margin-top:8px;">${t('getApproval')}</button>
+      </form>`;
+  } else if (type === 'tradein') {
+    body.innerHTML = `
+      <div class="modal-title">${t('tradeinTitle')}</div>
+      <div class="modal-sub">${t('tradeinSub')}</div>
+      <form onsubmit="submitForm(event, 'tradein')">
+        <div class="form-row"><div class="form-group"><label class="form-label">${t('carMake')}</label><input class="form-input" required placeholder="Toyota Camry"></div><div class="form-group"><label class="form-label">${t('yourCarYear')}</label><input class="form-input" required placeholder="2018"></div></div>
+        <div class="form-row"><div class="form-group"><label class="form-label">${t('mileage')}</label><input class="form-input" required placeholder="80 000 km"></div><div class="form-group"><label class="form-label">${t('phone')}</label><input class="form-input" required placeholder="+373 69 123 456"></div></div>
+        <button class="btn-glow btn-red" type="submit" style="margin-top:8px;">${t('evaluateCar')}</button>
+      </form>`;
+  } else if (type === 'contacts') {
+    body.innerHTML = `
+      <div class="modal-title">${t('contactsTitle')}</div>
+      <div class="modal-sub">${t('contactsSub')}</div>
+      <div class="contacts-grid">
+        <div class="contact-card"><div class="contact-icon">📍</div><div class="contact-label">${t('address')}</div><div class="contact-value">${t('addressValue')}</div></div>
+        <div class="contact-card"><div class="contact-icon">📞</div><div class="contact-label">${t('phoneLabel')}</div><div class="contact-value">${t('phoneValue')}</div></div>
+        <div class="contact-card"><div class="contact-icon">✉️</div><div class="contact-label">${t('email')}</div><div class="contact-value">${t('emailValue')}</div></div>
+      </div>
+      <div style="text-align:center;color:var(--gray);font-size:13px;margin-bottom:20px;">${t('workingHours')}</div>
+      <form onsubmit="submitForm(event, 'contacts')">
+        <div class="form-group"><label class="form-label">${t('yourName')}</label><input class="form-input" required></div>
+        <div class="form-group"><label class="form-label">${t('phoneOrEmail')}</label><input class="form-input" required></div>
+        <div class="form-group"><label class="form-label">${t('message')}</label><textarea class="form-input form-textarea" rows="3" placeholder="${t('message')}"></textarea></div>
+        <button class="btn-glow btn-red" type="submit">${t('sendMessage')}</button>
+      </form>`;
+  } else if (type === 'callback') {
+    body.innerHTML = `
+      <div class="modal-title">${t('callbackTitle')} ${carName || t('cars')}</div>
+      <div class="modal-sub">${t('callbackSub')}</div>
+      <form onsubmit="submitForm(event, 'callback')">
+        <div class="form-row"><div class="form-group"><label class="form-label">${t('name')}</label><input class="form-input" required></div><div class="form-group"><label class="form-label">${t('phone')}</label><input class="form-input" required placeholder="+373 69 123 456"></div></div>
+        <div class="form-group"><label class="form-label">${t('convenientTime')}</label><input class="form-input" placeholder="14:00 - 16:00"></div>
+        <button class="btn-glow btn-red" type="submit" style="margin-top:8px;">${t('callMeBack')}</button>
+      </form>`;
+  }
+}
+
+function closeModal() { document.getElementById('modal').classList.remove('active'); }
+
+function submitForm(e, ctx) {
+  e.preventDefault();
+  const btn = e.target.querySelector('button[type="submit"]');
+  const orig = btn.textContent;
+  btn.textContent = '✓ ' + (currentLang === 'ru' ? 'Отправлено' : currentLang === 'ro' ? 'Trimis' : 'Sent');
+  btn.style.background = '#16a34a';
+  setTimeout(() => {
+    closeModal();
+    btn.textContent = orig;
+    btn.style.background = '';
+    e.target.reset();
+  }, 1200);
+}
+
+initFilters();
+updateFavCount();
+applyFilters();
+</script>
+</body>
+</html>
