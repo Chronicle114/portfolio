@@ -821,13 +821,17 @@
                 </div>
             </div>
             <div class="about-visual">
-                <div class="ascii-art">
-    ██████╗ ███████╗██╗   ██╗
-    ██╔══██╗██╔════╝██║   ██║
-    ██║  ██║█████╗  ██║   ██║
-    ██║  ██║██╔══╝  ╚██╗ ██╔╝
-    ██████╔╝██║      ╚████╔╝ 
-    ╚═════╝ ╚═╝       ╚═══╝  
+                <div class="ascii-art" style="display:flex;justify-content:center;align-items:center;overflow:hidden;position:relative;">
+    <img src="images/teamphoto.png"
+         alt="Team"
+         style="width:100%;height:100%;object-fit:contain;
+                filter:grayscale(%) sepia(100%) hue-rotate(245deg) saturate(110%) brightness(.9) contrast(140%);
+                box-shadow:0 0 25px rgba(176,38,255,.7);">
+
+    <div style="position:absolute;inset:0;background:rgba(176,38,255,.22);mix-blend-mode:screen;pointer-events:none;"></div>
+</div>
+</div>
+</div> 
 
     // CHRONICLE_INIT_COMPLETE
                 </div>
