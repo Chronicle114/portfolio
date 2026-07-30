@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AStore — Official Apple Reseller</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #a8c8e8 0%, #7eb0d9 30%, #b8d4e8 60%, #9ec2dd 100%);
+  color: #1d1d1f;
+  position: relative;
+  overflow-x: hidden;
+}
+.orb { position: fixed; border-radius: 50%; filter: blur(80px); opacity: 0.4; pointer-events: none; z-index: 0; }
+.orb-1 { width: 400px; height: 400px; background: radial-gradient(circle, rgba(255,255,255,0.6), transparent 70%); top: -100px; right: -100px; animation: floatOrb 20s ease-in-out infinite; }
+.orb-2 { width: 300px; height: 300px; background: radial-gradient(circle, rgba(200,230,255,0.5), transparent 70%); bottom: 10%; left: -80px; animation: floatOrb 25s ease-in-out infinite reverse; }
+.orb-3 { width: 250px; height: 250px; background: radial-gradient(circle, rgba(255,240,220,0.4), transparent 70%); top: 40%; right: 10%; animation: floatOrb 18s ease-in-out infinite 2s; }
+@keyframes floatOrb { 0%, 100% { transform: translate(0, 0) scale(1); } 33% { transform: translate(30px, -50px) scale(1.1); } 66% { transform: translate(-20px, 30px) scale(0.95); } }
+.liquid-glass {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(24px) saturate(160%);
+  -webkit-backdrop-filter: blur(24px) saturate(160%);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.5), inset 0 -1px 0 rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
+}
+.liquid-glass::before { content: ''; position: absolute; top: 0; left: 10%; right: 10%; height: 1px; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.8), transparent); }
+.liquid-glass:hover { transform: translateY(-4px); box-shadow: 0 16px 48px rgba(0, 0, 0, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.6), inset 0 -1px 0 rgba(255, 255, 255, 0.15); }
+.nav { position: sticky; top: 12px; margin: 12px 16px 0; padding: 12px 24px; display: flex; align-items: center; justify-content: space-between; z-index: 100; border-radius: 16px; }
+.nav-brand { display: flex; align-items: center; gap: 10px; font-size: 22px; font-weight: 600; letter-spacing: 2px; cursor: pointer; color: #1d1d1f; }
+.nav-brand svg { width: 24px; height: 24px; }
+.nav-links { display: flex; gap: 6px; flex-wrap: wrap; }
+.nav-links a { padding: 8px 14px; border-radius: 10px; cursor: pointer; font-size: 13px; font-weight: 500; color: #424245; transition: all 0.2s; text-decoration: none; }
+.nav-links a:hover { background: rgba(255,255,255,0.3); color: #1d1d1f; }
+.nav-actions { display: flex; align-items: center; gap: 12px; }
+.lang-switcher { display: flex; background: rgba(255,255,255,0.25); border-radius: 10px; padding: 3px; border: 1px solid rgba(255,255,255,0.3); }
+.lang-btn { border: none; background: transparent; padding: 5px 10px; border-radius: 8px; font-size: 12px; font-weight: 500; cursor: pointer; color: #424245; transition: all 0.2s; }
+.lang-btn.active { background: rgba(255,255,255,0.6); color: #1d1d1f; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+.cart-btn { position: relative; background: rgba(255,255,255,0.3); border: 1px solid rgba(255,255,255,0.4); border-radius: 12px; width: 42px; height: 42px; display: flex; align-items: center; justify-content: center; cursor: pointer; color: #1d1d1f; transition: all 0.2s; }
+.cart-btn:hover { background: rgba(255,255,255,0.5); }
+.cart-badge { position: absolute; top: -4px; right: -4px; background: #ff3b30; color: white; font-size: 11px; font-weight: 600; width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+.page { display: none; padding: 24px 16px 48px; max-width: 1200px; margin: 0 auto; animation: fadeIn 0.5s ease-out; }
+.page.active { display: block; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+.hero { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; min-height: 70vh; padding: 40px 0; }
+.hero-title { font-size: 56px; font-weight: 600; line-height: 1.05; letter-spacing: -0.02em; margin-bottom: 16px; background: linear-gradient(135deg, #1d1d1f, #434344); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.hero-subtitle { font-size: 20px; color: #424245; line-height: 1.4; margin-bottom: 32px; max-width: 440px; }
+.hero-buttons { display: flex; gap: 16px; }
+.btn-primary { background: #1d1d1f; color: white; border: none; padding: 14px 28px; border-radius: 980px; font-size: 16px; font-weight: 500; cursor: pointer; transition: all 0.3s ease-out; font-family: inherit; }
+.btn-primary:hover { transform: scale(1.04); box-shadow: 0 8px 24px rgba(0,0,0,0.2); }
+.btn-secondary { background: rgba(255,255,255,0.3); color: #1d1d1f; border: 1px solid rgba(255,255,255,0.5); padding: 14px 28px; border-radius: 980px; font-size: 16px; font-weight: 500; cursor: pointer; transition: all 0.3s; font-family: inherit; }
+.btn-secondary:hover { background: rgba(255,255,255,0.5); }
+.btn-ghost { background: transparent; color: #1d1d1f; border: none; padding: 12px 24px; border-radius: 980px; font-size: 15px; font-weight: 500; cursor: pointer; transition: all 0.2s; font-family: inherit; text-decoration: underline; text-underline-offset: 4px; }
+.hero-visual { display: flex; justify-content: center; align-items: center; }
+.hero-phone { padding: 40px; border-radius: 40px; animation: floatPhone 6s ease-in-out infinite; }
+.hero-phone img { max-width: 320px; width: 100%; filter: drop-shadow(0 20px 40px rgba(0,0,0,0.15)); }
+@keyframes floatPhone { 0%, 100% { transform: translateY(0) rotateY(-5deg); } 50% { transform: translateY(-20px) rotateY(5deg); } }
+.section { margin-top: 60px; }
+.section-title { font-size: 32px; font-weight: 600; margin-bottom: 24px; text-align: center; }
+.products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px; }
+.product-card { padding: 20px; cursor: pointer; text-align: center; transition: all 0.3s ease-out; }
+.product-card .product-img-wrap { height: 200px; display: flex; align-items: center; justify-content: center; margin-bottom: 16px; overflow: hidden; border-radius: 16px; }
+.product-card img { max-height: 180px; max-width: 100%; object-fit: contain; transition: transform 0.4s ease-out; }
+.product-card:hover img { transform: scale(1.08); }
+.product-card .product-name { font-size: 16px; font-weight: 500; margin-bottom: 6px; color: #1d1d1f; }
+.product-card .product-price { font-size: 18px; font-weight: 600; color: #1d1d1f; margin-bottom: 12px; }
+.product-card .add-cart-btn { background: rgba(255,255,255,0.4); border: 1px solid rgba(255,255,255,0.5); padding: 10px 20px; border-radius: 980px; font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.2s; font-family: inherit; color: #1d1d1f; }
+.product-card .add-cart-btn:hover { background: #1d1d1f; color: white; }
+.product-badge { position: absolute; top: 12px; left: 12px; background: rgba(255, 59, 48, 0.9); color: white; font-size: 11px; font-weight: 600; padding: 4px 10px; border-radius: 20px; text-transform: uppercase; letter-spacing: 0.5px; }
+.features { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 60px; padding: 0 8px; }
+.feature { padding: 28px 20px; text-align: center; }
+.feature svg { margin-bottom: 16px; color: #1d1d1f; stroke: #1d1d1f; }
+.feature h3 { font-size: 16px; font-weight: 600; margin-bottom: 8px; }
+.feature p { font-size: 14px; color: #424245; line-height: 1.4; }
+.page-header { margin-bottom: 32px; text-align: center; }
+.page-header h1 { font-size: 40px; font-weight: 600; margin-bottom: 20px; }
+.filters { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
+.filter-btn { background: rgba(255,255,255,0.3); border: 1px solid rgba(255,255,255,0.4); padding: 8px 20px; border-radius: 980px; font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.2s; font-family: inherit; color: #1d1d1f; }
+.filter-btn.active, .filter-btn:hover { background: #1d1d1f; color: white; border-color: transparent; }
+.back-btn { display: inline-flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.3); border: 1px solid rgba(255,255,255,0.4); padding: 10px 18px; border-radius: 12px; font-size: 14px; font-weight: 500; cursor: pointer; margin-bottom: 24px; transition: all 0.2s; font-family: inherit; color: #1d1d1f; }
+.back-btn:hover { background: rgba(255,255,255,0.5); }
+.product-detail { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start; }
+.product-detail-img { padding: 40px; display: flex; align-items: center; justify-content: center; }
+.product-detail-img img { max-width: 100%; max-height: 450px; object-fit: contain; filter: drop-shadow(0 20px 40px rgba(0,0,0,0.1)); }
+.product-detail-info h1 { font-size: 36px; font-weight: 600; margin-bottom: 12px; }
+.product-detail-info .detail-price { font-size: 28px; font-weight: 600; margin-bottom: 24px; }
+.product-detail-info .detail-desc { font-size: 16px; color: #424245; line-height: 1.6; margin-bottom: 32px; }
+.detail-actions { display: flex; gap: 16px; }
+.cart-layout { display: grid; grid-template-columns: 1fr 360px; gap: 24px; margin-top: 24px; }
+.cart-items { display: flex; flex-direction: column; gap: 12px; }
+.cart-item { display: flex; align-items: center; gap: 20px; padding: 16px 20px; }
+.cart-item img { width: 80px; height: 80px; object-fit: contain; border-radius: 12px; }
+.cart-item-info { flex: 1; }
+.cart-item-info h4 { font-size: 16px; font-weight: 500; margin-bottom: 4px; }
+.cart-item-info .item-price { font-size: 15px; font-weight: 600; }
+.cart-item-qty { display: flex; align-items: center; gap: 12px; background: rgba(255,255,255,0.3); border-radius: 10px; padding: 4px; border: 1px solid rgba(255,255,255,0.3); }
+.cart-item-qty button { width: 32px; height: 32px; border-radius: 8px; border: none; background: rgba(255,255,255,0.5); cursor: pointer; font-size: 18px; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
+.cart-item-qty button:hover { background: white; }
+.cart-item-qty span { font-weight: 600; min-width: 24px; text-align: center; }
+.cart-item-remove { background: rgba(255,59,48,0.1); border: none; width: 36px; height: 36px; border-radius: 10px; cursor: pointer; color: #ff3b30; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
+.cart-item-remove:hover { background: rgba(255,59,48,0.2); }
+.cart-summary { padding: 28px; height: fit-content; position: sticky; top: 100px; }
+.cart-summary h3 { font-size: 20px; font-weight: 600; margin-bottom: 20px; }
+.summary-row { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid rgba(0,0,0,0.06); font-size: 15px; color: #424245; }
+.summary-row.total { border-bottom: none; font-size: 18px; font-weight: 600; color: #1d1d1f; margin-top: 8px; padding-top: 16px; border-top: 2px solid rgba(0,0,0,0.08); }
+.checkout-btn { width: 100%; margin: 20px 0 12px; }
+.credit-hero, .tradein-hero { text-align: center; padding: 40px 0; }
+.credit-hero h1, .tradein-hero h1 { font-size: 44px; font-weight: 600; margin-bottom: 12px; }
+.credit-hero p, .tradein-hero p { font-size: 18px; color: #424245; max-width: 600px; margin: 0 auto; }
+.credit-calculator { max-width: 600px; margin: 32px auto; padding: 36px; }
+.credit-calculator h3 { font-size: 22px; font-weight: 600; margin-bottom: 28px; text-align: center; }
+.calc-row { margin-bottom: 24px; }
+.calc-row label { display: block; font-size: 14px; font-weight: 500; margin-bottom: 12px; color: #424245; }
+.calc-row input[type="range"] { width: 100%; height: 6px; border-radius: 3px; background: rgba(255,255,255,0.4); outline: none; -webkit-appearance: none; }
+.calc-row input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 22px; height: 22px; border-radius: 50%; background: #1d1d1f; cursor: pointer; box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
+.calc-value { display: block; text-align: right; font-size: 18px; font-weight: 600; margin-top: 8px; }
+.calc-result { display: flex; justify-content: space-around; margin: 32px 0; padding: 24px; background: rgba(255,255,255,0.25); border-radius: 16px; border: 1px solid rgba(255,255,255,0.3); }
+.result-item { text-align: center; }
+.result-item span { display: block; font-size: 13px; color: #424245; margin-bottom: 6px; }
+.result-item strong { font-size: 24px; font-weight: 600; }
+.credit-benefits { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; max-width: 900px; margin: 32px auto 0; }
+.cb-item { padding: 28px 20px; text-align: center; }
+.cb-item h4 { font-size: 16px; font-weight: 600; margin-bottom: 8px; }
+.cb-item p { font-size: 14px; color: #424245; }
+.tradein-form { max-width: 500px; margin: 32px auto; padding: 36px; }
+.tradein-form h3 { font-size: 22px; font-weight: 600; margin-bottom: 28px; text-align: center; }
+.form-group { margin-bottom: 20px; }
+.form-group label { display: block; font-size: 14px; font-weight: 500; margin-bottom: 8px; color: #424245; }
+.form-group select, .form-group input { width: 100%; padding: 12px 16px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.4); background: rgba(255,255,255,0.25); font-size: 15px; font-family: inherit; color: #1d1d1f; outline: none; transition: all 0.2s; }
+.form-group select:focus, .form-group input:focus { border-color: rgba(255,255,255,0.7); background: rgba(255,255,255,0.4); }
+.tradein-estimate { display: flex; justify-content: space-between; align-items: center; padding: 20px; background: rgba(255,255,255,0.3); border-radius: 16px; margin: 24px 0; border: 1px solid rgba(255,255,255,0.4); }
+.tradein-estimate span { font-size: 14px; color: #424245; }
+.tradein-estimate strong { font-size: 28px; font-weight: 600; color: #34c759; }
+.contacts-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 32px; }
+.contact-card { padding: 28px 20px; text-align: center; }
+.contact-card svg { margin-bottom: 16px; color: #1d1d1f; }
+.contact-card h3 { font-size: 16px; font-weight: 600; margin-bottom: 10px; }
+.contact-card p { font-size: 14px; color: #424245; line-height: 1.5; }
+.map-placeholder { margin-top: 32px; height: 300px; display: flex; align-items: center; justify-content: center; border-radius: 24px; position: relative; overflow: hidden; background: linear-gradient(135deg, rgba(168,200,232,0.5), rgba(158,194,221,0.5)); }
+.map-placeholder::before { content: ''; position: absolute; inset: 0; background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.2'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E"); opacity: 0.5; }
+.map-pin { display: flex; flex-direction: column; align-items: center; gap: 8px; z-index: 1; }
+.map-pin span { font-weight: 600; font-size: 16px; background: rgba(255,255,255,0.8); padding: 6px 16px; border-radius: 20px; }
+.footer { text-align: center; padding: 40px 20px; border-top: 1px solid rgba(255,255,255,0.2); margin-top: 60px; }
+.footer-brand { font-size: 20px; font-weight: 600; letter-spacing: 3px; margin-bottom: 12px; }
+.footer-copy { font-size: 13px; color: #424245; margin-bottom: 16px; }
+.footer-links { display: flex; gap: 24px; justify-content: center; }
+.footer-links a { font-size: 14px; color: #424245; cursor: pointer; transition: color 0.2s; }
+.footer-links a:hover { color: #1d1d1f; }
+.service-hero { text-align: center; padding: 40px 0; }
+.service-hero h1 { font-size: 44px; font-weight: 600; margin-bottom: 12px; }
+.service-hero p { font-size: 18px; color: #424245; max-width: 600px; margin: 0 auto; }
+.service-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 32px; }
+.service-card { padding: 32px 24px; text-align: center; }
+.service-card svg { margin-bottom: 16px; color: #1d1d1f; stroke: #1d1d1f; }
+.service-card h3 { font-size: 18px; font-weight: 600; margin-bottom: 10px; }
+.service-card p { font-size: 14px; color: #424245; line-height: 1.5; }
+.service-price { display: inline-block; margin-top: 12px; padding: 6px 16px; background: rgba(255,255,255,0.4); border-radius: 20px; font-size: 14px; font-weight: 600; }
+@media (max-width: 900px) {
+  .hero { grid-template-columns: 1fr; text-align: center; }
+  .hero-subtitle { margin: 0 auto 32px; }
+  .hero-visual { order: -1; }
+  .features { grid-template-columns: repeat(2, 1fr); }
+  .product-detail { grid-template-columns: 1fr; }
+  .cart-layout { grid-template-columns: 1fr; }
+  .cart-summary { position: static; }
+  .contacts-grid { grid-template-columns: repeat(2, 1fr); }
+  .credit-benefits { grid-template-columns: 1fr; }
+  .service-grid { grid-template-columns: 1fr; }
+  .nav-links { display: none; }
+}
+@media (max-width: 600px) {
+  .features { grid-template-columns: 1fr; }
+  .contacts-grid { grid-template-columns: 1fr; }
+  .hero-title { font-size: 36px; }
+  .page-header h1 { font-size: 28px; }
+}
+</style>
+</head>
+<body>
+<div id="app">
+  <div class="orb orb-1"></div><div class="orb orb-2"></div><div class="orb orb-3"></div>
+  <nav class="nav liquid-glass">
+    <div class="nav-brand" onclick="router('home')">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.21-1.96 1.07-3.11-1.05.05-2.31.71-3.06 1.64-.68.84-1.27 2.18-1.11 3.29 1.19.09 2.38-.6 3.1-1.82z"/></svg>
+      <span>AStore</span>
+    </div>
+    <div class="nav-links">
+      <a onclick="router('home')" data-i18n="home">Главная</a>
+      <a onclick="router('catalog')" data-i18n="catalog">Каталог</a>
+      <a onclick="router('credit')" data-i18n="credit">Кредит</a>
+      <a onclick="router('tradein')" data-i18n="tradein">Трейд-ин</a>
+      <a onclick="router('service')" data-i18n="service">Сервис</a>
+      <a onclick="router('contacts')" data-i18n="contacts">Контакты</a>
+    </div>
+    <div class="nav-actions">
+      <div class="lang-switcher">
+        <button onclick="setLang('ru')" class="lang-btn active" data-lang="ru">RU</button>
+        <button onclick="setLang('en')" class="lang-btn" data-lang="en">EN</button>
+        <button onclick="setLang('ro')" class="lang-btn" data-lang="ro">RO</button>
+      </div>
+      <button class="cart-btn" onclick="router('cart')">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 6h15l-1.5 9h-12z"/><circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/><path d="M6 6L5 3H2"/></svg>
+        <span class="cart-badge" id="cartCount">0</span>
+      </button>
+    </div>
+  </nav>
+
+  <main id="main">
+    <section id="page-home" class="page active">
+      <div class="hero">
+        <div class="hero-content">
+          <h1 class="hero-title" data-i18n="heroTitle">Новинки Apple</h1>
+          <p class="hero-subtitle" data-i18n="heroSubtitle">Официальный реселлер. Гарантия 2 года. Доставка по всей Европе.</p>
+          <div class="hero-buttons">
+            <button class="btn-primary" onclick="router('catalog')" data-i18n="catalog">Каталог</button>
+            <button class="btn-secondary" onclick="router('credit')" data-i18n="creditBtn">Кредит 0%</button>
+          </div>
+        </div>
+        <div class="hero-visual">
+          <div class="hero-phone liquid-glass">
+            <img src="https://kimi-web-img.moonshot.cn/img/pngimg.com/5abea714fc43c061efee3f8c48999c277ee9b870.png" alt="iPhone" class="hero-img">
+          </div>
+        </div>
+      </div>
+      <div class="section">
+        <h2 class="section-title" data-i18n="newArrivals">Новинки</h2>
+        <div class="products-grid" id="newProducts"></div>
+      </div>
+      <div class="features">
+        <div class="feature liquid-glass">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          <h3 data-i18n="feat1">Официальная гарантия</h3>
+          <p data-i18n="feat1desc">2 года гарантии от Apple</p>
+        </div>
+        <div class="feature liquid-glass">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+          <h3 data-i18n="feat2">Быстрая доставка</h3>
+          <p data-i18n="feat2desc">1-3 дня по ЕС и Молдове</p>
+        </div>
+        <div class="feature liquid-glass">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+          <h3 data-i18n="feat3">Кредит 0%</h3>
+          <p data-i18n="feat3desc">До 24 месяцев без переплат</p>
+        </div>
+        <div class="feature liquid-glass">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M17 1l4 4-4 4"/><path d="M3 11V9a4 4 0 014-4h14"/><path d="M7 23l-4-4 4-4"/><path d="M21 13v2a4 4 0 01-4 4H3"/></svg>
+          <h3 data-i18n="feat4">Трейд-ин</h3>
+          <p data-i18n="feat4desc">Скидка до €500</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="page-catalog" class="page">
+      <div class="page-header">
+        <h1 data-i18n="catalogTitle">Каталог</h1>
+        <div class="filters">
+          <button class="filter-btn active" data-cat="all" onclick="filterCat('all')" data-i18n="catAll">Все</button>
+          <button class="filter-btn" data-cat="iphone" onclick="filterCat('iphone')">iPhone</button>
+          <button class="filter-btn" data-cat="mac" onclick="filterCat('mac')">Mac</button>
+          <button class="filter-btn" data-cat="ipad" onclick="filterCat('ipad')">iPad</button>
+          <button class="filter-btn" data-cat="watch" onclick="filterCat('watch')">Watch</button>
+          <button class="filter-btn" data-cat="audio" onclick="filterCat('audio')">Audio</button>
+          <button class="filter-btn" data-cat="tv" onclick="filterCat('tv')">TV</button>
+          <button class="filter-btn" data-cat="accessories" onclick="filterCat('accessories')">Аксессуары</button>
+        </div>
+      </div>
+      <div class="products-grid" id="catalogGrid"></div>
+    </section>
+
+    <section id="page-product" class="page">
+      <button class="back-btn" onclick="router('catalog')">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+        <span data-i18n="back">Назад</span>
+      </button>
+      <div class="product-detail" id="productDetail"></div>
+    </section>
+
+    <section id="page-cart" class="page">
+      <h1 data-i18n="cartTitle">Корзина</h1>
+      <div class="cart-layout">
+        <div class="cart-items" id="cartItems"></div>
+        <div class="cart-summary liquid-glass">
+          <h3 data-i18n="orderSummary">Итого</h3>
+          <div class="summary-row"><span data-i18n="subtotal">Товары</span><span id="subtotal">€0</span></div>
+          <div class="summary-row"><span data-i18n="delivery">Доставка</span><span data-i18n="free">Бесплатно</span></div>
+          <div class="summary-row total"><span data-i18n="total">Всего</span><span id="cartTotal">€0</span></div>
+          <button class="btn-primary checkout-btn" data-i18n="checkout">Оформить заказ</button>
+          <button class="btn-ghost" onclick="router('catalog')" data-i18n="continue">Продолжить покупки</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="page-credit" class="page">
+      <div class="credit-hero">
+        <h1 data-i18n="creditHero">Кредит 0%</h1>
+        <p data-i18n="creditHeroDesc">Рассрочка без скрытых комиссий и переплат.</p>
+      </div>
+      <div class="credit-calculator liquid-glass">
+        <h3 data-i18n="calcTitle">Калькулятор</h3>
+        <div class="calc-row">
+          <label data-i18n="amount">Сумма</label>
+          <input type="range" id="creditAmount" min="500" max="5000" value="1500" step="100" oninput="updateCredit()">
+          <span class="calc-value" id="creditAmountVal">€1500</span>
+        </div>
+        <div class="calc-row">
+          <label data-i18n="months">Месяцев</label>
+          <input type="range" id="creditMonths" min="3" max="24" value="12" step="3" oninput="updateCredit()">
+          <span class="calc-value" id="creditMonthsVal">12</span>
+        </div>
+        <div class="calc-result">
+          <div class="result-item"><span data-i18n="monthly">В месяц</span><strong id="monthlyPayment">€125</strong></div>
+          <div class="result-item"><span data-i18n="overpayment">Переплата</span><strong id="overpayment">€0</strong></div>
+        </div>
+        <button class="btn-primary" data-i18n="applyCredit">Подать заявку</button>
+      </div>
+      <div class="credit-benefits">
+        <div class="cb-item liquid-glass"><h4 data-i18n="cb1">Без взноса</h4><p data-i18n="cb1desc">Начните сразу</p></div>
+        <div class="cb-item liquid-glass"><h4 data-i18n="cb2">За 5 минут</h4><p data-i18n="cb2desc">Онлайн одобрение</p></div>
+        <div class="cb-item liquid-glass"><h4 data-i18n="cb3">Досрочно</h4><p data-i18n="cb3desc">Без штрафов</p></div>
+      </div>
+    </section>
+
+    <section id="page-tradein" class="page">
+      <div class="tradein-hero">
+        <h1 data-i18n="tradeinHero">Трейд-ин Apple</h1>
+        <p data-i18n="tradeinHeroDesc">Скидка до €500 мгновенно.</p>
+      </div>
+      <div class="tradein-form liquid-glass">
+        <h3 data-i18n="estimateTitle">Оцените устройство</h3>
+        <div class="form-group">
+          <label data-i18n="deviceType">Тип</label>
+          <select id="tradeType"><option value="iphone">iPhone</option><option value="ipad">iPad</option><option value="mac">Mac</option><option value="watch">Watch</option></select>
+        </div>
+        <div class="form-group">
+          <label data-i18n="deviceModel">Модель</label>
+          <select id="tradeModel"><option>iPhone 14 Pro Max</option><option>iPhone 14 Pro</option><option>iPhone 14</option><option>iPhone 13 Pro Max</option><option>iPhone 13</option><option>iPhone 12</option></select>
+        </div>
+        <div class="form-group">
+          <label data-i18n="condition">Состояние</label>
+          <select id="tradeCondition"><option value="perfect">Идеальное</option><option value="good">Хорошее</option><option value="fair">Удовлетворительное</option></select>
+        </div>
+        <div class="tradein-estimate"><span data-i18n="estimate">Оценка</span><strong id="tradeValue">€450</strong></div>
+        <button class="btn-primary" data-i18n="tradeinBtn">Обменять</button>
+      </div>
+    </section>
+
+    <section id="page-service" class="page">
+      <div class="service-hero">
+        <h1 data-i18n="serviceHero">Сервисный центр</h1>
+        <p data-i18n="serviceHeroDesc">Официальный ремонт Apple. Гарантия на работы 90 дней.</p>
+      </div>
+      <div class="service-grid">
+        <div class="service-card liquid-glass">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+          <h3 data-i18n="svc1">Диагностика</h3>
+          <p data-i18n="svc1desc">Полная проверка устройства за 30 минут</p>
+          <span class="service-price">€0</span>
+        </div>
+        <div class="service-card liquid-glass">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+          <h3 data-i18n="svc2">Замена экрана</h3>
+          <p data-i18n="svc2desc">Оригинальные дисплеи с гарантией</p>
+          <span class="service-price">от €199</span>
+        </div>
+        <div class="service-card liquid-glass">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+          <h3 data-i18n="svc3">Замена батареи</h3>
+          <p data-i18n="svc3desc">Оригинальные аккумуляторы Apple</p>
+          <span class="service-price">от €89</span>
+        </div>
+        <div class="service-card liquid-glass">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><path d="M9 9l6 6"/><path d="M15 9l-6 6"/></svg>
+          <h3 data-i18n="svc4">Ремонт после воды</h3>
+          <p data-i18n="svc4desc">Ультразвуковая чистка и восстановление</p>
+          <span class="service-price">от €149</span>
+        </div>
+        <div class="service-card liquid-glass">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06A1.65 1.65 0 004.6 15a1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06A1.65 1.65 0 009 4.6a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+          <h3 data-i18n="svc5">Настройка ПО</h3>
+          <p data-i18n="svc5desc">Перенос данных, настройка iCloud</p>
+          <span class="service-price">€29</span>
+        </div>
+        <div class="service-card liquid-glass">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg>
+          <h3 data-i18n="svc6">Ремонт Mac</h3>
+          <p data-i18n="svc6desc">Клавиатура, тачпад, платы</p>
+          <span class="service-price">от €249</span>
+        </div>
+      </div>
+    </section>
+
+    <section id="page-contacts" class="page">
+      <h1 data-i18n="contactTitle">Контакты</h1>
+      <div class="contacts-grid">
+        <div class="contact-card liquid-glass">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          <h3 data-i18n="address">Адрес</h3><p>Кишинёв, ул. Армянская 35<br>ТЦ Grand Hall, этаж 2</p>
+        </div>
+        <div class="contact-card liquid-glass">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+          <h3 data-i18n="phone">Телефон</h3><p>+373 22 123 456<br>+373 69 123 456</p>
+        </div>
+        <div class="contact-card liquid-glass">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          <h3 data-i18n="email">Email</h3><p>hello@astore.md<br>support@astore.md</p>
+        </div>
+        <div class="contact-card liquid-glass">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          <h3 data-i18n="hours">Часы</h3><p data-i18n="hoursVal">Пн–Сб: 10:00–20:00<br>Вс: 11:00–18:00</p>
+        </div>
+      </div>
+      <div class="map-placeholder liquid-glass">
+        <div class="map-pin">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          <span>AStore</span>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-brand">AStore</div>
+    <p class="footer-copy">© 2026 AStore — Official Apple Reseller</p>
+    <div class="footer-links">
+      <a onclick="router('catalog')">Catalog</a>
+      <a onclick="router('contacts')">Contacts</a>
+      <a onclick="router('credit')">Credit</a>
+      <a onclick="router('service')">Service</a>
+    </div>
+  </footer>
+</div>
+<script>
+const products = [
+  { id: 1, name: {ru: 'iPhone 16 Pro', en: 'iPhone 16 Pro', ro: 'iPhone 16 Pro'}, category: 'iphone', price: 1199, image: 'https://kimi-web-img.moonshot.cn/img/pngimg.com/5abea714fc43c061efee3f8c48999c277ee9b870.png', badge: 'new', desc: {ru: 'Титановый корпус. Чип A18 Pro. Камера 48 МП.', en: 'Titanium design. A18 Pro chip. 48MP camera.', ro: 'Design titan. Chip A18 Pro. Camera 48 MP.'} },
+  { id: 2, name: {ru: 'iPhone 16', en: 'iPhone 16', ro: 'iPhone 16'}, category: 'iphone', price: 899, image: 'https://kimi-web-img.moonshot.cn/img/web-mobile-first.s3.eu-west-3.amazonaws.com/d64b356a49fef0e2e6b9d5fab5405ea58d8de85f.jpg', badge: 'new', desc: {ru: 'Чип A18. Динамический остров. Камера 48 МП.', en: 'A18 chip. Dynamic Island. 48MP camera.', ro: 'Chip A18. Dynamic Island. Camera 48 MP.'} },
+  { id: 3, name: {ru: 'MacBook Air 15" M3', en: 'MacBook Air 15" M3', ro: 'MacBook Air 15" M3'}, category: 'mac', price: 1499, image: 'https://kimi-web-img.moonshot.cn/img/cdsassets.apple.com/c9247065d93b14b070e798cc29632dc9438a6c3d.png', badge: 'new', desc: {ru: 'Сверхтонкий. До 18 часов работы.', en: 'Impossibly thin. Up to 18 hours.', ro: 'Incredibil de subtire. Pana la 18 ore.'} },
+  { id: 4, name: {ru: 'MacBook Pro 14" M4', en: 'MacBook Pro 14" M4', ro: 'MacBook Pro 14" M4'}, category: 'mac', price: 1999, image: 'https://kimi-web-img.moonshot.cn/img/www.hoxtonmacs.co.uk/84eec6b4adf0830e1c9a96f8e937c165de1f0366.jpg', badge: 'hot', desc: {ru: 'Чип M4 Pro. Дисплей XDR.', en: 'M4 Pro chip. XDR display.', ro: 'Chip M4 Pro. Display XDR.'} },
+  { id: 5, name: {ru: 'iPad Pro M4', en: 'iPad Pro M4', ro: 'iPad Pro M4'}, category: 'ipad', price: 1099, image: 'https://kimi-web-img.moonshot.cn/img/www.apple.com/66de5576cca2a5846ee51590ee891c30af1a615a.jpg', badge: 'new', desc: {ru: 'Сверхтонкий OLED. Чип M4.', en: 'Ultra-thin OLED. M4 chip.', ro: 'OLED ultra-subtire. Chip M4.'} },
+  { id: 6, name: {ru: 'Apple Watch Ultra 2', en: 'Apple Watch Ultra 2', ro: 'Apple Watch Ultra 2'}, category: 'watch', price: 899, image: 'https://kimi-web-img.moonshot.cn/img/cdsassets.apple.com/6b4e7befb5987c2a2f8465e7f02e0e70a143a788.png', badge: 'hot', desc: {ru: 'Титановый корпус. GPS прецизионный.', en: 'Titanium case. Precision GPS.', ro: 'Carcasa titan. GPS precis.'} },
+  { id: 7, name: {ru: 'AirPods Max', en: 'AirPods Max', ro: 'AirPods Max'}, category: 'audio', price: 579, image: 'https://kimi-web-img.moonshot.cn/img/store.storeimages.cdn-apple.com/fe66a6fa6a3d36e152ffa35ae9f0d5f1fbdfe35d', badge: '', desc: {ru: 'Высококачественное аудио. ANC.', en: 'High-fidelity audio. ANC.', ro: 'Audio high-fidelity. ANC.'} },
+  { id: 8, name: {ru: 'AirPods Pro 2', en: 'AirPods Pro 2', ro: 'AirPods Pro 2'}, category: 'audio', price: 249, image: 'https://kimi-web-img.moonshot.cn/img/store.storeimages.cdn-apple.com/c0bb5c57a8a643e8ff63ac68994f5f5d8731c395', badge: '', desc: {ru: 'Активное шумоподавление. USB-C.', en: 'Active noise cancellation. USB-C.', ro: 'Anulare activa zgomot. USB-C.'} },
+  { id: 9, name: {ru: 'AirPods 4', en: 'AirPods 4', ro: 'AirPods 4'}, category: 'audio', price: 149, image: 'https://kimi-web-img.moonshot.cn/img/store.storeimages.cdn-apple.com/f43f77352e87e72d4c4fc6310a95fccb5a75ed12', badge: 'new', desc: {ru: 'Пространственное аудио. USB-C.', en: 'Spatial audio. USB-C.', ro: 'Audio spatial. USB-C.'} },
+  { id: 10, name: {ru: 'Apple TV 4K', en: 'Apple TV 4K', ro: 'Apple TV 4K'}, category: 'tv', price: 169, image: 'https://kimi-web-img.moonshot.cn/img/store.storeimages.cdn-apple.com/ccc4c2464d0bd97270a7328a12f34e04d93c7f2d', badge: '', desc: {ru: 'A15 Bionic. HDR10+. Dolby Vision.', en: 'A15 Bionic. HDR10+. Dolby Vision.', ro: 'A15 Bionic. HDR10+. Dolby Vision.'} },
+  { id: 11, name: {ru: 'MagSafe Charger', en: 'MagSafe Charger', ro: 'MagSafe Charger'}, category: 'accessories', price: 45, image: 'https://kimi-web-img.moonshot.cn/img/store.storeimages.cdn-apple.com/8663c50716166ec403dce8cadcd9eca3f4d20c2c', badge: '', desc: {ru: 'Быстрая беспроводная зарядка 15W.', en: 'Fast wireless charging 15W.', ro: 'Incarcare wireless rapida 15W.'} },
+  { id: 12, name: {ru: 'iPhone 16 Silicone Case', en: 'iPhone 16 Silicone Case', ro: 'Husa iPhone 16 Silicone'}, category: 'accessories', price: 59, image: 'https://kimi-web-img.moonshot.cn/img/store.storeimages.cdn-apple.com/ef277dbd254d2d268c1701ebb87d3ccf00af0f46', badge: '', desc: {ru: 'Магнитный круг MagSafe. Мягкий силикон.', en: 'MagSafe compatible. Soft silicone.', ro: 'Compatibil MagSafe. Silicon moale.'} }
+];
+
+const i18n = {
+  ru: {
+    home: 'Главная', catalog: 'Каталог', credit: 'Кредит', tradein: 'Трейд-ин', contacts: 'Контакты', service: 'Сервис',
+    heroTitle: 'Новинки Apple', heroSubtitle: 'Официальный реселлер. Гарантия 2 года. Доставка по всей Европе.',
+    creditBtn: 'Кредит 0%', newArrivals: 'Новинки', feat1: 'Официальная гарантия', feat1desc: '2 года гарантии от Apple',
+    feat2: 'Быстрая доставка', feat2desc: '1-3 дня по ЕС и Молдове', feat3: 'Кредит 0%', feat3desc: 'До 24 месяцев без переплат',
+    feat4: 'Трейд-ин', feat4desc: 'Скидка до €500', catalogTitle: 'Каталог', catAll: 'Все',
+    back: 'Назад', cartTitle: 'Корзина', orderSummary: 'Итого', subtotal: 'Товары', delivery: 'Доставка',
+    free: 'Бесплатно', total: 'Всего', checkout: 'Оформить заказ', continue: 'Продолжить покупки',
+    creditHero: 'Кредит 0%', creditHeroDesc: 'Рассрочка без скрытых комиссий и переплат.',
+    calcTitle: 'Калькулятор', amount: 'Сумма', months: 'Месяцев', monthly: 'В месяц', overpayment: 'Переплата',
+    applyCredit: 'Подать заявку', cb1: 'Без взноса', cb1desc: 'Начните сразу', cb2: 'За 5 минут', cb2desc: 'Онлайн одобрение',
+    cb3: 'Досрочно', cb3desc: 'Без штрафов', tradeinHero: 'Трейд-ин Apple', tradeinHeroDesc: 'Скидка до €500 мгновенно.',
+    estimateTitle: 'Оцените устройство', deviceType: 'Тип', deviceModel: 'Модель', condition: 'Состояние',
+    estimate: 'Оценка', tradeinBtn: 'Обменять', contactTitle: 'Контакты', address: 'Адрес', phone: 'Телефон',
+    email: 'Email', hours: 'Часы', hoursVal: 'Пн–Сб: 10:00–20:00<br>Вс: 11:00–18:00', addToCart: 'В корзину',
+    serviceHero: 'Сервисный центр', serviceHeroDesc: 'Официальный ремонт Apple. Гарантия на работы 90 дней.',
+    svc1: 'Диагностика', svc1desc: 'Полная проверка устройства за 30 минут',
+    svc2: 'Замена экрана', svc2desc: 'Оригинальные дисплеи с гарантией',
+    svc3: 'Замена батареи', svc3desc: 'Оригинальные аккумуляторы Apple',
+    svc4: 'Ремонт после воды', svc4desc: 'Ультразвуковая чистка и восстановление',
+    svc5: 'Настройка ПО', svc5desc: 'Перенос данных, настройка iCloud',
+    svc6: 'Ремонт Mac', svc6desc: 'Клавиатура, тачпад, платы'
+  },
+  en: {
+    home: 'Home', catalog: 'Catalog', credit: 'Credit', tradein: 'Trade-in', contacts: 'Contacts', service: 'Service',
+    heroTitle: 'New Apple', heroSubtitle: 'Official reseller. 2-year warranty. EU-wide delivery.',
+    creditBtn: '0% Credit', newArrivals: 'New arrivals', feat1: 'Official warranty', feat1desc: '2 years Apple warranty',
+    feat2: 'Fast delivery', feat2desc: '1-3 days across EU', feat3: '0% Credit', feat3desc: 'Up to 24 months',
+    feat4: 'Trade-in', feat4desc: 'Up to €500 off', catalogTitle: 'Catalog', catAll: 'All',
+    back: 'Back', cartTitle: 'Cart', orderSummary: 'Summary', subtotal: 'Subtotal', delivery: 'Delivery',
+    free: 'Free', total: 'Total', checkout: 'Checkout', continue: 'Continue shopping',
+    creditHero: '0% Credit', creditHeroDesc: 'Installment with no hidden fees.',
+    calcTitle: 'Calculator', amount: 'Amount', months: 'Months', monthly: 'Monthly', overpayment: 'Overpayment',
+    applyCredit: 'Apply now', cb1: 'No down payment', cb1desc: 'Start immediately', cb2: 'In 5 minutes', cb2desc: 'Online approval',
+    cb3: 'Early payoff', cb3desc: 'No penalties', tradeinHero: 'Apple Trade-in', tradeinHeroDesc: 'Up to €500 instant credit.',
+    estimateTitle: 'Estimate your device', deviceType: 'Type', deviceModel: 'Model', condition: 'Condition',
+    estimate: 'Estimate', tradeinBtn: 'Trade now', contactTitle: 'Contacts', address: 'Address', phone: 'Phone',
+    email: 'Email', hours: 'Hours', hoursVal: 'Mon–Sat: 10:00–20:00<br>Sun: 11:00–18:00', addToCart: 'Add to cart',
+    serviceHero: 'Service Center', serviceHeroDesc: 'Official Apple repair. 90 days warranty on all work.',
+    svc1: 'Diagnostics', svc1desc: 'Full device check in 30 minutes',
+    svc2: 'Screen replacement', svc2desc: 'Original displays with warranty',
+    svc3: 'Battery replacement', svc3desc: 'Original Apple batteries',
+    svc4: 'Water damage repair', svc4desc: 'Ultrasonic cleaning and recovery',
+    svc5: 'Software setup', svc5desc: 'Data transfer, iCloud setup',
+    svc6: 'Mac repair', svc6desc: 'Keyboard, trackpad, logic boards'
+  },
+  ro: {
+    home: 'Acasa', catalog: 'Catalog', credit: 'Credit', tradein: 'Trade-in', contacts: 'Contacte', service: 'Service',
+    heroTitle: 'Noutati Apple', heroSubtitle: 'Reseller oficial. Garantie 2 ani. Livrare in toata Europa.',
+    creditBtn: 'Credit 0%', newArrivals: 'Noutati', feat1: 'Garantie oficiala', feat1desc: '2 ani garantie Apple',
+    feat2: 'Livrare rapida', feat2desc: '1-3 zile in UE', feat3: 'Credit 0%', feat3desc: 'Pana la 24 luni',
+    feat4: 'Trade-in', feat4desc: 'Reducere pana la €500', catalogTitle: 'Catalog', catAll: 'Toate',
+    back: 'Inapoi', cartTitle: 'Cos', orderSummary: 'Total', subtotal: 'Produse', delivery: 'Livrare',
+    free: 'Gratuit', total: 'Total', checkout: 'Finalizeaza', continue: 'Continua cumparaturile',
+    creditHero: 'Credit 0%', creditHeroDesc: 'Rate fara comisioane ascunse.',
+    calcTitle: 'Calculator', amount: 'Suma', months: 'Luni', monthly: 'Pe luna', overpayment: 'Dobanda',
+    applyCredit: 'Aplica acum', cb1: 'Fara avans', cb1desc: 'Incepe imediat', cb2: 'In 5 minute', cb2desc: 'Aprobare online',
+    cb3: 'Rambursare anticipata', cb3desc: 'Fara penalitati', tradeinHero: 'Trade-in Apple', tradeinHeroDesc: 'Reducere pana la €500 instant.',
+    estimateTitle: 'Evalueaza dispozitivul', deviceType: 'Tip', deviceModel: 'Model', condition: 'Stare',
+    estimate: 'Evaluare', tradeinBtn: 'Schimba acum', contactTitle: 'Contacte', address: 'Adresa', phone: 'Telefon',
+    email: 'Email', hours: 'Ore', hoursVal: 'Lun–Sam: 10:00–20:00<br>Dum: 11:00–18:00', addToCart: 'Adauga in cos',
+    serviceHero: 'Centru de service', serviceHeroDesc: 'Reparatii Apple oficiale. Garantie 90 zile.',
+    svc1: 'Diagnosticare', svc1desc: 'Verificare completa in 30 minute',
+    svc2: 'Inlocuire ecran', svc2desc: 'Display-uri originale cu garantie',
+    svc3: 'Inlocuire baterie', svc3desc: 'Baterii Apple originale',
+    svc4: 'Reparatie apa', svc4desc: 'Curatare ultrasonica si recuperare',
+    svc5: 'Configurare SO', svc5desc: 'Transfer date, configurare iCloud',
+    svc6: 'Reparatie Mac', svc6desc: 'Tastatura, trackpad, placi de baza'
+  }
+};
+
+let cart = [];
+let currentLang = 'ru';
+let currentFilter = 'all';
+
+function t(key) {
+  return i18n[currentLang][key] || key;
+}
+
+function setLang(lang) {
+  currentLang = lang;
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.dataset.lang === lang));
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.dataset.i18n;
+    if (i18n[lang][key]) {
+      el.innerHTML = i18n[lang][key];
+    }
+  });
+  renderNewProducts();
+  renderCatalog();
+  renderCart();
+  const pd = document.getElementById('productDetail');
+  if (pd && pd.dataset.pid) {
+    openProduct(parseInt(pd.dataset.pid));
+  }
+}
+
+function router(page) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + page).classList.add('active');
+  window.scrollTo(0, 0);
+  if (page === 'catalog') renderCatalog();
+  if (page === 'cart') renderCart();
+}
+
+function renderProductCard(p) {
+  const div = document.createElement('div');
+  div.className = 'product-card liquid-glass';
+  const badgeText = p.badge === 'new' ? (currentLang === 'ru' ? 'Новинка' : currentLang === 'ro' ? 'Nou' : 'New') : (p.badge === 'hot' ? 'Hot' : '');
+  div.innerHTML = `
+    ${p.badge ? `<span class="product-badge">${badgeText}</span>` : ''}
+    <div class="product-img-wrap" onclick="openProduct(${p.id})">
+      <img src="${p.image}" alt="${p.name[currentLang]}" loading="lazy" onerror="this.style.display='none'">
+    </div>
+    <div class="product-name" onclick="openProduct(${p.id})">${p.name[currentLang]}</div>
+    <div class="product-price">€${p.price}</div>
+    <button class="add-cart-btn" onclick="event.stopPropagation(); addToCart(${p.id})">${t('addToCart')}</button>
+  `;
+  return div;
+}
+
+function renderNewProducts() {
+  const grid = document.getElementById('newProducts');
+  grid.innerHTML = '';
+  products.filter(p => p.badge).forEach(p => grid.appendChild(renderProductCard(p)));
+}
+
+function filterCat(cat) {
+  currentFilter = cat;
+  document.querySelectorAll('.filter-btn').forEach(b => {
+    b.classList.toggle('active', b.dataset.cat === cat);
+  });
+  renderCatalog();
+}
+
+function renderCatalog() {
+  const grid = document.getElementById('catalogGrid');
+  grid.innerHTML = '';
+  const filtered = currentFilter === 'all' ? products : products.filter(p => p.category === currentFilter);
+  filtered.forEach(p => grid.appendChild(renderProductCard(p)));
+}
+
+function openProduct(id) {
+  const p = products.find(x => x.id === id);
+  if (!p) return;
+  const detail = document.getElementById('productDetail');
+  detail.dataset.pid = id;
+  detail.innerHTML = `
+    <div class="product-detail-img liquid-glass">
+      <img src="${p.image}" alt="${p.name[currentLang]}" onerror="this.style.display='none'">
+    </div>
+    <div class="product-detail-info">
+      <h1>${p.name[currentLang]}</h1>
+      <div class="detail-price">€${p.price}</div>
+      <div class="detail-desc">${p.desc[currentLang]}</div>
+      <div class="detail-actions">
+        <button class="btn-primary" onclick="addToCart(${p.id})">${t('addToCart')}</button>
+        <button class="btn-secondary" onclick="router('cart')">${t('cartTitle')}</button>
+      </div>
+    </div>
+  `;
+  router('product');
+}
+
+function addToCart(id) {
+  const item = cart.find(c => c.id === id);
+  if (item) item.qty++;
+  else cart.push({ id, qty: 1 });
+  updateCartCount();
+}
+
+function removeFromCart(id) {
+  cart = cart.filter(c => c.id !== id);
+  renderCart();
+  updateCartCount();
+}
+
+function changeQty(id, delta) {
+  const item = cart.find(c => c.id === id);
+  if (!item) return;
+  item.qty += delta;
+  if (item.qty <= 0) removeFromCart(id);
+  else renderCart();
+  updateCartCount();
+}
+
+function updateCartCount() {
+  const count = cart.reduce((s, c) => s + c.qty, 0);
+  document.getElementById('cartCount').textContent = count;
+}
+
+function renderCart() {
+  const container = document.getElementById('cartItems');
+  if (cart.length === 0) {
+    container.innerHTML = '<div class="liquid-glass" style="padding:40px;text-align:center;font-size:18px;color:#424245">' + (currentLang === 'ru' ? 'Корзина пуста' : currentLang === 'ro' ? 'Cosul este gol' : 'Cart is empty') + '</div>';
+    document.getElementById('subtotal').textContent = '€0';
+    document.getElementById('cartTotal').textContent = '€0';
+    return;
+  }
+  container.innerHTML = '';
+  let total = 0;
+  cart.forEach(c => {
+    const p = products.find(x => x.id === c.id);
+    total += p.price * c.qty;
+    const div = document.createElement('div');
+    div.className = 'cart-item liquid-glass';
+    div.innerHTML = `
+      <img src="${p.image}" alt="${p.name[currentLang]}" onerror="this.style.display='none'">
+      <div class="cart-item-info">
+        <h4>${p.name[currentLang]}</h4>
+        <div class="item-price">€${p.price}</div>
+      </div>
+      <div class="cart-item-qty">
+        <button onclick="changeQty(${c.id}, -1)">−</button>
+        <span>${c.qty}</span>
+        <button onclick="changeQty(${c.id}, 1)">+</button>
+      </div>
+      <button class="cart-item-remove" onclick="removeFromCart(${c.id})">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
+    `;
+    container.appendChild(div);
+  });
+  document.getElementById('subtotal').textContent = '€' + total;
+  document.getElementById('cartTotal').textContent = '€' + total;
+}
+
+function updateCredit() {
+  const amount = parseInt(document.getElementById('creditAmount').value);
+  const months = parseInt(document.getElementById('creditMonths').value);
+  document.getElementById('creditAmountVal').textContent = '€' + amount;
+  document.getElementById('creditMonthsVal').textContent = months;
+  document.getElementById('monthlyPayment').textContent = '€' + Math.round(amount / months);
+  document.getElementById('overpayment').textContent = '€0';
+}
+
+renderNewProducts();
+renderCatalog();
+updateCredit();
+</script>
+
+</body>
+</html>
