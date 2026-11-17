@@ -500,6 +500,8 @@
         .about-image:hover { transform: scale(1.03) rotate(1deg); }
         .about-image::before { content: ''; position: absolute; width: 200%; height: 200%; background: repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(255,255,255,0.05) 10px, rgba(255,255,255,0.05) 20px); animation: shimmer 20s linear infinite; }
         @keyframes shimmer { 0% { transform: translate(-50%,-50%) rotate(0deg); } 100% { transform: translate(-50%,-50%) rotate(360deg); } }
+        .about-image img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1; }
+        .about-image::before { z-index: 2; pointer-events: none; }
         .about-image svg { width: 200px; height: 200px; opacity: 0.4; z-index: 1; }
 
         /* === FOOTER === */
@@ -693,7 +695,7 @@ html, body { overflow-x: clip; }
                     <p data-key="about_p3">Атмосфера ресторана вдохновлена эстетикой укиё-э — "искусства преходящего мира". Розовые оттенки сакуры, величественные волны и тихие горы создают уникальную атмосферу для вашего ужина.</p>
                 </div>
                 <div class="about-image reveal-right">
-                    <svg viewBox="0 0 200 200" fill="none"><path d="M100 20 C60 50,40 100,100 180 C160 100,140 50,100 20" fill="#c47878" opacity="0.3"/><circle cx="100" cy="80" r="30" fill="#e8a0a0" opacity="0.4"/><path d="M70 140 Q100 120 130 140" stroke="#c47878" stroke-width="2" fill="none"/><path d="M80 130 Q100 115 120 130" stroke="#e8a0a0" stroke-width="1.5" fill="none"/></svg>
+                    <img src="images/demo/japany/about-sushi-chef.jpg" alt="Шеф наносит соус кистью на нигири за деревянной стойкой" loading="lazy" width="960" height="1200">
                 </div>
             </div>
         </section>
@@ -791,33 +793,33 @@ html, body { overflow-x: clip; }
     <script>
     // === IMAGE MAP ===
     const dishImages = {
-        's1': 'https://kimi-web-img.moonshot.cn/img/en.pimg.jp/45b83d2950b7a31312df8bf83ff654a097bcc27e.jpg',
-        's2': 'https://kimi-web-img.moonshot.cn/img/sushistaycation.com/342a7f59a70c078bdc2d8fb47faf8f4a0bdfb3ff.jpg',
-        's3': 'https://kimi-web-img.moonshot.cn/img/www.siftandsimmer.com/735cd6be55353e2b4ce43727ad9b6957d6952714.jpg',
-        's4': 'https://kimi-web-img.moonshot.cn/img/media-cdn2.greatbritishchefs.com/c5e8aca2e0e9845c49a988ccc29d0a01fefedf13.jpg',
-        's5': 'https://kimi-web-img.moonshot.cn/img/sushistaycation.com/e90d9a940ce464b586239f5dc715bff0367747ec.jpg',
-        's6': 'https://kimi-web-img.moonshot.cn/img/134522373.cdn6.editmysite.com/1579e449d3a1fb1ffbc6e0cf641906ed9df8bb91.jpeg',
-        'r1': 'https://kimi-web-img.moonshot.cn/img/pickledplum.com/d12c0ee682c5f6249d7f0e17264e5bd12a17b324.jpg',
-        'r2': 'https://kimi-web-img.moonshot.cn/img/thesushiman.com/756178f1c0bcdf4cb6e9228321304e86c975d1fa.jpg',
-        'r3': 'https://kimi-web-img.moonshot.cn/img/thesushiman.com/30f3059840af1d1e966b53dbcd6a56c4e8b295e5.jpg',
-        'r4': 'https://kimi-web-img.moonshot.cn/img/images.squarespace-cdn.com/c7512486b82b07ce7b46320112e09dfd0edfa8c9.jpg',
-        'r5': 'https://kimi-web-img.moonshot.cn/img/dinnerthendessert.com/f207a2ab9af59d53b7c89651e7d6e7fb401f2ccc.jpg',
-        'r6': 'https://kimi-web-img.moonshot.cn/img/olivesfordinner.com/308e2bae9613861f5207feb3a17a603a25e85796.jpg',
-        'p1': 'https://kimi-web-img.moonshot.cn/img/pickledplum.com/3a2431950945307684b505260c3a9e60e0445897.jpg',
-        'p2': 'https://kimi-web-img.moonshot.cn/img/simplehomeedit.com/50384f14e53bca87a0e601f2d88cc00af0802bbb.webp',
-        'p3': 'https://kimi-web-img.moonshot.cn/img/www.recipetineats.com/1bf9ad169fd08edb818c3c3ba6fb24e3c0c3efbe.jpg',
-        'p4': 'https://kimi-web-img.moonshot.cn/img/umamito.com/57f08f33ddfce8a715ff84ebf70a0fbeea93758b.jpg',
-        'h1': 'https://kimi-web-img.moonshot.cn/img/therealfooddietitians.com/a5efd82b088c97b36b1e828fb642e46a1882c2e1.jpg',
-        'h2': 'https://kimi-web-img.moonshot.cn/img/media-cdn.tripadvisor.com/bbb3347325826ed4ef2e33758615221747ce1454.jpg',
-        'h3': 'https://kimi-web-img.moonshot.cn/img/www.justonecookbook.com/590d54f5d1162093d01695f22afcfa3823dba47f.jpg',
-        'h4': 'https://kimi-web-img.moonshot.cn/img/static01.nyt.com/4c8b3f09c5aef5a42f19c8ce863d8944345b5dff.jpg',
-        'd1': 'https://kimi-web-img.moonshot.cn/img/images.stockcake.com/1f0144a05d2bdd2a5884bf32b37ac3a004d43ad0.jpg',
-        'd2': 'https://kimi-web-img.moonshot.cn/img/japan.recipetineats.com/6785b83a883ae2b0789e099beabf0ede9197d181.jpg',
-        'd3': 'https://kimi-web-img.moonshot.cn/img/www.cooking-therapy.com/ad1275c9f07e6f80c2e160ab90fbdfa90d9940ef.jpg',
-        'b1': 'https://kimi-web-img.moonshot.cn/img/www.japan-guide.com/fcc00be6432ff42f6723963f4b40c1afba26cb82.jpg',
-        'b2': 'https://kimi-web-img.moonshot.cn/img/cdn.loveandlemons.com/943ea763cedb97c51e4464bdd45db649d1814285.jpg',
-        'b3': 'https://kimi-web-img.moonshot.cn/img/produits.bienmanger.com/dfaf17880ee1252e548a8405233af662e271e9f8.jpg',
-        'b4': 'https://kimi-web-img.moonshot.cn/img/bokksu.com/5ca86942540ecb496ee5276200e11e23e8c1c4d8.jpg',
+        's1': 'images/demo/japany/salmon-nigiri.jpg',
+        's2': 'images/demo/japany/tuna-nigiri.jpg',
+        's3': 'images/demo/japany/unagi-nigiri.jpg',
+        's4': 'images/demo/japany/tamago-nigiri.jpg',
+        's5': 'images/demo/japany/ebi-nigiri.jpg',
+        's6': 'images/demo/japany/ikura-gunkan.jpg',
+        'r1': 'images/demo/japany/philadelphia-roll.jpg',
+        'r2': 'images/demo/japany/dragon-roll.jpg',
+        'r3': 'images/demo/japany/california-roll.jpg',
+        'r4': 'images/demo/japany/spicy-tuna-roll.jpg',
+        'r5': 'images/demo/japany/rainbow-roll.jpg',
+        'r6': 'images/demo/japany/vegan-roll.jpg',
+        'p1': 'images/demo/japany/miso-soup.jpg',
+        'p2': 'images/demo/japany/shrimp-ramen.jpg',
+        'p3': 'images/demo/japany/tom-yum.jpg',
+        'p4': 'images/demo/japany/suimono.jpg',
+        'h1': 'images/demo/japany/teriyaki-bowl.jpg',
+        'h2': 'images/demo/japany/beef-teppanyaki.jpg',
+        'h3': 'images/demo/japany/katsudon.jpg',
+        'h4': 'images/demo/japany/gyoza.jpg',
+        'd1': 'images/demo/japany/mochi.jpg',
+        'd2': 'images/demo/japany/dorayaki.jpg',
+        'd3': 'images/demo/japany/matcha-tiramisu.jpg',
+        'b1': 'images/demo/japany/sake-masu.jpg',
+        'b2': 'images/demo/japany/matcha-latte.jpg',
+        'b3': 'images/demo/japany/genmaicha.jpg',
+        'b4': 'images/demo/japany/ramune.jpg',
     };
 
     const translations = {
@@ -917,7 +919,7 @@ html, body { overflow-x: clip; }
         ],
         rolls: [
             { id:'r1', name:{ru:'Филадельфия Классик',ro:'Philadelphia Classic',en:'Philadelphia Classic'}, jp:'フィラデルフィア', priceMdl:180, priceEur:9.20, weight:'280г', desc:{ru:'Лосось, сливочный сыр, авокадо и огурец в классическом исполнении.',ro:'Somon, brânză cremă, avocado și castravete în interpretare clasică.',en:'Salmon, cream cheese, avocado and cucumber in a classic rendition.'}, ingredients:{ru:['Лосось','Сливочный сыр','Авокадо','Огурец','Рис','Нори'],ro:['Somon','Brânză cremă','Avocado','Castravete','Orez','Nori'],en:['Salmon','Cream cheese','Avocado','Cucumber','Rice','Nori']}, nutrition:{ru:'Калории: 320 | Белки: 12г | Жиры: 18г | Углеводы: 28г',ro:'Calorii: 320 | Proteine: 12g | Grăsimi: 18g | Carbohidrați: 28g',en:'Calories: 320 | Protein: 12g | Fat: 18g | Carbs: 28g'}, badge:'popular' },
-            { id:'r2', name:{ru:'Дракон',ro:'Dragon',en:'Dragon Roll'}, jp:'ドラゴン', priceMdl:220, priceEur:11.25, weight:'300г', desc:{ru:'Угорь, авокадо, огурец внутри, сверху — ломтики авокадо и соус унаги.',ro:'Anguină, avocado, castravete în interior, deasupra — felii de avocado și sos unagi.',en:'Eel, avocado, cucumber inside, topped with avocado slices and unagi sauce.'}, ingredients:{ru:['Угорь','Авокадо','Огурец','Рис','Нори','Соус унаги','Кунжут'],ro:['Anguină','Avocado','Castravete','Orez','Nori','Sos unagi','Susan'],en:['Eel','Avocado','Cucumber','Rice','Nori','Unagi sauce','Sesame']}, nutrition:{ru:'Калории: 350 | Белки: 14г | Жиры: 20г | Углеводы: 30г',ro:'Calorii: 350 | Proteine: 14g | Grăsimi: 20g | Carbohidrați: 30g',en:'Calories: 350 | Protein: 14g | Fat: 20g | Carbs: 30g'}, badge:'premium' },
+            { id:'r2', name:{ru:'Дракон',ro:'Dragon',en:'Dragon Roll'}, jp:'ドラゴン', priceMdl:220, priceEur:11.25, weight:'300г', desc:{ru:'Угорь и огурец внутри, сверху — лосось, обожжённый горелкой, и соус унаги.',ro:'Țipar și castravete în interior, deasupra — somon flambat și sos unagi.',en:'Eel and cucumber inside, topped with torched salmon and unagi sauce.'}, ingredients:{ru:['Угорь','Огурец','Лосось','Соус унаги','Рис','Нори'],ro:['Țipar','Castravete','Somon','Sos unagi','Orez','Nori'],en:['Eel','Cucumber','Salmon','Unagi sauce','Rice','Nori']}, nutrition:{ru:'Калории: 350 | Белки: 14г | Жиры: 20г | Углеводы: 30г',ro:'Calorii: 350 | Proteine: 14g | Grăsimi: 20g | Carbohidrați: 30g',en:'Calories: 350 | Protein: 14g | Fat: 20g | Carbs: 30g'}, badge:'premium' },
             { id:'r3', name:{ru:'Калифорния',ro:'California',en:'California Roll'}, jp:'カリフォルニア', priceMdl:160, priceEur:8.20, weight:'260г', desc:{ru:'Краб, авокадо, огурец, икра тобико — классика западного побережья.',ro:'Crab, avocado, castravete, icre tobiko — clasicul de pe coasta de vest.',en:'Crab, avocado, cucumber, tobiko roe — the classic from the West Coast.'}, ingredients:{ru:['Краб','Авокадо','Огурец','Рис','Нори','Икра тобико','Майонез'],ro:['Crab','Avocado','Castravete','Orez','Nori','Icre tobiko','Maioneză'],en:['Crab','Avocado','Cucumber','Rice','Nori','Tobiko roe','Mayonnaise']}, nutrition:{ru:'Калории: 290 | Белки: 10г | Жиры: 14г | Углеводы: 32г',ro:'Calorii: 290 | Proteine: 10g | Grăsimi: 14g | Carbohidrați: 32g',en:'Calories: 290 | Protein: 10g | Fat: 14g | Carbs: 32g'}, badge:'popular' },
             { id:'r4', name:{ru:'Спайси Тунец',ro:'Spicy Tuna',en:'Spicy Tuna Roll'}, jp:'スパイシー鮪', priceMdl:190, priceEur:9.70, weight:'270г', desc:{ru:'Острый тунец с соусом шрирача, огурцом и зелёным луком.',ro:'Ton picant cu sos sriracha, castravete și ceapă verde.',en:'Spicy tuna with sriracha sauce, cucumber, and green onion.'}, ingredients:{ru:['Тунец','Соус шрирача','Огурец','Зелёный лук','Рис','Нори'],ro:['Ton','Sos sriracha','Castravete','Ceapă verde','Orez','Nori'],en:['Tuna','Sriracha sauce','Cucumber','Green onion','Rice','Nori']}, nutrition:{ru:'Калории: 260 | Белки: 15г | Жиры: 8г | Углеводы: 28г',ro:'Calorii: 260 | Proteine: 15g | Grăsimi: 8g | Carbohidrați: 28g',en:'Calories: 260 | Protein: 15g | Fat: 8g | Carbs: 28g'}, badge:'spicy' },
             { id:'r5', name:{ru:'Радуга',ro:'Curcubeu',en:'Rainbow Roll'}, jp:'虹', priceMdl:240, priceEur:12.25, weight:'320г', desc:{ru:'Калифорния внутри, сверху — лосось, тунец, креветка, авокадо.',ro:'California în interior, deasupra — somon, ton, crevede, avocado.',en:'California inside, topped with salmon, tuna, shrimp, and avocado.'}, ingredients:{ru:['Лосось','Тунец','Креветка','Авокадо','Краб','Рис','Нори'],ro:['Somon','Ton','Crevede','Avocado','Crab','Orez','Nori'],en:['Salmon','Tuna','Shrimp','Avocado','Crab','Rice','Nori']}, nutrition:{ru:'Калории: 340 | Белки: 18г | Жиры: 16г | Углеводы: 30г',ro:'Calorii: 340 | Proteine: 18g | Grăsimi: 16g | Carbohidrați: 30g',en:'Calories: 340 | Protein: 18g | Fat: 16g | Carbs: 30g'}, badge:'premium' },
@@ -925,12 +927,12 @@ html, body { overflow-x: clip; }
         ],
         soups: [
             { id:'p1', name:{ru:'Мисо Сиру',ro:'Miso Shiru',en:'Miso Soup'}, jp:'味噌汁', priceMdl:55, priceEur:2.80, weight:'300мл', desc:{ru:'Классический мисо-суп с тофу, водорослями вакаме и зелёным луком.',ro:'Supă clasică miso cu tofu, alge wakame și ceapă verde.',en:'Classic miso soup with tofu, wakame seaweed, and green onion.'}, ingredients:{ru:['Мисо паста','Тофу','Вакаме','Зелёный лук','Даси'],ro:['Pastă miso','Tofu','Wakame','Ceapă verde','Dashi'],en:['Miso paste','Tofu','Wakame','Green onion','Dashi']}, nutrition:{ru:'Калории: 45 | Белки: 3г | Жиры: 1г | Углеводы: 6г',ro:'Calorii: 45 | Proteine: 3g | Grăsimi: 1g | Carbohidrați: 6g',en:'Calories: 45 | Protein: 3g | Fat: 1g | Carbs: 6g'}, badge:null },
-            { id:'p2', name:{ru:'Рамен с Лососем',ro:'Ramen cu Somon',en:'Salmon Ramen'}, jp:'鮭ラーメン', priceMdl:145, priceEur:7.40, weight:'450мл', desc:{ru:'Насыщенный бульон тонкоцу с ломтиками лосося, яйцом и лапшой.',ro:'Bulion bogat tonkotsu cu felii de somon, ou și tăiței.',en:'Rich tonkotsu broth with salmon slices, egg, and noodles.'}, ingredients:{ru:['Лосось','Лапша рамен','Яйцо','Бульон тонкоцу','Нори','Кунжут'],ro:['Somon','Tăiței ramen','Ou','Bulion tonkotsu','Nori','Susan'],en:['Salmon','Ramen noodles','Egg','Tonkotsu broth','Nori','Sesame']}, nutrition:{ru:'Калории: 480 | Белки: 28г | Жиры: 22г | Углеводы: 42г',ro:'Calorii: 480 | Proteine: 28g | Grăsimi: 22g | Carbohidrați: 42g',en:'Calories: 480 | Protein: 28g | Fat: 22g | Carbs: 42g'}, badge:'popular' },
+            { id:'p2', name:{ru:'Рамен с Креветками',ro:'Ramen cu Creveți',en:'Shrimp Ramen'}, jp:'エビラーメン', priceMdl:145, priceEur:7.40, weight:'450мл', desc:{ru:'Насыщенный бульон с тигровыми креветками, яйцом и лапшой.',ro:'Bulion bogat cu creveți tigru, ou și tăiței.',en:'Rich broth with tiger prawns, egg, and noodles.'}, ingredients:{ru:['Креветки','Лапша рамен','Яйцо','Бульон','Зелёный горошек','Кунжут'],ro:['Creveți','Tăiței ramen','Ou','Bulion','Mazăre verde','Susan'],en:['Prawns','Ramen noodles','Egg','Broth','Green peas','Sesame']}, nutrition:{ru:'Калории: 480 | Белки: 28г | Жиры: 22г | Углеводы: 42г',ro:'Calorii: 480 | Proteine: 28g | Grăsimi: 22g | Carbohidrați: 42g',en:'Calories: 480 | Protein: 28g | Fat: 22g | Carbs: 42g'}, badge:'popular' },
             { id:'p3', name:{ru:'Том Ям',ro:'Tom Yum',en:'Tom Yum'}, jp:'トムヤム', priceMdl:135, priceEur:6.90, weight:'400мл', desc:{ru:'Острый тайский суп с креветками, грибами и лемонграссом.',ro:'Supă thailandeză picantă cu crevede, ciuperci și lemongrass.',en:'Spicy Thai soup with shrimp, mushrooms, and lemongrass.'}, ingredients:{ru:['Креветки','Грибы шиитаке','Лемонграсс','Лайм','Чили','Кокосовое молоко'],ro:['Crevede','Ciuperci shiitake','Lemongrass','Lime','Chili','Lapte de cocos'],en:['Shrimp','Shiitake mushrooms','Lemongrass','Lime','Chili','Coconut milk']}, nutrition:{ru:'Калории: 220 | Белки: 14г | Жиры: 12г | Углеводы: 14г',ro:'Calorii: 220 | Proteine: 14g | Grăsimi: 12g | Carbohidrați: 14g',en:'Calories: 220 | Protein: 14g | Fat: 12g | Carbs: 14g'}, badge:'spicy' },
             { id:'p4', name:{ru:'Суимоно',ro:'Suimono',en:'Suimono'}, jp:'吸い物', priceMdl:75, priceEur:3.85, weight:'250мл', desc:{ru:'Прозрачный бульон даси с грибами эноки и ломтиками лосося.',ro:'Bulion clar dashi cu ciuperci enoki și felii de somon.',en:'Clear dashi broth with enoki mushrooms and salmon slices.'}, ingredients:{ru:['Лосось','Эноки','Даси','Лимон','Мицуба'],ro:['Somon','Enoki','Dashi','Lămâie','Mitsuba'],en:['Salmon','Enoki','Dashi','Lemon','Mitsuba']}, nutrition:{ru:'Калории: 80 | Белки: 10г | Жиры: 2г | Углеводы: 5г',ro:'Calorii: 80 | Proteine: 10g | Grăsimi: 2g | Carbohidrați: 5g',en:'Calories: 80 | Protein: 10g | Fat: 2g | Carbs: 5g'}, badge:null },
         ],
         hot: [
-            { id:'h1', name:{ru:'Терияки Лосось',ro:'Somon Teriyaki',en:'Salmon Teriyaki'}, jp:'照り焼き鮭', priceMdl:195, priceEur:9.95, weight:'320г', desc:{ru:'Филе лосося в глянцевом соусе терияки с овощами и рисом.',ro:'File de somon în sos strălucitor teriyaki cu legume și orez.',en:'Salmon fillet in glossy teriyaki sauce with vegetables and rice.'}, ingredients:{ru:['Лосось','Соус терияки','Брокколи','Перец','Рис','Кунжут'],ro:['Somon','Sos teriyaki','Broccoli','Ardei','Orez','Susan'],en:['Salmon','Teriyaki sauce','Broccoli','Pepper','Rice','Sesame']}, nutrition:{ru:'Калории: 520 | Белки: 32г | Жиры: 24г | Углеводы: 38г',ro:'Calorii: 520 | Proteine: 32g | Grăsimi: 24g | Carbohidrați: 38g',en:'Calories: 520 | Protein: 32g | Fat: 24g | Carbs: 38g'}, badge:'popular' },
+            { id:'h1', name:{ru:'Терияки с Курицей',ro:'Pui Teriyaki',en:'Chicken Teriyaki'}, jp:'照り焼きチキン', priceMdl:195, priceEur:9.95, weight:'320г', desc:{ru:'Куриное бедро в глянцевом соусе терияки с брокколи и рисом.',ro:'Pulpă de pui în sos strălucitor teriyaki cu broccoli și orez.',en:'Chicken thigh in glossy teriyaki sauce with broccoli and rice.'}, ingredients:{ru:['Курица','Соус терияки','Брокколи','Зелёный лук','Рис','Кунжут'],ro:['Pui','Sos teriyaki','Broccoli','Ceapă verde','Orez','Susan'],en:['Chicken','Teriyaki sauce','Broccoli','Green onion','Rice','Sesame']}, nutrition:{ru:'Калории: 520 | Белки: 32г | Жиры: 24г | Углеводы: 38г',ro:'Calorii: 520 | Proteine: 32g | Grăsimi: 24g | Carbohidrați: 38g',en:'Calories: 520 | Protein: 32g | Fat: 24g | Carbs: 38g'}, badge:'popular' },
             { id:'h2', name:{ru:'Теппаньяки Говядина',ro:'Teppanyaki Vită',en:'Beef Teppanyaki'}, jp:'鉄板焼き牛肉', priceMdl:225, priceEur:11.50, weight:'350г', desc:{ru:'Мраморная говядина на раскалённой плите с чесноком и имбирём.',ro:'Vită marmorată pe plită încinsă cu usturoi și ghimbir.',en:'Marbled beef on a hot plate with garlic and ginger.'}, ingredients:{ru:['Говядина','Чеснок','Имбирь','Соевый соус','Масло','Овощи'],ro:['Vită','Usturoi','Ghimbir','Sos de soia','Ulei','Legume'],en:['Beef','Garlic','Ginger','Soy sauce','Oil','Vegetables']}, nutrition:{ru:'Калории: 580 | Белки: 38г | Жиры: 32г | Углеводы: 18г',ro:'Calorii: 580 | Proteine: 38g | Grăsimi: 32g | Carbohidrați: 18g',en:'Calories: 580 | Protein: 38g | Fat: 32g | Carbs: 18g'}, badge:'premium' },
             { id:'h3', name:{ru:'Кацу Дон',ro:'Katsu Don',en:'Katsu Don'}, jp:'カツ丼', priceMdl:155, priceEur:7.90, weight:'400г', desc:{ru:'Хрустящая свинина в панировке с яйцом и луком на рисе.',ro:'Porc crocant pane cu ou și ceapă pe orez.',en:'Crispy breaded pork with egg and onion on rice.'}, ingredients:{ru:['Свинина','Яйцо','Лук','Рис','Панировка','Даси'],ro:['Porc','Ou','Ceapă','Orez','Pane','Dashi'],en:['Pork','Egg','Onion','Rice','Breadcrumbs','Dashi']}, nutrition:{ru:'Калории: 650 | Белки: 28г | Жиры: 30г | Углеводы: 62г',ro:'Calorii: 650 | Proteine: 28g | Grăsimi: 30g | Carbohidrați: 62g',en:'Calories: 650 | Protein: 28g | Fat: 30g | Carbs: 62g'}, badge:null },
             { id:'h4', name:{ru:'Гёдза',ro:'Gyoza',en:'Gyoza'}, jp:'餃子', priceMdl:95, priceEur:4.85, weight:'200г (6 шт)', desc:{ru:'Жареные пельмени со свининой, капустой и имбирём.',ro:'Colțunași prăjiți cu porc, varză și ghimbir.',en:'Pan-fried dumplings with pork, cabbage, and ginger.'}, ingredients:{ru:['Свинина','Капуста','Имбирь','Чеснок','Соевый соус','Кунжут'],ro:['Porc','Varză','Ghimbir','Usturoi','Sos de soia','Susan'],en:['Pork','Cabbage','Ginger','Garlic','Soy sauce','Sesame']}, nutrition:{ru:'Калории: 340 | Белки: 16г | Жиры: 18г | Углеводы: 28г',ro:'Calorii: 340 | Proteine: 16g | Grăsimi: 18g | Carbohidrați: 28g',en:'Calories: 340 | Protein: 16g | Fat: 18g | Carbs: 28g'}, badge:null },

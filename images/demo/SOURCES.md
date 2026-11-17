@@ -1,21 +1,154 @@
-# Local demo images: sources and licences
+# Demo images: source and license register
 
-All files in this folder were downloaded from Unsplash on 2026-11-17. The originals were linked to images.unsplash.com.
-They are covered by the **Unsplash License** (https://unsplash.com/license): free commercial and non-commercial use, no attribution required. Selling the photos unaltered and building a competing image service are not allowed.
+Updated **2026-11-17**. This folder holds every raster image used by the six demo projects (96 files), and each one is listed below.
+The pages load them by relative paths (`images/demo/...`), so they also work on GitHub Pages under `/portfolio/`. There are no external image hosts or proxies.
 
-| File | Unsplash photo ID | Used in |
-|---|---|---|
-| photo-1534528741775-53994a69daeb.jpg | 1534528741775-53994a69daeb | project4.html: hero |
-| photo-1531746020798-e6953c6e8e04.jpg | 1531746020798-e6953c6e8e04 | project4.html: gallery |
-| photo-1517841905240-472988babdf9.jpg | 1517841905240-472988babdf9 | project4.html: gallery |
-| photo-1524504388940-b1c1722653e1.jpg | 1524504388940-b1c1722653e1 | project4.html: gallery |
-| photo-1507003211169-0a1dd7228f2d.jpg | 1507003211169-0a1dd7228f2d | project4.html: gallery |
-| photo-1529626455594-4ff0802cfb7e.jpg | 1529626455594-4ff0802cfb7e | project4.html: gallery |
-| photo-1494790108377-be9c29b29330.jpg | 1494790108377-be9c29b29330 | project4.html: gallery |
-| photo-1554151228-14d9def656e4.jpg | 1554151228-14d9def656e4 | project4.html: about |
-| photo-1514525253161-7a46d19cd819.jpg | 1514525253161-7a46d19cd819 | project6.html: venue |
+## How the licenses were checked
 
-Source URL pattern: `https://images.unsplash.com/photo-<ID>`. Each file was resized through Unsplash's own `w=` and `q=` parameters.
-Photographer credit has not been recorded yet. To add it, open the photo on unsplash.com and fill in a column here.
+- Source: **Unsplash** only. For each photo, its unsplash.com page was opened on 2026-11-17 and checked for:
+  - the text "Free to use under the Unsplash License";
+  - no "Unsplash+ License" (Unsplash+ photos were excluded);
+  - the photo ID in og:image matching the downloaded file;
+  - the author (profile link) and the publication date.
+- Result: **96 of 96 are under the Unsplash License, 0 are Unsplash+.**
+- Files were downloaded from images.unsplash.com (the w/q parameters), then resized and recompressed locally (max. 1200 px, 1600 px for portraits).
 
-Note: the portraits show real people. The Unsplash License does not cover model or property releases. Use these images only as illustrative concept images, never to stand for a real person or an endorsement.
+## Unsplash License terms (https://unsplash.com/license)
+
+- Allowed: free commercial and non-commercial use, including modifications. Attribution is not required (credit is kept in this register).
+- Not allowed: selling the photos unaltered (prints, stock), or bundling them into a competing photo service or wallpaper collection.
+- Not granted: trademark rights, or model/property releases. That is why:
+  - **aStore**: the photos show third-party branded devices. The store is fictional, the logo is neutral, and the footer states it is not an official reseller and is not affiliated with Apple Inc. Model names are used only to illustrate the catalog.
+  - **Elena Voss**: these are portraits of real people. They are used only as illustrative images of a fictional photographer's work, never as testimonials, team members or real clients.
+  - **Abyss Hall**: unidentifiable stage silhouettes and lighting. The performers (NOCTVRNA, KAIRO VEX, LUMEN DRIFT and others) and the venue are fictional.
+  - **American Drive**: car makes and models are used to describe the photographed vehicles in a demo catalog, with no implied dealer status.
+
+## Register
+
+### American Drive (project1.html)
+
+| File | Unsplash page | Author | Published | License | Checked |
+|---|---|---|---|---|---|
+| `car01-ford-mustang-shelby-gt350.jpg` | [unsplash.com/photos/black-ford-shelby-gt350-at-sunset-Zs_L-plsZzg](https://unsplash.com/photos/black-ford-shelby-gt350-at-sunset-Zs_L-plsZzg) | [Tyler Clemmensen](https://unsplash.com/@tyler_clemmensen) | October 24, 2020 | Unsplash License | 2026-11-17 |
+| `car02-dodge-challenger-r-t.jpg` | [unsplash.com/photos/a-dark-red-dodge-challenger-parked-outdoors-ViIOoYPCHPQ](https://unsplash.com/photos/a-dark-red-dodge-challenger-parked-outdoors-ViIOoYPCHPQ) | [HIRWA Brian](https://unsplash.com/@brian334) | January 27, 2026 | Unsplash License | 2026-11-17 |
+| `car03-chevrolet-camaro-ss.jpg` | [unsplash.com/photos/blue-chevrolet-coupe-2AovfzYV3rc](https://unsplash.com/photos/blue-chevrolet-coupe-2AovfzYV3rc) | [Stefan Rodriguez](https://unsplash.com/@stefantakespictures) | March 13, 2019 | Unsplash License | 2026-11-17 |
+| `car04-cadillac-escalade-platinum.jpg` | [unsplash.com/photos/a-black-cadillac-escalade-parked-in-a-lot-r73ofIPEfag](https://unsplash.com/photos/a-black-cadillac-escalade-parked-in-a-lot-r73ofIPEfag) | [Rana Singh](https://unsplash.com/@ceorana) | January 7, 2026 | Unsplash License | 2026-11-17 |
+| `car05-jeep-wrangler-rubicon.jpg` | [unsplash.com/photos/white-jeep-wrangler-rubicon-on-a-dirt-road-SE38s4R0vL8](https://unsplash.com/photos/white-jeep-wrangler-rubicon-on-a-dirt-road-SE38s4R0vL8) | [Александр Бендус](https://unsplash.com/@alexandr_bendus) | October 2, 2025 | Unsplash License | 2026-11-17 |
+| `car06-chevrolet-tahoe-rst.jpg` | [unsplash.com/photos/a-black-truck-driving-down-a-street-next-to-a-no-parking-sign-M5nwhZkqWtI](https://unsplash.com/photos/a-black-truck-driving-down-a-street-next-to-a-no-parking-sign-M5nwhZkqWtI) | [Alessandro Chitarrini](https://unsplash.com/@chitvs) | August 23, 2024 | Unsplash License | 2026-11-17 |
+| `car07-dodge-challenger-srt-392.jpg` | [unsplash.com/photos/dodge-challenger-parked-at-modern-building--Wzkh12-2nY](https://unsplash.com/photos/dodge-challenger-parked-at-modern-building--Wzkh12-2nY) | [Martin Katler](https://unsplash.com/@martinkatler) | February 8, 2021 | Unsplash License | 2026-11-17 |
+| `car08-chevrolet-camaro-2ss.jpg` | [unsplash.com/photos/copper-chevrolet-camaro-on-rural-road-E5XFOIgynTA](https://unsplash.com/photos/copper-chevrolet-camaro-on-rural-road-E5XFOIgynTA) | [Vadym Kudriavtsev](https://unsplash.com/@clipnjoy) | September 4, 2026 | Unsplash License | 2026-11-17 |
+| `car09-cadillac-escalade-luxury.jpg` | [unsplash.com/photos/white-suv-on-brown-field-during-daytime-Ur8VrOdF4ZU](https://unsplash.com/photos/white-suv-on-brown-field-during-daytime-Ur8VrOdF4ZU) | [Craig Marolf](https://unsplash.com/@craigmarolf) | June 15, 2020 | Unsplash License | 2026-11-17 |
+| `car10-ford-expedition-limited.jpg` | [unsplash.com/photos/a-white-suv-driving-down-a-desert-road-5mp2mlab7ZM](https://unsplash.com/photos/a-white-suv-driving-down-a-desert-road-5mp2mlab7ZM) | [Tim D](https://unsplash.com/@timdep) | May 29, 2022 | Unsplash License | 2026-11-17 |
+| `car11-ford-f-150-xlt.jpg` | [unsplash.com/photos/blue-ford-pickup-truck-XGJBSkoqX_I](https://unsplash.com/photos/blue-ford-pickup-truck-XGJBSkoqX_I) | [Caleb White](https://unsplash.com/@caleb_white) | March 6, 2019 | Unsplash License | 2026-11-17 |
+| `car12-chevrolet-silverado-1500-ltz.jpg` | [unsplash.com/photos/a-truck-is-driving-down-a-wet-road-HW2kbHAOJJw](https://unsplash.com/photos/a-truck-is-driving-down-a-wet-road-HW2kbHAOJJw) | [Hill Country Camera](https://unsplash.com/@hillcountry_camera) | February 25, 2022 | Unsplash License | 2026-11-17 |
+| `car13-ram-1500-rebel.jpg` | [unsplash.com/photos/red-pickup-truck-driving-on-a-rocky-incline-HN0cB0cauHU](https://unsplash.com/photos/red-pickup-truck-driving-on-a-rocky-incline-HN0cB0cauHU) | [Vadym Kudriavtsev](https://unsplash.com/@clipnjoy) | October 11, 2025 | Unsplash License | 2026-11-17 |
+| `car14-tesla-model-s-long-range.jpg` | [unsplash.com/photos/time-lapse-photography-of-black-sedan-on-road-Qm_n6aoYzDs](https://unsplash.com/photos/time-lapse-photography-of-black-sedan-on-road-Qm_n6aoYzDs) | [Jp Valery](https://unsplash.com/@jpvalery) | September 11, 2018 | Unsplash License | 2026-11-17 |
+| `car15-ford-explorer-xlt.jpg` | [unsplash.com/photos/white-suv-on-brown-grass-field-under-white-clouds-during-daytime-_Sb6m7sj0QU](https://unsplash.com/photos/white-suv-on-brown-grass-field-under-white-clouds-during-daytime-_Sb6m7sj0QU) | [Ryan](https://unsplash.com/@rioryan) | November 29, 2020 | Unsplash License | 2026-11-17 |
+| `car16-jeep-grand-cherokee-limited.jpg` | [unsplash.com/photos/gray-jeep-suv-parked-on-road-3V0FGLkueyA](https://unsplash.com/photos/gray-jeep-suv-parked-on-road-3V0FGLkueyA) | [Travis Essinger](https://unsplash.com/@travisessinger) | November 24, 2017 | Unsplash License | 2026-11-17 |
+| `car17-chevrolet-corvette-c8-stingray.jpg` | [unsplash.com/photos/white-porsche-911-on-black-background-Gr1LM0ooP2U](https://unsplash.com/photos/white-porsche-911-on-black-background-Gr1LM0ooP2U) | [Adrian Newell](https://unsplash.com/@anewevisual) | January 31, 2021 | Unsplash License | 2026-11-17 |
+| `car18-dodge-charger-scat-pack.jpg` | [unsplash.com/photos/matte-black-sedan-in-parking-lot-s6B_SxArWJY](https://unsplash.com/photos/matte-black-sedan-in-parking-lot-s6B_SxArWJY) | [Evan Peck](https://unsplash.com/@keke34) | August 18, 2026 | Unsplash License | 2026-11-17 |
+| `car19-ford-bronco-badlands.jpg` | [unsplash.com/photos/a-blue-truck-parked-in-a-parking-lot-7aOG9StgJhs](https://unsplash.com/photos/a-blue-truck-parked-in-a-parking-lot-7aOG9StgJhs) | [Joey Chacon](https://unsplash.com/@joey_noside) | June 14, 2023 | Unsplash License | 2026-11-17 |
+| `car20-gmc-sierra-1500-elevation.jpg` | [unsplash.com/photos/a-black-truck-parked-in-a-driveway-mwhfM5c9wDI](https://unsplash.com/photos/a-black-truck-parked-in-a-driveway-mwhfM5c9wDI) | [Somalia Veteran](https://unsplash.com/@iantopaladin) | July 6, 2022 | Unsplash License | 2026-11-17 |
+| `car21-tesla-model-y-long-range.jpg` | [unsplash.com/photos/a-black-tesla-car-driving-down-the-road-N0h6ow055KY](https://unsplash.com/photos/a-black-tesla-car-driving-down-the-road-N0h6ow055KY) | [Michal Lauko](https://unsplash.com/@jingspiral) | February 18, 2023 | Unsplash License | 2026-11-17 |
+| `car22-chrysler-300c.jpg` | [unsplash.com/photos/a-white-car-is-parked-on-the-side-of-the-road-bXcdBc-465k](https://unsplash.com/photos/a-white-car-is-parked-on-the-side-of-the-road-bXcdBc-465k) | [Louis Droege](https://unsplash.com/@lois184) | September 5, 2024 | Unsplash License | 2026-11-17 |
+| `car23-lincoln-navigator-reserve.jpg` | [unsplash.com/photos/a-black-suv-parked-on-the-side-of-the-road-hK0vec8rNdo](https://unsplash.com/photos/a-black-suv-parked-on-the-side-of-the-road-hK0vec8rNdo) | [Duc Van](https://unsplash.com/@duke91) | February 19, 2024 | Unsplash License | 2026-11-17 |
+| `car24-chevrolet-corvette-z06-c7.jpg` | [unsplash.com/photos/an-orange-sports-car-parked-on-the-side-of-the-road-9pgQF-z5V9g](https://unsplash.com/photos/an-orange-sports-car-parked-on-the-side-of-the-road-9pgQF-z5V9g) | [Wes Tindel](https://unsplash.com/@lonestarexotic) | November 3, 2021 | Unsplash License | 2026-11-17 |
+| `car25-ford-mustang-gt.jpg` | [unsplash.com/photos/a-white-sports-car-h4mnhCZ5-BE](https://unsplash.com/photos/a-white-sports-car-h4mnhCZ5-BE) | [Ryan Reinoso](https://unsplash.com/@rvisuals) | June 19, 2022 | Unsplash License | 2026-11-17 |
+| `car26-jeep-grand-cherokee-srt.jpg` | [unsplash.com/photos/white-bmw-x-6-parked-on-parking-lot-during-daytime-5EntHyHwi24](https://unsplash.com/photos/white-bmw-x-6-parked-on-parking-lot-during-daytime-5EntHyHwi24) | [Jakob Rosen](https://unsplash.com/@jakobnoahrosen) | March 22, 2021 | Unsplash License | 2026-11-17 |
+| `car27-gmc-yukon-denali.jpg` | [unsplash.com/photos/white-gmc-suv-driving-on-a-sunny-highway-yPrSrq7qr24](https://unsplash.com/photos/white-gmc-suv-driving-on-a-sunny-highway-yPrSrq7qr24) | [Dan Williams](https://unsplash.com/@djw1999q) | September 18, 2025 | Unsplash License | 2026-11-17 |
+| `car28-dodge-durango-r-t.jpg` | [unsplash.com/photos/a-blue-dodge-truck-parked-in-a-parking-lot-wTrHkY9CgV0](https://unsplash.com/photos/a-blue-dodge-truck-parked-in-a-parking-lot-wTrHkY9CgV0) | [Jorge Simmons-Valenzuela](https://unsplash.com/@_theaez) | May 26, 2022 | Unsplash License | 2026-11-17 |
+| `car29-ford-expedition-platinum.jpg` | [unsplash.com/photos/black-suv-on-brown-field-during-daytime-HR9CBnR3CCQ](https://unsplash.com/photos/black-suv-on-brown-field-during-daytime-HR9CBnR3CCQ) | [Pete Alexopoulos](https://unsplash.com/@pete_a) | December 14, 2020 | Unsplash License | 2026-11-17 |
+| `car30-ram-1500-trx.jpg` | [unsplash.com/photos/a-gray-pickup-truck-parked-on-a-street-at-dusk-bIw1Gi-ypqI](https://unsplash.com/photos/a-gray-pickup-truck-parked-on-a-street-at-dusk-bIw1Gi-ypqI) | [Rana Singh](https://unsplash.com/@ceorana) | April 13, 2026 | Unsplash License | 2026-11-17 |
+
+### Japany (project2.html)
+
+| File | Unsplash page | Author | Published | License | Checked |
+|---|---|---|---|---|---|
+| `about-sushi-chef.jpg` | [unsplash.com/photos/a-chef-prepares-sushi-with-care-and-precision-FglvrLPBoEc](https://unsplash.com/photos/a-chef-prepares-sushi-with-care-and-precision-FglvrLPBoEc) | [Harrison Chang](https://unsplash.com/@harrisonchang) | March 26, 2025 | Unsplash License | 2026-11-17 |
+| `beef-teppanyaki.jpg` | [unsplash.com/photos/a-man-in-a-chefs-uniform-preparing-food-on-a-counter-gn38NBMmkxI](https://unsplash.com/photos/a-man-in-a-chefs-uniform-preparing-food-on-a-counter-gn38NBMmkxI) | [Jiachen Lin](https://unsplash.com/@jiachenlin) | November 12, 2024 | Unsplash License | 2026-11-17 |
+| `california-roll.jpg` | [unsplash.com/photos/sushi-rolls-with-roe-and-sauce-0FA75mwdVZI](https://unsplash.com/photos/sushi-rolls-with-roe-and-sauce-0FA75mwdVZI) | [Malik Shibly](https://unsplash.com/@malikshibly) | August 24, 2026 | Unsplash License | 2026-11-17 |
+| `dorayaki.jpg` | [unsplash.com/photos/two-brown-bread-on-white-tray-EsEU5UeMN6s](https://unsplash.com/photos/two-brown-bread-on-white-tray-EsEU5UeMN6s) | [M. Ghufanil Muta Ali](https://unsplash.com/@goefan) | July 17, 2021 | Unsplash License | 2026-11-17 |
+| `dragon-roll.jpg` | [unsplash.com/photos/sushi-rolls-being-torched-with-flames-hcYHQzh7iBQ](https://unsplash.com/photos/sushi-rolls-being-torched-with-flames-hcYHQzh7iBQ) | [Diego Arenas de Rodrigo](https://unsplash.com/@diegoarenasderodrigo) | October 24, 2025 | Unsplash License | 2026-11-17 |
+| `ebi-nigiri.jpg` | [unsplash.com/photos/orange-and-white-sushi-on-black-tray-5PQpACifvuA](https://unsplash.com/photos/orange-and-white-sushi-on-black-tray-5PQpACifvuA) | [lili liu](https://unsplash.com/@lll85) | March 14, 2021 | Unsplash License | 2026-11-17 |
+| `genmaicha.jpg` | [unsplash.com/photos/white-ceramic-teacup-on-brown-wooden-table-3hRRT4qztzs](https://unsplash.com/photos/white-ceramic-teacup-on-brown-wooden-table-3hRRT4qztzs) | [Na visky](https://unsplash.com/@navisky) | November 26, 2020 | Unsplash License | 2026-11-17 |
+| `gyoza.jpg` | [unsplash.com/photos/a-black-plate-topped-with-dumplings-on-top-of-a-wooden-table-klTf2RN37Ts](https://unsplash.com/photos/a-black-plate-topped-with-dumplings-on-top-of-a-wooden-table-klTf2RN37Ts) | [Mikey Frost](https://unsplash.com/@frostyfilmsandphoto) | February 4, 2025 | Unsplash License | 2026-11-17 |
+| `ikura-gunkan.jpg` | [unsplash.com/photos/salmon-roe-sushi-on-stone-V9ia8-q89Sc](https://unsplash.com/photos/salmon-roe-sushi-on-stone-V9ia8-q89Sc) | [blackieshoot](https://unsplash.com/@blackieshoot) | September 15, 2026 | Unsplash License | 2026-11-17 |
+| `katsudon.jpg` | [unsplash.com/photos/katsudon-served-in-a-blue-and-white-bowl-QercEMbK7Ak](https://unsplash.com/photos/katsudon-served-in-a-blue-and-white-bowl-QercEMbK7Ak) | [Kouji Tsuru](https://unsplash.com/@pafuxu) | December 12, 2025 | Unsplash License | 2026-11-17 |
+| `matcha-latte.jpg` | [unsplash.com/photos/a-cup-of-matcha-latte-with-latte-art-U4kneR_s7bU](https://unsplash.com/photos/a-cup-of-matcha-latte-with-latte-art-U4kneR_s7bU) | [Liana S](https://unsplash.com/@cherstve_pechivo) | December 22, 2025 | Unsplash License | 2026-11-17 |
+| `matcha-tiramisu.jpg` | [unsplash.com/photos/a-piece-of-cake-sitting-on-top-of-a-black-plate-d_GS-CzBFXU](https://unsplash.com/photos/a-piece-of-cake-sitting-on-top-of-a-black-plate-d_GS-CzBFXU) | [Sofia Lasheva](https://unsplash.com/@sofizz) | November 29, 2024 | Unsplash License | 2026-11-17 |
+| `miso-soup.jpg` | [unsplash.com/photos/bowl-of-miso-soup-with-tofu-and-seaweed-HQNhc58_6mI](https://unsplash.com/photos/bowl-of-miso-soup-with-tofu-and-seaweed-HQNhc58_6mI) | [note thanun](https://unsplash.com/@notethanun) | November 18, 2025 | Unsplash License | 2026-11-17 |
+| `mochi.jpg` | [unsplash.com/photos/a-blue-plate-topped-with-three-different-types-of-food-OTmHU9HdkHo](https://unsplash.com/photos/a-blue-plate-topped-with-three-different-types-of-food-OTmHU9HdkHo) | [Andreas Haubold](https://unsplash.com/@andreas_haubold) | January 27, 2024 | Unsplash License | 2026-11-17 |
+| `philadelphia-roll.jpg` | [unsplash.com/photos/salmon-sushi-rolls-with-cream-cheese-and-cucumber-txfbDYYTvBc](https://unsplash.com/photos/salmon-sushi-rolls-with-cream-cheese-and-cucumber-txfbDYYTvBc) | [Vlad Deep](https://unsplash.com/@vladdeep) | October 5, 2025 | Unsplash License | 2026-11-17 |
+| `rainbow-roll.jpg` | [unsplash.com/photos/a-close-up-of-sushi-on-a-plate-wau_WZHsgAM](https://unsplash.com/photos/a-close-up-of-sushi-on-a-plate-wau_WZHsgAM) | [Israel Albornoz](https://unsplash.com/@israelalbornoz) | November 9, 2021 | Unsplash License | 2026-11-17 |
+| `ramune.jpg` | [unsplash.com/photos/two-bottles-of-soda-BFbuChAXAe8](https://unsplash.com/photos/two-bottles-of-soda-BFbuChAXAe8) | [Yosuke Ota](https://unsplash.com/@yosuke_ota) | September 22, 2022 | Unsplash License | 2026-11-17 |
+| `sake-masu.jpg` | [unsplash.com/photos/wooden-masu-box-with-calligraphy-DtPv3VeKrr4](https://unsplash.com/photos/wooden-masu-box-with-calligraphy-DtPv3VeKrr4) | [Karori Production](https://unsplash.com/@tomonogi) | November 14, 2026 | Unsplash License | 2026-11-17 |
+| `salmon-nigiri.jpg` | [unsplash.com/photos/food-lot-close-up-photography-wmPDe9OnXT4](https://unsplash.com/photos/food-lot-close-up-photography-wmPDe9OnXT4) | [Luigi Pozzoli](https://unsplash.com/@lu_pl_ph) | July 3, 2019 | Unsplash License | 2026-11-17 |
+| `shrimp-ramen.jpg` | [unsplash.com/photos/round-white-bowl-with-ramen-and-egg-rAyCBQTH7ws](https://unsplash.com/photos/round-white-bowl-with-ramen-and-egg-rAyCBQTH7ws) | [Michele Blackwell](https://unsplash.com/@mab_studio) | September 29, 2019 | Unsplash License | 2026-11-17 |
+| `spicy-tuna-roll.jpg` | [unsplash.com/photos/a-black-plate-topped-with-sushi-covered-in-sauce-6h67YVuQggI](https://unsplash.com/photos/a-black-plate-topped-with-sushi-covered-in-sauce-6h67YVuQggI) | [kimia kazemi](https://unsplash.com/@kimick) | May 21, 2022 | Unsplash License | 2026-11-17 |
+| `suimono.jpg` | [unsplash.com/photos/soup-in-white-ceramic-bowl-bzsXHiw6O6g](https://unsplash.com/photos/soup-in-white-ceramic-bowl-bzsXHiw6O6g) | [Ryutaro Uozumi](https://unsplash.com/@ryutarouozumi) | July 6, 2021 | Unsplash License | 2026-11-17 |
+| `tamago-nigiri.jpg` | [unsplash.com/photos/a-white-plate-topped-with-a-piece-of-sushi-wXQQGDVU9gU](https://unsplash.com/photos/a-white-plate-topped-with-a-piece-of-sushi-wXQQGDVU9gU) | [Declan Sun](https://unsplash.com/@declansun) | July 8, 2023 | Unsplash License | 2026-11-17 |
+| `teriyaki-bowl.jpg` | [unsplash.com/photos/a-black-bowl-filled-with-meat-and-broccoli-uLQEP0a5DOg](https://unsplash.com/photos/a-black-bowl-filled-with-meat-and-broccoli-uLQEP0a5DOg) | [Michael Kahn](https://unsplash.com/@mklibrary) | May 23, 2023 | Unsplash License | 2026-11-17 |
+| `tom-yum.jpg` | [unsplash.com/photos/spicy-shrimp-soup-with-herbs-and-vegetables-_lgT5W2QBG4](https://unsplash.com/photos/spicy-shrimp-soup-with-herbs-and-vegetables-_lgT5W2QBG4) | [Jamie Trinh](https://unsplash.com/@jtrinh_artwork) | May 3, 2026 | Unsplash License | 2026-11-17 |
+| `tuna-nigiri.jpg` | [unsplash.com/photos/rows-of-fresh-sushi-with-salmon-and-tuna-U8X0mCV8ikQ](https://unsplash.com/photos/rows-of-fresh-sushi-with-salmon-and-tuna-U8X0mCV8ikQ) | [Kristijan Arsov](https://unsplash.com/@aarsoph) | May 9, 2026 | Unsplash License | 2026-11-17 |
+| `unagi-nigiri.jpg` | [unsplash.com/photos/chef-grilling-eel-sushi-on-a-rack-91obdUygSmY](https://unsplash.com/photos/chef-grilling-eel-sushi-on-a-rack-91obdUygSmY) | [Kristijan Arsov](https://unsplash.com/@aarsoph) | May 9, 2026 | Unsplash License | 2026-11-17 |
+| `vegan-roll.jpg` | [unsplash.com/photos/a-close-up-of-a-sushi-roll-on-a-table-quOZwIpGm58](https://unsplash.com/photos/a-close-up-of-a-sushi-roll-on-a-table-quOZwIpGm58) | [Ömer Taha Çetin](https://unsplash.com/@omertahacetin) | November 6, 2024 | Unsplash License | 2026-11-17 |
+
+### EDEN (project3.html)
+
+| File | Unsplash page | Author | Published | License | Checked |
+|---|---|---|---|---|---|
+| `about-bouquet.jpg` | [unsplash.com/photos/person-holding-beige-and-white-flower-bouquet-aiNU4cA4UzQ](https://unsplash.com/photos/person-holding-beige-and-white-flower-bouquet-aiNU4cA4UzQ) | [jessie daniella](https://unsplash.com/@jessiedaniella) | April 14, 2018 | Unsplash License | 2026-11-17 |
+| `bouquet-01-roses-hydrangea.jpg` | [unsplash.com/photos/a-person-holding-flowers-ELh61YVEWIA](https://unsplash.com/photos/a-person-holding-flowers-ELh61YVEWIA) | [Viacheslav Volodin](https://unsplash.com/@volodin28) | August 15, 2022 | Unsplash License | 2026-11-17 |
+| `bouquet-02-pink-white-roses.jpg` | [unsplash.com/photos/pink-and-white-rose-bouquet-JbBny06oo3M](https://unsplash.com/photos/pink-and-white-rose-bouquet-JbBny06oo3M) | [Anastasia Lysiak](https://unsplash.com/@nesslovetim) | February 9, 2020 | Unsplash License | 2026-11-17 |
+| `bouquet-03-peonies.jpg` | [unsplash.com/photos/three-pink-peonies-on-white-DTpKjgHpHj4](https://unsplash.com/photos/three-pink-peonies-on-white-DTpKjgHpHj4) | [Fallon Michael](https://unsplash.com/@fallonmichaeltx) | January 22, 2020 | Unsplash License | 2026-11-17 |
+| `bouquet-04-roses-mix.jpg` | [unsplash.com/photos/pink-and-white-rose-petals-UrF1Jf5PamQ](https://unsplash.com/photos/pink-and-white-rose-petals-UrF1Jf5PamQ) | [Ed Robertson](https://unsplash.com/@eddrobertson) | February 17, 2020 | Unsplash License | 2026-11-17 |
+| `bouquet-05-hydrangea.jpg` | [unsplash.com/photos/a-vase-filled-with-lots-of-pink-and-white-flowers-NCjDAXMypvw](https://unsplash.com/photos/a-vase-filled-with-lots-of-pink-and-white-flowers-NCjDAXMypvw) | [Duong Ngan](https://unsplash.com/@nganduong93) | March 27, 2024 | Unsplash License | 2026-11-17 |
+| `bouquet-06-white-tulips.jpg` | [unsplash.com/photos/close-up-photography-of-white-petaled-flower-bouquet-on-brown-wooden-table-tw4olON9liM](https://unsplash.com/photos/close-up-photography-of-white-petaled-flower-bouquet-on-brown-wooden-table-tw4olON9liM) | [Roman Kraft](https://unsplash.com/@iamromankraft) | October 12, 2016 | Unsplash License | 2026-11-17 |
+| `bouquet-07-cream-roses.jpg` | [unsplash.com/photos/a-bouquet-of-light-pink-roses-in-a-white-vase-XdCCg2mSwoA](https://unsplash.com/photos/a-bouquet-of-light-pink-roses-in-a-white-vase-XdCCg2mSwoA) | [SWETA YADAV](https://unsplash.com/@spectra_03) | September 26, 2025 | Unsplash License | 2026-11-17 |
+| `bouquet-08-red-roses.jpg` | [unsplash.com/photos/red-roses-ehGgVnHc-1Q](https://unsplash.com/photos/red-roses-ehGgVnHc-1Q) | [Bence Balla-Schottner](https://unsplash.com/@ballaschottner) | January 21, 2019 | Unsplash License | 2026-11-17 |
+| `bouquet-09-pink-lilies.jpg` | [unsplash.com/photos/a-vase-filled-with-pink-flowers-on-top-of-a-table-xqNVec_K__s](https://unsplash.com/photos/a-vase-filled-with-pink-flowers-on-top-of-a-table-xqNVec_K__s) | [Chris Linnett](https://unsplash.com/@chrislinnett) | March 7, 2022 | Unsplash License | 2026-11-17 |
+| `bouquet-10-pink-peonies.jpg` | [unsplash.com/photos/a-vase-of-beautiful-pink-peonies-by-a-sunlit-window-przNgLdrpcA](https://unsplash.com/photos/a-vase-of-beautiful-pink-peonies-by-a-sunlit-window-przNgLdrpcA) | [Farrinni](https://unsplash.com/@farrinni) | June 3, 2026 | Unsplash License | 2026-11-17 |
+| `bouquet-11-mixed-roses.jpg` | [unsplash.com/photos/pink-beige-and-red-flower-bouquet-in-clear-glass-vase-mNEpmNiFdXs](https://unsplash.com/photos/pink-beige-and-red-flower-bouquet-in-clear-glass-vase-mNEpmNiFdXs) | [Angelina Jollivet](https://unsplash.com/@angelinajlv) | October 30, 2019 | Unsplash License | 2026-11-17 |
+| `bouquet-12-peonies-mix.jpg` | [unsplash.com/photos/pink-peonies-with-purple-flowers-y-5pd18ETbg](https://unsplash.com/photos/pink-peonies-with-purple-flowers-y-5pd18ETbg) | [Cristiane Teston](https://unsplash.com/@cristiane) | November 20, 2017 | Unsplash License | 2026-11-17 |
+
+### Elena Voss (project4.html)
+
+| File | Unsplash page | Author | Published | License | Checked |
+|---|---|---|---|---|---|
+| `photo-1494790108377-be9c29b29330.jpg` | [unsplash.com/photos/closeup-photography-of-woman-smiling-mEZ3PoFGs_k](https://unsplash.com/photos/closeup-photography-of-woman-smiling-mEZ3PoFGs_k) | [Michael Dam](https://unsplash.com/@michaeldam) | May 14, 2017 | Unsplash License | 2026-11-17 |
+| `photo-1507003211169-0a1dd7228f2d.jpg` | [unsplash.com/photos/man-wearing-white-v-neck-shirt-iFgRcqHznqg](https://unsplash.com/photos/man-wearing-white-v-neck-shirt-iFgRcqHznqg) | [Joseph Gonzalez](https://unsplash.com/@miracletwentyone) | October 3, 2017 | Unsplash License | 2026-11-17 |
+| `photo-1517841905240-472988babdf9.jpg` | [unsplash.com/photos/woman-standing-near-blue-steel-gate-O3ymvT7Wf9U](https://unsplash.com/photos/woman-standing-near-blue-steel-gate-O3ymvT7Wf9U) | [Toa Heftiba](https://unsplash.com/@heftiba) | February 5, 2018 | Unsplash License | 2026-11-17 |
+| `photo-1524504388940-b1c1722653e1.jpg` | [unsplash.com/photos/blonde-woman-in-black-top-portrait-et_78QkMMQs](https://unsplash.com/photos/blonde-woman-in-black-top-portrait-et_78QkMMQs) | [Rafaella Mendes Diniz](https://unsplash.com/@rafaelladiniz) | April 23, 2018 | Unsplash License | 2026-11-17 |
+| `photo-1529626455594-4ff0802cfb7e.jpg` | [unsplash.com/photos/woman-looking-sideways-leaning-on-white-wall-6W4F62sN_yI](https://unsplash.com/photos/woman-looking-sideways-leaning-on-white-wall-6W4F62sN_yI) | [Ayo Ogunseinde](https://unsplash.com/@armedshutter) | June 22, 2018 | Unsplash License | 2026-11-17 |
+| `photo-1531746020798-e6953c6e8e04.jpg` | [unsplash.com/photos/woman-staring-directly-at-camera-near-pink-wall-bqe0J0b26RQ](https://unsplash.com/photos/woman-staring-directly-at-camera-near-pink-wall-bqe0J0b26RQ) | [Jimmy Fermin](https://unsplash.com/@jimmyferminphotography) | July 16, 2018 | Unsplash License | 2026-11-17 |
+| `photo-1534528741775-53994a69daeb.jpg` | [unsplash.com/photos/woman-wearing-black-crew-neck-shirt-3TLl_97HNJo](https://unsplash.com/photos/woman-wearing-black-crew-neck-shirt-3TLl_97HNJo) | [Aiony Haust](https://unsplash.com/@aiony) | August 17, 2018 | Unsplash License | 2026-11-17 |
+| `photo-1554151228-14d9def656e4.jpg` | [unsplash.com/photos/woman-with-freckles-and-brown-eyes-B4TjXnI0Y2c](https://unsplash.com/photos/woman-with-freckles-and-brown-eyes-B4TjXnI0Y2c) | [Houcine Ncib](https://unsplash.com/@houcinencibphotography) | April 1, 2019 | Unsplash License | 2026-11-17 |
+
+### aStore (project5.html)
+
+| File | Unsplash page | Author | Published | License | Checked |
+|---|---|---|---|---|---|
+| `hero-smartphones.jpg` | [unsplash.com/photos/two-iphones-side-by-side-on-a-gray-background-lDWTfYhZ85w](https://unsplash.com/photos/two-iphones-side-by-side-on-a-gray-background-lDWTfYhZ85w) | [Igor Omilaev](https://unsplash.com/@omilaev) | September 17, 2024 | Unsplash License | 2026-11-17 |
+| `p01-smartphone-pro.jpg` | [unsplash.com/photos/grey-smartphone-with-triple-camera-DV0mB2uJM34](https://unsplash.com/photos/grey-smartphone-with-triple-camera-DV0mB2uJM34) | [Filip Baotić](https://unsplash.com/@filipbaotic) | June 21, 2020 | Unsplash License | 2026-11-17 |
+| `p02-smartphone-white.jpg` | [unsplash.com/photos/a-white-iphone-case-sitting-on-top-of-a-table-zxi4HT2Rww8](https://unsplash.com/photos/a-white-iphone-case-sitting-on-top-of-a-table-zxi4HT2Rww8) | [G](https://unsplash.com/@visualsbying) | January 6, 2025 | Unsplash License | 2026-11-17 |
+| `p03-laptop-light.jpg` | [unsplash.com/photos/modern-laptop-with-blank-white-screen-tsyO2_Q-kTU](https://unsplash.com/photos/modern-laptop-with-blank-white-screen-tsyO2_Q-kTU) | [ostudio](https://unsplash.com/@ostudio) | July 28, 2026 | Unsplash License | 2026-11-17 |
+| `p04-laptop-dark.jpg` | [unsplash.com/photos/glowing-laptop-screen-on-a-dark-reflective-surface-P1e8H8KgBqU](https://unsplash.com/photos/glowing-laptop-screen-on-a-dark-reflective-surface-P1e8H8KgBqU) | [ostudio](https://unsplash.com/@ostudio) | July 28, 2026 | Unsplash License | 2026-11-17 |
+| `p05-tablets.jpg` | [unsplash.com/photos/two-ipads-side-by-side-on-a-blue-surface-S8Y4GCoVU1E](https://unsplash.com/photos/two-ipads-side-by-side-on-a-blue-surface-S8Y4GCoVU1E) | [Daniel Romero](https://unsplash.com/@rmrdnl) | October 7, 2025 | Unsplash License | 2026-11-17 |
+| `p06-smartwatch-ultra.jpg` | [unsplash.com/photos/a-close-up-of-a-person-wearing-an-apple-watch-BNJjDz3tdqA](https://unsplash.com/photos/a-close-up-of-a-person-wearing-an-apple-watch-BNJjDz3tdqA) | [Alek Olson](https://unsplash.com/@alekxandrolsonphotography) | March 21, 2023 | Unsplash License | 2026-11-17 |
+| `p07-over-ear-headphones.jpg` | [unsplash.com/photos/black-wireless-headphones-on-white-desk-P7KF3cTRKcE](https://unsplash.com/photos/black-wireless-headphones-on-white-desk-P7KF3cTRKcE) | [Sam Grozyan](https://unsplash.com/@ijeunes) | August 4, 2021 | Unsplash License | 2026-11-17 |
+| `p08-earbuds-pro.jpg` | [unsplash.com/photos/shallow-focus-photo-of-apple-airpods-AgLMrojqjAM](https://unsplash.com/photos/shallow-focus-photo-of-apple-airpods-AgLMrojqjAM) | [Daniel Romero](https://unsplash.com/@rmrdnl) | November 1, 2019 | Unsplash License | 2026-11-17 |
+| `p09-earbuds.jpg` | [unsplash.com/photos/white-apple-airpods-charging-case-Mc5EwlPC3zA](https://unsplash.com/photos/white-apple-airpods-charging-case-Mc5EwlPC3zA) | [John M. Smit](https://unsplash.com/@john_smit) | December 1, 2020 | Unsplash License | 2026-11-17 |
+| `p10-tv-box.jpg` | [unsplash.com/photos/2-white-and-black-dices-mKq2JNnlHZ4](https://unsplash.com/photos/2-white-and-black-dices-mKq2JNnlHZ4) | [Omid Armin](https://unsplash.com/@itsomidarmin) | June 13, 2020 | Unsplash License | 2026-11-17 |
+| `p11-magnetic-charger.jpg` | [unsplash.com/photos/white-round-plastic-frame-on-black-table-CWWa6f1EB5g](https://unsplash.com/photos/white-round-plastic-frame-on-black-table-CWWa6f1EB5g) | [Studio Proper](https://unsplash.com/@studioproper) | March 12, 2021 | Unsplash License | 2026-11-17 |
+| `p12-phone-cases.jpg` | [unsplash.com/photos/four-assorted-color-iphone-x-cases-FQXbLmlmvWY](https://unsplash.com/photos/four-assorted-color-iphone-x-cases-FQXbLmlmvWY) | [Grysell Alvarez](https://unsplash.com/@elsitiomobile) | August 25, 2018 | Unsplash License | 2026-11-17 |
+
+### Abyss Hall (project6.html)
+
+| File | Unsplash page | Author | Published | License | Checked |
+|---|---|---|---|---|---|
+| `artist-1-stage-red.jpg` | [unsplash.com/photos/a-silhouette-stands-on-stage-under-red-light-ek2R4dOGPsI](https://unsplash.com/photos/a-silhouette-stands-on-stage-under-red-light-ek2R4dOGPsI) | [Karsten Winegeart](https://unsplash.com/@_karsten) | June 27, 2025 | Unsplash License | 2026-11-17 |
+| `artist-2-stage-light.jpg` | [unsplash.com/photos/a-performer-shines-on-stage-under-bright-lights-31pO6Aa6xtk](https://unsplash.com/photos/a-performer-shines-on-stage-under-bright-lights-31pO6Aa6xtk) | [Karsten Winegeart](https://unsplash.com/@_karsten) | June 27, 2025 | Unsplash License | 2026-11-17 |
+| `artist-3-stage-purple.jpg` | [unsplash.com/photos/purple-and-blue-lights-on-stage-uHzf13WevGc](https://unsplash.com/photos/purple-and-blue-lights-on-stage-uHzf13WevGc) | [David von Diemar](https://unsplash.com/@davidvondiemar) | September 10, 2020 | Unsplash License | 2026-11-17 |
+| `venue-concert-crowd.jpg` | [unsplash.com/photos/group-of-people-in-front-of-stage-ZhQCZjr9fHo](https://unsplash.com/photos/group-of-people-in-front-of-stage-ZhQCZjr9fHo) | [Aditya Chinchure](https://unsplash.com/@adityachinchure) | December 29, 2017 | Unsplash License | 2026-11-17 |
+
+CDN source of each file: `https://images.unsplash.com/<photo-ID>` (the ID matches the og:image of the page above).
