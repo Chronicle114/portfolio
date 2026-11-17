@@ -47,7 +47,7 @@ window.CHRONICLE_I18N = {
     cta_work: 'Vezi lucrările',
 
     hero_eyebrow: 'Dezvoltare web și automatizare AI · Moldova',
-    hero_title: 'Site-uri și automatizări care <em>aduc clienți</em> și economisesc timp',
+    hero_title: 'Site-uri și automatizări care <em>vă ajută să atrageți clienți</em> și să economisiți timp',
     hero_lead: 'CHRONICLE proiectează și dezvoltă landing page-uri, sisteme de programare online și integrări CRM pentru afaceri mici și mijlocii — de la definirea sarcinii până la lansare.',
     meta_1: 'Landing page-uri și redesign',
     meta_2: 'Programări online și CRM',

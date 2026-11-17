@@ -126,6 +126,18 @@
     reveals.forEach(function (el) { el.classList.add('is-visible'); });
   }
 
+  /* ---------- Floating WhatsApp: hide while another WhatsApp CTA is on screen ---------- */
+  var fab = document.querySelector('.fab-wa');
+  var fabZones = [document.querySelector('.hero'), document.getElementById('contact')].filter(Boolean);
+  if (fab && fabZones.length && 'IntersectionObserver' in window) {
+    var inView = new Set();
+    var fabIo = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) { if (en.isIntersecting) inView.add(en.target); else inView.delete(en.target); });
+      fab.classList.toggle('is-hidden', inView.size > 0);
+    }, { threshold: 0.12 });
+    fabZones.forEach(function (z) { fabIo.observe(z); });
+  }
+
   /* ---------- Brief form → WhatsApp ---------- */
   var form = document.getElementById('brief-form');
   if (form) {
