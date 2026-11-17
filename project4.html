@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ELENA VOSS — Фотограф</title>
+<title>ELENA VOSS — Фотограф · Демо-концепт CHRONICLE</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@300;400;600&display=swap');
 *{margin:0;padding:0;box-sizing:border-box}
@@ -69,6 +69,17 @@ footer{padding:40px 60px;text-align:center;font-size:13px;color:rgba(245,240,232
 .lightbox-close:hover{color:var(--gold);transform:rotate(90deg)}
 @media(max-width:900px){.header-left{width:100%;padding:0 30px;text-align:center;align-items:center}.header-right{display:none}.gallery-grid{grid-template-columns:1fr}.gallery-item.wide{grid-column:span 1;aspect-ratio:3/4}.about-content{grid-template-columns:1fr;text-align:center}.about-img::before{display:none}}
 </style>
+<meta name="description" content="Демо-концепт CHRONICLE: сайт-портфолио фотографа с галереей и полноэкранным просмотром.">
+<meta name="robots" content="noindex, follow">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<style id="chronicle-fixes">
+@media (max-width: 900px) {
+  .nav, .nav.scrolled { padding: 14px 20px; flex-direction: column; gap: 8px; }
+  .nav-links { gap: 20px; flex-wrap: wrap; justify-content: center; padding: 0; }
+  .nav-links a { font-size: 11px; letter-spacing: 1.5px; display: inline-block; padding: 8px 0; }
+}
+</style>
+<!-- chronicle-demo -->
 </head>
 <body>
 <div class="loader"><div class="loader-text">ELENA VOSS</div></div>
@@ -118,7 +129,7 @@ footer{padding:40px 60px;text-align:center;font-size:13px;color:rgba(245,240,232
 <a href="mailto:hello@elenavoss.com" class="contact-btn">Написать мне</a>
 </section>
 <footer>© 2026 ELENA VOSS PHOTOGRAPHY</footer>
-<div class="lightbox" id="lightbox"><span class="lightbox-close">&times;</span><img src="" alt="" id="lightbox-img"></div>
+<div class="lightbox" id="lightbox"><span class="lightbox-close">&times;</span><img alt="" id="lightbox-img"></div>
 <script>
 window.addEventListener('load',()=>{setTimeout(()=>{document.querySelector('.loader').classList.add('hidden')},1500)});
 window.addEventListener('scroll',()=>{document.querySelector('.nav').classList.toggle('scrolled',window.scrollY>50)});
@@ -129,5 +140,6 @@ document.querySelectorAll('.gallery-item').forEach(item=>{item.addEventListener(
 document.querySelector('.lightbox-close').addEventListener('click',()=>lightbox.classList.remove('active'));
 lightbox.addEventListener('click',(e)=>{if(e.target===lightbox)lightbox.classList.remove('active')});
 </script>
+<script src="assets/js/demo-kit.js" defer></script>
 </body>
 </html>
